@@ -7,6 +7,7 @@
 <meta name="description" content="Readable, phone-friendly copy of the E2E EUCDEX.Ai Malta 2026 agenda, refreshed from e2emvc.com every 5 minutes.">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="theme-color" content="#161616">
+<script>try { const t = localStorage.getItem("e2e-theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); } catch {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
@@ -76,6 +77,23 @@ a:hover { color: var(--change); }
 
 /* Header */
 header.band { background: var(--header); color: var(--text); border-bottom: 4px solid var(--e2e-red); }
+header.band .wrap { position: relative; }
+.brand-text { padding-right: 52px; }
+.themebtn {
+  position: absolute; top: 14px; right: 16px; width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--line); background: var(--card); color: var(--text); cursor: pointer;
+  display: grid; place-items: center; padding: 0;
+  transition: transform .5s cubic-bezier(.3,1.6,.5,1), border-color .2s;
+}
+@media (min-width: 700px) { .themebtn { right: 32px; } }
+.themebtn:hover { border-color: var(--e2e-red); }
+.themebtn.spin { transform: rotate(360deg) scale(1.08); }
+.themebtn svg { width: 24px; height: 24px; }
+.themebtn .sun { color: #E8A300; }
+.themebtn .moon { color: #9DB7FF; display: none; }
+:root[data-theme="dark"] .themebtn .sun { display: none; }
+:root[data-theme="dark"] .themebtn .moon { display: block; }
+@media (prefers-reduced-motion: reduce) { .themebtn { transition: none; } .themebtn.spin { transform: none; } }
 .brand { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 22px; align-items: center; padding-block: 18px 16px; }
 .e2e-logo { display: block; width: clamp(104px, 22vw, 200px); height: auto; background: #FDFDFD; border-radius: 8px; }
 .brand-text { min-width: 0; }
@@ -327,7 +345,7 @@ footer a { color: var(--band-text); }
 .toast {
   position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   background: var(--band); color: var(--band-text); padding: 10px 16px; border-radius: 12px;
-  font-weight: 700; box-shadow: 0 6px 20px #0005; z-index: 10; max-width: calc(100% - 32px);
+  font-weight: 700; box-shadow: 0 6px 20px #0005; z-index: 10; width: max-content; max-width: min(30rem, calc(100% - 32px)); text-align: center; border: 1px solid #333;
 }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
@@ -335,6 +353,10 @@ footer a { color: var(--band-text); }
 <body>
 <header class="band">
   <div class="wrap brand">
+    <button class="themebtn" id="themeBtn" type="button" aria-label="Switch between light and dark mode" title="Lights on / lights off">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1Z"/><circle cx="17.5" cy="5" r="1" fill="currentColor"/><circle cx="20.5" cy="8.5" r=".7" fill="currentColor"/></svg>
+    </button>
     <a class="logo-link" href="https://e2emvc.com/" rel="noopener" title="Official site: e2emvc.com"><img class="e2e-logo" src="e2e-logo.png" alt="Experts 2 Experts EUCDEX.Ai, official site" width="400" height="235"></a>
     <div class="brand-text">
       <p class="eyebrow"><span>Valletta, Malta · 15-18 Oct 2026</span><span class="unofficial">Unofficial copy</span></p>
@@ -869,6 +891,49 @@ footer a { color: var(--band-text); }
     if (e.key === "Escape" && _on(e.target.value)) { e.target.value = ""; query = ""; render(); }
   });
   try { const T = _t(); if (T) console.log("%c" + T.pr, "color:#7DD87D;font-family:monospace", T.hi); } catch {}
+  /* Light and dark mode, with a joke for every switch. */
+  const QUIPS = {
+    dark: [
+      "Lights off. Just like the data centre at 3 a.m. during a change window.",
+      "Dark mode on. Perfect for reading drift reports in bed.",
+      "Night shift engaged. The on-call phone is now watching you.",
+      "Dark mode: 0% sunlight, 100% console vibes.",
+      "Lights off. The VDAs are sleeping, please don't wake them."
+    ],
+    light: [
+      "Lights on. Bright and clean, like a freshly sealed golden image.",
+      "Light mode. Welcome back to the day shift.",
+      "Lights on. Somewhere a sysadmin just squinted.",
+      "Light mode: now with 100% more glare, at no extra licence cost.",
+      "Good morning! Your coffee has been provisioned."
+    ]
+  };
+  let lastQuip = "";
+  const currentTheme = () => document.documentElement.getAttribute("data-theme") ||
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  function applyTheme(t, announce) {
+    document.documentElement.setAttribute("data-theme", t);
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#161616");
+    const b = $("#themeBtn"); b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    if (announce) {
+      const list = QUIPS[t].filter(q => q !== lastQuip);
+      lastQuip = list[Math.floor(Math.random() * list.length)];
+      toast((t === "dark" ? "🌙 " : "☀️ ") + lastQuip);
+    }
+  }
+  applyTheme(currentTheme(), false);
+  $("#themeBtn").addEventListener("click", (e) => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    try { localStorage.setItem("e2e-theme", next); } catch {}
+    const b = e.currentTarget; b.classList.remove("spin"); void b.offsetWidth; b.classList.add("spin");
+    setTimeout(() => b.classList.remove("spin"), 520);
+    applyTheme(next, true);
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", (e) => {
+    let saved = null; try { saved = localStorage.getItem("e2e-theme"); } catch {}
+    if (!saved || saved === "null") applyTheme(e.matches ? "dark" : "light", false);
+  });
+
   $("#mineBtn").addEventListener("click", () => { mineOnly = !mineOnly; store.set("e2e-mine", mineOnly); render(); });
   let qt;
   $("#q").addEventListener("input", (e) => { clearTimeout(qt); qt = setTimeout(() => { query = e.target.value.trim(); render(); }, 150); });
