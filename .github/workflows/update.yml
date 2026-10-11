@@ -1,0 +1,75 @@
+name: Update agenda
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore: ["site/agenda.json"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: agenda
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.scrape.outputs.changed }}
+      active: ${{ steps.window.outputs.active }}
+    steps:
+      # Scheduled runs stop after 19 October 2026 (UTC). Manual runs and pushes still work.
+      - name: Check event window
+        id: window
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%Y%m%d)" -gt 20261019 ]; then
+            echo "active=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "active=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.window.outputs.active == 'true'
+
+      - uses: actions/setup-go@v5
+        if: steps.window.outputs.active == 'true'
+        with:
+          go-version-file: go.mod
+
+      - name: Scrape e2emvc.com
+        id: scrape
+        if: steps.window.outputs.active == 'true'
+        run: go run ./cmd/scrape -prev site/agenda.json -out site/agenda.json
+
+      - name: Commit the new agenda
+        if: steps.scrape.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/agenda.json
+          git commit -m "Agenda changed on e2emvc.com ($(date -u +%H:%M) UTC)"
+          git push
+
+  deploy:
+    needs: scrape
+    if: needs.scrape.outputs.active == 'true' && (needs.scrape.outputs.changed == 'true' || github.event_name != 'schedule')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
