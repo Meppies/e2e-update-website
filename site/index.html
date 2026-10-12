@@ -283,6 +283,24 @@ body.has-featured .toast { bottom: calc(56px + env(safe-area-inset-bottom, 0px))
 }
 .tc pre b { color: #7DD87D; font-weight: 400; }
 
+/* Links under a bio, one per line with an icon */
+.slinks { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 6px; }
+.slinks a { display: inline-flex; align-items: center; gap: 8px; color: var(--change); min-width: 0; }
+.slinks a span:last-child { overflow-wrap: anywhere; }
+.slinks a:hover span:last-child, .linkrow a:hover { text-decoration: underline; }
+.ico {
+  width: 22px; height: 22px; border-radius: 5px; flex: none; display: inline-grid; place-items: center;
+  font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 13px; line-height: 1; color: #FFFFFF;
+}
+.ico svg { width: 15px; height: 15px; }
+.ico-li { background: #0A66C2; }
+.ico-x { background: #000000; box-shadow: inset 0 0 0 1px #444; }
+.ico-gh { background: #181717; box-shadow: inset 0 0 0 1px #444; }
+.ico-yt { background: #FF0000; }
+.ico-bs { background: #1185FE; font-size: 12px; }
+.ico-web { background: var(--chip); color: var(--text); }
+.linkrow a { display: inline-flex; align-items: center; gap: 7px; }
+
 /* Info tab */
 .info { display: grid; gap: 34px; margin-top: 22px; }
 .info h2 { font-size: clamp(1.4rem, 3.6vw, 1.8rem); font-weight: 800; margin: 0 0 4px; text-wrap: balance; color: var(--head); }
@@ -514,8 +532,8 @@ footer a { color: var(--band-text); }
             <h3>${esc(s.name)}</h3>
             ${s.text ? `<p>${esc(s.text)}</p>` : ""}
             <div class="linkrow">
-              ${s.url ? `<a href="${esc(s.url)}" rel="noopener">Website</a>` : ""}
-              ${(s.links || []).map(l => `<a href="${esc(l.href)}" rel="noopener">${esc(/linkedin/i.test(l.href) ? "LinkedIn" : /twitter|x\.com/i.test(l.href) ? "X (Twitter)" : (l.text || "Link"))}</a>`).join("")}
+              ${s.url ? `<a href="${esc(s.url)}" rel="noopener">${linkIcon(s.url)}Website</a>` : ""}
+              ${(s.links || []).map(l => `<a href="${esc(l.href)}" rel="noopener">${linkIcon(l.href)}${esc(siteName(l.href))}</a>`).join("")}
             </div>
           </article>`).join("")}</div></section>`);
     }
@@ -525,7 +543,7 @@ footer a { color: var(--band-text); }
         <div class="people">${i.panel.map(p => `
           <article class="person">
             <div class="top">${p.photo ? img(p.photo) : ""}<div><b>${esc(displayName(p.name))}</b>${p.role ? `<span class="role">${esc(p.role)}</span>` : ""}</div></div>
-            ${p.bio ? `<details class="more"><summary>About ${esc(p.name.split(" ")[0])}</summary><div class="body"><p>${esc(p.bio)}</p></div></details>` : ""}
+            ${p.bio ? `<details class="more"><summary>About ${esc(p.name.split(" ")[0])}</summary><div class="body">${bioHtml(p.bio)}</div></details>` : ""}
           </article>`).join("")}</div></section>`);
     }
     if ((i.about || []).length) {
@@ -546,6 +564,51 @@ footer a { color: var(--band-text); }
   }
 
   const img = (src, cls = "") => `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"${cls ? ` class="${cls}"` : ""}>`;
+
+  /* Links in bios: pulled out of the text, one per line, with an icon for the kind of site. */
+  const GH_PATH = "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z";
+  const hostOf = (u) => { try { return new URL(u).hostname.replace(/^www\./, "").toLowerCase(); } catch { return ""; } };
+  function linkIcon(u) {
+    const h = hostOf(u);
+    if (/(^|\.)linkedin\.com$/.test(h)) return `<span class="ico ico-li" aria-hidden="true">in</span>`;
+    if (/(^|\.)(x|twitter)\.com$/.test(h)) return `<span class="ico ico-x" aria-hidden="true">𝕏</span>`;
+    if (/(^|\.)github\.com$/.test(h)) return `<span class="ico ico-gh" aria-hidden="true"><svg viewBox="0 0 16 16"><path fill="currentColor" d="${GH_PATH}"/></svg></span>`;
+    if (/(^|\.)(youtube\.com|youtu\.be)$/.test(h)) return `<span class="ico ico-yt" aria-hidden="true"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M6 4.5v7l6-3.5z"/></svg></span>`;
+    if (/(^|\.)bsky\.app$/.test(h)) return `<span class="ico ico-bs" aria-hidden="true">🦋</span>`;
+    return `<span class="ico ico-web" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4" ry="9.5"/><path d="M2.5 12h19M4.5 7h15M4.5 17h15"/></svg></span>`;
+  }
+  function siteName(u) {
+    const h = hostOf(u);
+    if (/(^|\.)linkedin\.com$/.test(h)) return "LinkedIn";
+    if (/(^|\.)(x|twitter)\.com$/.test(h)) return "X (Twitter)";
+    if (/(^|\.)github\.com$/.test(h)) return "GitHub";
+    return h || u;
+  }
+  function prettyUrl(u) {
+    const h = hostOf(u);
+    let path = ""; try { path = decodeURIComponent(new URL(u).pathname).replace(/\/+$/, ""); } catch {}
+    if (/(^|\.)(x|twitter)\.com$/.test(h) && /^\/\w+$/.test(path)) return "@" + path.slice(1);
+    return h + path;
+  }
+  function splitBio(bio) {
+    let t = String(bio || "").replace(/(linkedin\.com)\s+\/in\/\s+(\S+)/gi, "$1/in/$2");
+    const links = [];
+    const add = (url, text) => { if (!links.some(l => l.url.replace(/\/$/, "") === url.replace(/\/$/, ""))) links.push({ url, text }); };
+    t = t.replace(/\b(?:Twitter|X)\s*:\s*@(\w{1,30})/g, (m, h) => { add(`https://x.com/${h}`, "@" + h); return " "; });
+    t = t.replace(/(?:\b(?:Socials|Links|LinkedIn|Twitter|X|Blog|GitHub|Website|Web)\s*:?\s*)?((?:https?:\/\/|www\.)[^\s<>"]+)/gi, (m, u) => {
+      u = u.replace(/[.,;:!)\]]+$/, "");
+      const url = /^https?:/i.test(u) ? u : "https://" + u;
+      add(url, prettyUrl(url));
+      return " ";
+    });
+    t = t.replace(/\b(?:Socials|Links)\s*:\s*/gi, " ").replace(/[,:]\s*(?=\||\n|$)/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").replace(/[ \t]{2,}/g, " ").trim();
+    return { text: t, links };
+  }
+  function bioHtml(bio) {
+    const { text, links } = splitBio(bio);
+    return `${text ? `<p>${esc(text)}</p>` : ""}${links.length ? `<ul class="slinks">${links.map(l =>
+      `<li><a href="${esc(l.url)}" rel="noopener">${linkIcon(l.url)}<span>${esc(l.text)}</span></a></li>`).join("")}</ul>` : ""}`;
+  }
 
   function faces(s) {
     const own = (s.speakers || []).filter(p => p.photo).slice(0, 3).map(p => img(p.photo));
@@ -570,7 +633,7 @@ footer a { color: var(--band-text); }
     (s.description || "").split(/\n\n+/).filter(Boolean).forEach(p => parts.push(`<p>${esc(p)}</p>`));
     (s.speakers || []).filter(p => p.bio).forEach(p => {
       const pic = p.photo || "";
-      parts.push(`<div class="bio${pic ? "" : " nopic"}">${pic ? img(pic) : ""}<b>${esc(displayName(p.name))}</b><p>${esc(p.bio)}</p></div>`);
+      parts.push(`<div class="bio${pic ? "" : " nopic"}">${pic ? img(pic) : ""}<b>${esc(displayName(p.name))}</b>${bioHtml(p.bio)}</div>`);
     });
     if (!parts.length) return "";
     const label = s.description ? (s.speakers && s.speakers.some(p => p.bio) ? "Abstract and speaker" : "Abstract") : "About the speaker";
