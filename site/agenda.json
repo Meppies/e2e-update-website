@@ -123,7 +123,7 @@
           "start": "09:15",
           "end": "09:55",
           "kind": "talk",
-          "title": "ControlUp - King of the Hill \u0026 Whats new!",
+          "title": "ControlUp - King of the Hill & Whats new!",
           "description": "Latest innovations in Digital Employee Experience Management from ControlUp. As usual, you'll see exciting new ways of monitoring virtualization infrastructure, managing virtualized user workloads, and monitoring user experience.\n\nEugene will show cool enhancements to the ControlUp powerful toolkit, and share some evidence from the field on how ControlUp can save your troubleshooting day. Geek fun guaranteed!",
           "speakers": [
             {
@@ -231,8 +231,8 @@
           "start": "12:50",
           "end": "13:05",
           "kind": "talk",
-          "title": "Deep-Dive: Mastering Hydra \u0026 Nerdio for Azure Virtual Desktop and Windows 365 (intro session)",
-          "description": "Azure Virtual Desktop (AVD) and Windows 365 have matured rapidly, but operational complexity, cost control, and scalability remain major challenges for enterprises.\n\nIn this deep-dive session, we will explore how Hydra and Nerdio Manager can be combined to create a highly automated, scalable, and cost-optimized EUC platform on Azure.\n\nThe session goes beyond basic setup and focuses on real-world operational patterns, automation strategies, and architectural decisions used in large-scale production environments.\n\nTopics covered include:\n\nDesigning host pool strategies for AVD \u0026 Windows 365 (Enterprise \u0026 Frontline)\n\nAdvanced image lifecycle management with Hydra Intelligent scaling, power management, and cost governance with Nerdio Multi-tenant and enterprise governance models Handling GPU-accelerated workloads (vGPU, AI, and graphics)\n\nCommon pitfalls, lessons learned, and best practices from real customer deployments Attendees will leave with practical guidance they can apply immediately, whether they manage a single tenant or hundreds of customers.",
+          "title": "Deep-Dive: Mastering Hydra & Nerdio for Azure Virtual Desktop and Windows 365 (intro session)",
+          "description": "Azure Virtual Desktop (AVD) and Windows 365 have matured rapidly, but operational complexity, cost control, and scalability remain major challenges for enterprises.\n\nIn this deep-dive session, we will explore how Hydra and Nerdio Manager can be combined to create a highly automated, scalable, and cost-optimized EUC platform on Azure.\n\nThe session goes beyond basic setup and focuses on real-world operational patterns, automation strategies, and architectural decisions used in large-scale production environments.\n\nTopics covered include:\n\nDesigning host pool strategies for AVD & Windows 365 (Enterprise & Frontline)\n\nAdvanced image lifecycle management with Hydra Intelligent scaling, power management, and cost governance with Nerdio Multi-tenant and enterprise governance models Handling GPU-accelerated workloads (vGPU, AI, and graphics)\n\nCommon pitfalls, lessons learned, and best practices from real customer deployments Attendees will leave with practical guidance they can apply immediately, whether they manage a single tenant or hundreds of customers.",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
@@ -300,7 +300,7 @@
             },
             {
               "name": "Gerjon Kunst",
-              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot \u0026 Copilot Studio), Speaker \u0026 Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact.\n\nAs AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value.\n\nAlongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use.\n\nAs a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance.\n\nIn February 2024, James O'Regan and Gerjon launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise."
+              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot & Copilot Studio), Speaker & Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact.\n\nAs AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value.\n\nAlongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use.\n\nAs a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance.\n\nIn February 2024, James O'Regan and Gerjon launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise."
             }
           ],
           "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JOGK.jpg/:/rs=w:480,cg:true"
@@ -341,7 +341,7 @@
           "end": "16:40",
           "kind": "talk",
           "title": "Stop Giving AI Agents Your Desktop (intro session)",
-          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run on.",
+          "description": "The dominant CUA architecture — agent -> VM -> screenshot -> mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run on.",
           "speakers": [
             {
               "name": "Denis Gundarev",
@@ -383,7 +383,7 @@
           "end": "10:30",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Architecting Sovereign DaaS: Transforming Legacy VDI -\u003e Cloud-Native Private Cloud VDI Platform",
+          "title": "Architecting Sovereign DaaS: Transforming Legacy VDI -> Cloud-Native Private Cloud VDI Platform",
           "description": "This 30-minute session outlines an enterprise architecture blueprint for transforming an established on-premises Citrix estate into a sovereign, automated Desktop-as-a-Service (DaaS) model inside a private cloud. We examine the architectural decoupling of the control plane from the workload execution layer, enabling zero-touch lifecycle management, automated image pipelines (BYOI), and standardized T-shirt sizing through ITSM self-service integration. Furthermore, the presentation walks through a phased migration roadmap that balances operational continuity with multi-stack resilience across private data centers, while highlighting strategic trigger points for market evaluations and vendor-agnostic portability.",
           "speakers": [
             {
@@ -467,7 +467,7 @@
           "end": "11:10",
           "room": "Room 3",
           "kind": "talk",
-          "title": "Mastering Hydra \u0026 Nerdio for AVD and W365 (Part 2)",
+          "title": "Mastering Hydra & Nerdio for AVD and W365 (Part 2)",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
@@ -531,14 +531,7 @@
               "name": "Denis Gundarev",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ],
-          "changed": {
-            "kind": "updated",
-            "at": "2026-10-12T21:58:40Z",
-            "what": [
-              "speakers"
-            ]
-          }
+          ]
         },
         {
           "id": "17-from-idea-to-demo-how-ai-helped-deliver-session-recording-at",
@@ -611,7 +604,7 @@
           "end": "14:10",
           "room": "Room 3",
           "kind": "talk",
-          "title": "Beyond Intune: Smarter Workspace \u0026 App Control with AppVentiX Inside (AI)",
+          "title": "Beyond Intune: Smarter Workspace & App Control with AppVentiX Inside (AI)",
           "description": "Intune is a great foundation for modern endpoint management, but managing the user workspace and controlling what applications can run requires more.\n\nIn this technical session, we’ll show how AppVentiX adds Workspace Control and App Control across modern, Intune-managed Windows endpoints, traditional on-premises environments, and everything in between. And while everyone is talking about AI, we’ll introduce our own interpretation: AppVentiX Inside.\n\nWe’ll revisit what we showed last year, demonstrate how your feedback shaped the product, and dive into the latest capabilities with real-world examples and live demos. Expect less slides, more tech, and a practical look at consistent workspace management and application control across your hybrid Windows estate.",
           "speakers": [
             {
@@ -644,7 +637,7 @@
           "room": "Room 2",
           "kind": "talk",
           "title": "Stop Giving AI Agents Your Desktop (Part 2)",
-          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
+          "description": "The dominant CUA architecture — agent -> VM -> screenshot -> mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
           "speakers": [
             {
               "name": "Denis Gundarev",
@@ -664,7 +657,7 @@
           "speakers": [
             {
               "name": "Gerjon Kunst",
-              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot \u0026 Copilot Studio), Speaker \u0026 Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact. As AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value. Alongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use. As a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance."
+              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot & Copilot Studio), Speaker & Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact. As AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value. Alongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use. As a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance."
             },
             {
               "name": "James O'Regan",
@@ -692,7 +685,7 @@
             },
             {
               "name": "Gerardo Luján Moltó",
-              "bio": "is an IT specialist with more than a decade of experience in Microsoft infrastructure, virtualization, and End-User Computing. Over the years, he has designed, implemented, and troubleshot enterprise environments based on technologies such as Microsoft RDS, Citrix Virtual Apps and Desktops, Parallels RAS, VMware, and hyperconverged infrastructures, combining hands-on technical expertise with solution architecture and technical presales. Currently leading Identity \u0026 Access initiatives, Gerardo bridges infrastructure, security, and modern workspace technologies. At EUC EUCDEX.Ai, he will share practical insights and real-world experiences from migrating VDI solutions to Parallels."
+              "bio": "is an IT specialist with more than a decade of experience in Microsoft infrastructure, virtualization, and End-User Computing. Over the years, he has designed, implemented, and troubleshot enterprise environments based on technologies such as Microsoft RDS, Citrix Virtual Apps and Desktops, Parallels RAS, VMware, and hyperconverged infrastructures, combining hands-on technical expertise with solution architecture and technical presales. Currently leading Identity & Access initiatives, Gerardo bridges infrastructure, security, and modern workspace technologies. At EUC EUCDEX.Ai, he will share practical insights and real-world experiences from migrating VDI solutions to Parallels."
             }
           ]
         },
@@ -830,7 +823,7 @@
       "title": "(E2E) EUCDEX.Ai MALTA, October 16 - 18, 2026",
       "details": [
         "The 62th E2E EUXDEX.Ai Conference will take place in Valletta, Malta on October 16-18, 2026.",
-        "The event will take place at the Conference \u0026 Events Unit Facility of University of Malta, Valletta Campus. Address: Saint Paul Street, Valletta, VLT, Malta.",
+        "The event will take place at the Conference & Events Unit Facility of University of Malta, Valletta Campus. Address: Saint Paul Street, Valletta, VLT, Malta.",
         "In case you have any questions about your existing registration please contact us CONFEU @ EUCDEXAI.COM."
       ],
       "terms": [
