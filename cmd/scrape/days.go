@@ -232,7 +232,7 @@ func parseGroups(cards []Card) []Session {
 		if spk != nil {
 			s.Speakers = splitNames(firstHeading(*spk, notTitle))
 			if len(s.Speakers) > 0 {
-				s.Speakers[0].Bio = joinParas(parasText(*spk))
+				assignBios(s.Speakers, spk.Paras())
 				if len(s.Speakers) == 1 {
 					s.Speakers[0].Photo = spk.Image
 				} else {
@@ -456,4 +456,71 @@ func sortSessions(ss []Session) {
 		}
 		return ss[i].Room < ss[j].Room
 	})
+}
+
+// assignBios splits a speaker card over the speakers named in its heading.
+// A paragraph that opens with a speaker's name in bold, or whose first word is
+// a speaker's first name, starts that speaker's part; following paragraphs stay
+// with them until the next speaker starts. Separator lines such as "|" are dropped.
+func assignBios(sp []Speaker, paras []Block) {
+	if len(sp) == 0 {
+		return
+	}
+	firstName := func(n string) string {
+		f := strings.Fields(strings.ToLower(n))
+		if len(f) == 0 {
+			return ""
+		}
+		return strings.Trim(f[0], ",.:;|")
+	}
+	parts := make([][]string, len(sp))
+	cur := 0
+	for _, p := range paras {
+		t := p.Text()
+		if strings.Trim(t, "|·-–— ") == "" || isTimeOnly(t) || (breakRe.MatchString(t) && timeRe.MatchString(t)) {
+			continue
+		}
+		matched := -1
+		lead := ""
+		for _, r := range p.Runs {
+			if strings.TrimSpace(r.Text) == "" {
+				continue
+			}
+			if r.Bold {
+				lead = clean(r.Text)
+			}
+			break
+		}
+		if lead != "" {
+			ln := strings.ToLower(strings.Trim(lead, ", "))
+			for i, s := range sp {
+				n := strings.ToLower(s.Name)
+				if n == ln || firstName(n) == ln || (len(ln) > 2 && strings.HasPrefix(n, ln)) {
+					matched = i
+					break
+				}
+			}
+			if matched >= 0 {
+				t = strings.TrimLeft(strings.TrimSpace(strings.TrimPrefix(t, lead)), ", ")
+			}
+		}
+		if matched < 0 {
+			w := firstName(t)
+			for i, s := range sp {
+				if len(parts[i]) == 0 && firstName(s.Name) == w {
+					matched = i
+					break
+				}
+			}
+		}
+		if matched >= 0 {
+			cur = matched
+		}
+		if t != "" {
+			parts[cur] = append(parts[cur], t)
+		}
+	}
+	for i := range sp {
+		sp[i].Bio = joinParas(parts[i])
+	}
 }

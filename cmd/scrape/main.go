@@ -368,13 +368,22 @@ func lookupSpeaker(name string, bios map[string]Speaker) (Speaker, bool) {
 
 func fillBios(ss []Session, bios map[string]Speaker) {
 	for i := range ss {
+		// Borrow bio text only when the session has none of its own (the master
+		// class, whose bios live in the "Panel of Experts" section). Photos are
+		// always fine to borrow: a face is the same in every session.
+		own := false
+		for _, sp := range ss[i].Speakers {
+			if sp.Bio != "" {
+				own = true
+			}
+		}
 		for j := range ss[i].Speakers {
 			sp := &ss[i].Speakers[j]
 			if sp.Bio != "" && sp.Photo != "" {
 				continue
 			}
 			if b, ok := lookupSpeaker(sp.Name, bios); ok {
-				if sp.Bio == "" {
+				if sp.Bio == "" && !own {
 					sp.Bio = b.Bio
 				}
 				if sp.Photo == "" {
@@ -400,8 +409,9 @@ func sameTalk(a, b string) bool {
 }
 
 // crossFill gives a "part 2" session the speakers and description of its
-// intro on another day when the source left them out, and fills empty bios
-// from the longest bio found for the same name anywhere in the agenda.
+// intro on another day when the source left them out, and fills missing
+// photos from the same person elsewhere. Bio text is never borrowed across
+// sessions: each session keeps what its own card says.
 func crossFill(days []Day) {
 	type ref struct{ d, s int }
 	var all []ref
@@ -435,14 +445,10 @@ func crossFill(days []Day) {
 			break
 		}
 	}
-	best := map[string]string{}
 	photo := map[string]string{}
 	for _, r := range all {
 		for _, sp := range days[r.d].Sessions[r.s].Speakers {
 			k := strings.ToLower(sp.Name)
-			if len(sp.Bio) > len(best[k]) {
-				best[k] = sp.Bio
-			}
 			if photo[k] == "" {
 				photo[k] = sp.Photo
 			}
@@ -452,9 +458,6 @@ func crossFill(days []Day) {
 		for j := range days[r.d].Sessions[r.s].Speakers {
 			sp := &days[r.d].Sessions[r.s].Speakers[j]
 			k := strings.ToLower(sp.Name)
-			if sp.Bio == "" {
-				sp.Bio = best[k]
-			}
 			if sp.Photo == "" {
 				sp.Photo = photo[k]
 			}
