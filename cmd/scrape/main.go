@@ -87,6 +87,7 @@ func run(url, in, prevPath, out string, force bool) error {
 	}
 	sortDays(next.Days)
 	crossFill(next.Days)
+	speakersFromPhotos(next.Days, next.Info)
 	n := 0
 	for i := range next.Days {
 		if next.Days[i].Title == "Main conference" {
@@ -460,6 +461,58 @@ func crossFill(days []Day) {
 			k := strings.ToLower(sp.Name)
 			if sp.Photo == "" {
 				sp.Photo = photo[k]
+			}
+		}
+	}
+}
+
+// photoKey is the image file name, without GoDaddy's resize options.
+func photoKey(u string) string {
+	if i := strings.Index(u, "/:/"); i > 0 {
+		u = u[:i]
+	}
+	if i := strings.LastIndex(u, "/"); i >= 0 {
+		u = u[i+1:]
+	}
+	return strings.ToLower(u)
+}
+
+// speakersFromPhotos names the speaker of a session whose card has a portrait
+// but no name, when the very same picture belongs to a named speaker elsewhere
+// (Denis Gundarev at 12:10 in Room 1 on Saturday). Only the name and photo are
+// used; the bio stays empty because this session's card has none.
+func speakersFromPhotos(days []Day, info *Info) {
+	owner := map[string]Speaker{}
+	note := func(sp Speaker) {
+		if sp.Photo == "" {
+			return
+		}
+		k := photoKey(sp.Photo)
+		if _, ok := owner[k]; !ok {
+			owner[k] = Speaker{Name: sp.Name, Photo: sp.Photo}
+		}
+	}
+	for _, d := range days {
+		for _, s := range d.Sessions {
+			for _, sp := range s.Speakers {
+				note(sp)
+			}
+		}
+	}
+	if info != nil {
+		for _, sp := range info.Panel {
+			note(sp)
+		}
+	}
+	for di := range days {
+		for si := range days[di].Sessions {
+			s := &days[di].Sessions[si]
+			if len(s.Speakers) > 0 || s.Photo == "" {
+				continue
+			}
+			if sp, ok := owner[photoKey(s.Photo)]; ok {
+				s.Speakers = []Speaker{sp}
+				s.Photo = ""
 			}
 		}
 	}

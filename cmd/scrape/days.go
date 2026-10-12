@@ -364,6 +364,8 @@ func parseRooms(cards []Card) []Session {
 			s.Speakers[0].Photo = c.Image
 		} else if len(s.Speakers) > 1 {
 			s.Photo = c.Logo // full picture, not cropped: it holds one person per half
+		} else {
+			s.Photo = c.Image // a portrait without a name; matched to a speaker later if possible
 		}
 		for i := range s.Speakers {
 			sp := &s.Speakers[i]

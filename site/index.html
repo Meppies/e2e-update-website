@@ -219,6 +219,7 @@ nav.days {
 .who li { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .who li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
 .who small { font-size: .85em; }
+.who .unnamed { font-size: .92rem; }
 @media (min-width: 760px) { .who { flex-direction: row; flex-wrap: wrap; gap: 8px 22px; } }
 .av {
   width: 40px; height: 40px; border-radius: 50%; flex: none; display: inline-grid; place-items: center;
@@ -650,6 +651,10 @@ footer a { color: var(--band-text); }
   }
 
   function speakersLine(s) {
+    if ((!s.speakers || !s.speakers.length) && s.photo) {
+      // The organiser's card has a portrait but no name.
+      return `<ul class="who"><li>${avatar({ src: s.photo }, "")}<span class="unnamed">Speaker not named on the official agenda</span></li></ul>`;
+    }
     if (!s.speakers || !s.speakers.length) return "";
     return `<ul class="who">${s.speakers.map(p => `<li>${avatar(speakerPhoto(s, p), p.name)}<span>${esc(displayName(p.name))}${p.role ? ` <small>(${esc(p.role.toLowerCase())})</small>` : ""}</span></li>`).join("")}</ul>`;
   }
