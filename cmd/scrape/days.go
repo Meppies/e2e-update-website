@@ -236,7 +236,7 @@ func parseGroups(cards []Card) []Session {
 				if len(s.Speakers) == 1 {
 					s.Speakers[0].Photo = spk.Image
 				} else {
-					s.Photo = spk.Image
+					s.Photo = spk.Logo // full picture, not cropped: it holds one person per half
 				}
 			}
 		}
@@ -363,7 +363,7 @@ func parseRooms(cards []Card) []Session {
 		if len(s.Speakers) == 1 {
 			s.Speakers[0].Photo = c.Image
 		} else if len(s.Speakers) > 1 {
-			s.Photo = c.Image
+			s.Photo = c.Logo // full picture, not cropped: it holds one person per half
 		}
 		for i := range s.Speakers {
 			sp := &s.Speakers[i]
