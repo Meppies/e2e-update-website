@@ -191,7 +191,7 @@ nav.days {
 
 .card {
   min-width: 0; border: 1px solid var(--line); background: var(--card); border-radius: 14px;
-  padding: 14px 16px; display: grid; gap: 6px; scroll-margin-top: 130px; scroll-margin-bottom: 60px;
+  padding: 14px 16px; display: grid; gap: 6px; scroll-margin-top: calc(var(--navh, 112px) + 18px); scroll-margin-bottom: 60px;
 }
 .card.now { background: var(--card-now); border-color: var(--ok); box-shadow: inset 4px 0 0 var(--ok); }
 .card.mine { box-shadow: inset 4px 0 0 var(--star); }
@@ -206,7 +206,7 @@ nav.days {
 .room-dot { display: inline-block; width: .7em; height: .7em; border-radius: 50%; background: var(--roomc); margin-right: 4px; vertical-align: baseline; }
 .room-heads { display: none; }
 @media (min-width: 760px) {
-  .room-heads { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; padding-block: 10px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 112px); z-index: 4; background: var(--ground); }
+  .room-heads { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; padding-block: 10px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--navh, 112px)); z-index: 4; background: var(--ground); }
   .rh-row { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 10px; }
   .room-heads .rh { padding: 6px 12px; border-radius: 10px; background: var(--roomc); color: #FFFFFF; font-weight: 800; text-align: center; }
   .room-heads .rh-gap { visibility: hidden; }
@@ -253,8 +253,18 @@ details.more[open] summary::before { content: "▾ "; }
 .sponsor-strip { background: var(--tile); color: var(--tile-label); }
 .sponsor-strip .wrap { display: flex; align-items: center; justify-content: center; gap: 10px 18px; padding-block: 5px; }
 .strip-label { font-family: var(--mono); font-size: .68rem; line-height: 1.1; white-space: nowrap; flex: none; }
-.sponsor-strip a { display: flex; align-items: center; justify-content: center; height: 30px; min-width: 0; flex: 0 1 auto; font-weight: 400; }
-.sponsor-strip img { max-height: 30px; max-width: 100%; width: auto; object-fit: contain; display: block; }
+/* Featured (bottom): small and modest. */
+.sponsor-strip.bottom a { display: flex; align-items: center; justify-content: center; height: 30px; min-width: 0; flex: 0 1 auto; font-weight: 400; }
+.sponsor-strip.bottom img { max-height: 30px; max-width: 100%; width: auto; object-fit: contain; display: block; }
+/* Diamond Plus (top): one equal column per logo, each logo as large as its cell allows.
+   Height grows with the screen but never drops below 38px; the bottom strip stays at 26-30px. */
+.sponsor-strip.top { --top-h: clamp(38px, 9vw, 54px); }
+.sponsor-strip.top .wrap {
+  display: grid; grid-template-columns: auto repeat(var(--n, 3), minmax(0, 1fr));
+  align-items: center; gap: 8px 24px; padding-block: 6px; max-width: 60rem;
+}
+.sponsor-strip.top a { display: flex; align-items: center; justify-content: center; height: var(--top-h); min-width: 0; font-weight: 400; }
+.sponsor-strip.top img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .sponsor-strip a:focus-visible { outline-color: var(--e2e-red); }
 .sponsor-strip.top { border-bottom: 1px solid var(--e2e-silver); }
 .sponsor-strip.bottom {
@@ -265,9 +275,12 @@ details.more[open] summary::before { content: "▾ "; }
 body.has-featured { padding-bottom: calc(46px + env(safe-area-inset-bottom, 0px)); }
 body.has-featured .toast { bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
 @media (max-width: 480px) {
-  .sponsor-strip .wrap { gap: 8px 12px; padding-block: 4px; }
-  .sponsor-strip a, .sponsor-strip img { height: 26px; max-height: 26px; }
+  .sponsor-strip.bottom .wrap { gap: 8px 12px; padding-block: 4px; }
+  .sponsor-strip.bottom a, .sponsor-strip.bottom img { height: 26px; max-height: 26px; }
   .strip-label { font-size: .62rem; }
+  /* On phones the three Diamond logos get the full width; the label stays for screen readers. */
+  .sponsor-strip.top .wrap { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 6px 14px; padding-block: 5px; }
+  .sponsor-strip.top .strip-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 /* A phone on its side has little height left; give it back to the agenda. */
 @media (max-height: 480px) {
@@ -345,7 +358,7 @@ body.has-featured .toast { bottom: calc(56px + env(safe-area-inset-bottom, 0px))
 .terms .prose { margin-top: 10px; }
 .days button.infotab .d { color: var(--band-text); }
 
-.where { margin-top: 36px; scroll-margin-top: 130px; }
+.where { margin-top: 36px; scroll-margin-top: calc(var(--navh, 112px) + 18px); }
 .where h2 { font-size: 1.4rem; font-weight: 800; margin: 0 0 10px; color: var(--head); }
 .where-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .place { border: 1px solid var(--line); background: var(--card); border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
@@ -816,7 +829,7 @@ footer a { color: var(--band-text); }
   function strip(list, label) {
     const items = (list || []).filter(s => s.logo && s.url);
     if (!items.length) return "";
-    return `<div class="wrap"><span class="strip-label">${label}</span>${items.map(s =>
+    return `<div class="wrap" style="--n:${items.length}"><span class="strip-label">${label}</span>${items.map(s =>
       `<a href="${esc(s.url)}" rel="noopener" aria-label="${esc(s.name)}" title="${esc(s.name)}">${img(s.logo)}</a>`).join("")}</div>`;
   }
 
@@ -831,6 +844,7 @@ footer a { color: var(--band-text); }
     $("#diamondStrip").innerHTML = top; $("#diamondStrip").hidden = !top;
     $("#featuredStrip").innerHTML = bottom; $("#featuredStrip").hidden = !bottom;
     document.body.classList.toggle("has-featured", !!bottom);
+    $("#diamondStrip").querySelectorAll("img").forEach(i => i.addEventListener("load", measureNav, { once: true }));
   }
 
   // Community nicknames, shown wherever the name appears.
@@ -898,9 +912,17 @@ footer a { color: var(--band-text); }
     </section>`;
   }
 
+  // Things that sit under the sticky bar need its real height, which changes with the logos and screen width.
+  function measureNav() {
+    const n = document.querySelector("nav.days");
+    if (n) document.documentElement.style.setProperty("--navh", Math.round(n.getBoundingClientRect().height) + "px");
+  }
+  window.addEventListener("resize", measureNav);
+
   function render() {
     if (!agenda) return;
     renderStrips();
+    requestAnimationFrame(measureNav);
     const open = new Set([...document.querySelectorAll("details.more[open]")].map(x => x.closest(".card")?.id));
     $("#updated").textContent = fmtStamp(agenda.updatedAt);
     renderTabs();
