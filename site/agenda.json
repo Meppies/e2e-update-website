@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-12T19:48:04Z",
+  "updatedAt": "2026-10-12T21:58:40Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -407,7 +407,8 @@
               "bio": "Jim is a Principal Program Manager at Microsoft focused on Windows 365 for Agents and enterprise AI integration. A long-standing member of the EUC community, he works with customers and partners to explore how AI and cloud technologies can transform application delivery and modern workplace environments. At E2EVC Malta, he is presenting “Growing a Second Brain,” sharing how he uses a practical, markdown-based Second Brain to keep knowledge, decisions, and AI-assisted work connected and useful. He also runs around a lot and drinks tea. LinkedIn https://www.linkedin.com/in/jimmoyle/ GitHub https://github.com/JimMoyle.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JMSH.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JMSH.jpg/:/rs=w:240,h:240,cg:true,m"
         },
         {
           "id": "17-compliant-on-paper-wild-west-in-practice-getting-euc-ready-f",
@@ -514,7 +515,8 @@
           "room": "Room 3",
           "kind": "talk",
           "title": "Confidence, Not Dashboards: What Genealogy Taught Me About AI Observability",
-          "description": "When I started tracing my family tree, an online record confidently placed my great-grandmother in Bad Langensalza. The primary sources said Bad Homburg. A trusted-looking source had hallucinated - and untangling it took archives, church books, and a lot of cross-checking to decide which claim deserved confidence. That is exactly the discipline AI observability demands. As AI grows from autocomplete into agents that act on our behalf, \"the model said so\" is no longer a source. We need provenance - where did this answer come from? We need confidence - how sure are we, and what would change our mind? We need negative results - what did we rule out, and why? In this session I'll use a real family mystery as the narrative spine and map every genealogy method - citing primary sources, rating confidence, disproving false positives, respecting data-access rules - onto the AI observability toolkit you'll need in production. You'll leave seeing observability not as another dashboard, but as the practice of knowing how much to trust each claim your system makes. No Kirchenbuch required - just the question genealogists have asked for centuries: where does that come from? TBA"
+          "description": "When I started tracing my family tree, an online record confidently placed my great-grandmother in Bad Langensalza. The primary sources said Bad Homburg. A trusted-looking source had hallucinated - and untangling it took archives, church books, and a lot of cross-checking to decide which claim deserved confidence. That is exactly the discipline AI observability demands. As AI grows from autocomplete into agents that act on our behalf, \"the model said so\" is no longer a source. We need provenance - where did this answer come from? We need confidence - how sure are we, and what would change our mind? We need negative results - what did we rule out, and why? In this session I'll use a real family mystery as the narrative spine and map every genealogy method - citing primary sources, rating confidence, disproving false positives, respecting data-access rules - onto the AI observability toolkit you'll need in production. You'll leave seeing observability not as another dashboard, but as the practice of knowing how much to trust each claim your system makes. No Kirchenbuch required - just the question genealogists have asked for centuries: where does that come from? TBA",
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GGHD.jpg/:/rs=w:240,h:240,cg:true,m"
         },
         {
           "id": "17-building-your-own-remote-protocol-extensions-a-practical-gui",
@@ -523,7 +525,20 @@
           "room": "Room 1",
           "kind": "talk",
           "title": "Building Your Own Remote Protocol Extensions: A Practical Guide to Plugins and Virtual CH",
-          "description": "This session demystifies how modern remoting protocols can be extended to support in-house workflows. We’ll explore the architecture of virtual channels, how data travels between client and host, and the security boundaries shaping extension design. Attendees will walk through the lifecycle of a plugin: idea, implementation and development. Whether you're adding data synchronization, workflow automation, or a custom device redirection path, you’ll leave with a clear blueprint for building and deploying protocol extensions."
+          "description": "This session demystifies how modern remoting protocols can be extended to support in-house workflows. We’ll explore the architecture of virtual channels, how data travels between client and host, and the security boundaries shaping extension design. Attendees will walk through the lifecycle of a plugin: idea, implementation and development. Whether you're adding data synchronization, workflow automation, or a custom device redirection path, you’ll leave with a clear blueprint for building and deploying protocol extensions.",
+          "speakers": [
+            {
+              "name": "Denis Gundarev",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-12T21:58:40Z",
+            "what": [
+              "speakers"
+            ]
+          }
         },
         {
           "id": "17-from-idea-to-demo-how-ai-helped-deliver-session-recording-at",
@@ -571,7 +586,8 @@
               "bio": "Guy is an EUC veteran with over 30 years of hands-on experience in that field having worked for software vendors and partners in that space since 1995. He also has software development skills spanning 5 decades. Guy is currently the CTO at itopia - a US based EdTech company delivering VDI to students from both Google Cloud and Azure. Watch out for the odd Dad joke too!\n\nLinkedIn: https://www.linkedin.com/in/guyrleech",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m"
         },
         {
           "id": "17-a-year-of-cvad-and-daas-part-2",
