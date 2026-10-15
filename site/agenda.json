@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-12T21:58:40Z",
+  "updatedAt": "2026-10-15T12:10:21Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -123,7 +123,7 @@
           "start": "09:15",
           "end": "09:55",
           "kind": "talk",
-          "title": "ControlUp - King of the Hill & Whats new!",
+          "title": "ControlUp - King of the Hill \u0026 Whats new!",
           "description": "Latest innovations in Digital Employee Experience Management from ControlUp. As usual, you'll see exciting new ways of monitoring virtualization infrastructure, managing virtualized user workloads, and monitoring user experience.\n\nEugene will show cool enhancements to the ControlUp powerful toolkit, and share some evidence from the field on how ControlUp can save your troubleshooting day. Geek fun guaranteed!",
           "speakers": [
             {
@@ -212,34 +212,75 @@
           ]
         },
         {
-          "id": "16-when-private-equity-hijacks-your-it-budget-how-we-escaped-a",
-          "start": "12:25",
-          "end": "12:40",
+          "id": "16-practical-enterprise-ai-adoption",
+          "start": "12:30",
+          "end": "13:00",
           "kind": "talk",
-          "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
-          "description": "Soaring renewal quotes. Multi-year lock-ins. “All-you-can-eat” licences that leave a bitter aftertaste. When private-equity-owned EUC vendors rewrite the rules, your IT budget can quickly become their growth strategy. This is the real-world story of a 12k-seat renewal that became a six-month migration race. Learn how we HDeXited, what we replaced it with, and the practical decisions, trade-offs, and lessons that got us out.",
+          "title": "Practical enterprise AI adoption",
           "speakers": [
             {
-              "name": "Neil Spellings",
-              "bio": "Neil has spent more than 20 years convincing large organisations that desktops do not necessarily need to live under desks. He has worked with Citrix since the WinFrame and MetaFrame days, which makes him old enough to remember when “the cloud” was mainly a weather-related availability risk.\n\nA ex-Citrix Technology Professional since 2013 and a TOGAF-certified Enterprise Architect, and more recently a Microsoft MVP, Neil has accumulated enough acronyms to make a network diagram look concise. He has contributed to Citrix certification exams, delivered large XenApp environments, and has strong opinions on virtualisation, EUC, cloud platforms, automation, and why “it worked in test” is not an operational strategy.\n\nNeil now works across Microsoft, Azure, Windows 365, VDI, infrastructure, automation, containers, AI tooling and whatever other technology someone has bought before asking how it integrates. He is equally at home designing enterprise architecture, debugging an obscure issue at 2am, playing with Raspberry Pi or Home Assistant or explaining why the answer is not always “just put it in Kubernetes”.\n\nA familiar face in the UK and European EUC community, Neil is on the steering group of EUC Forum and has run community events in the UK for over 15 years and has spoken at numerous E2E/PubForum, iForum and Synergy events.\n\nOutside work, Neil is a STEM Ambassador, former Code Club leader, supporter of diversity in technology, and proof that a career in IT can begin with server-based computing and somehow end with AI, Docker and an ever-growing collection of USB-C adapters.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/NSHD.jpg/:/rs=w:240,h:240,cg:true,m"
+              "name": "Denise De Gaetano",
+              "bio": "Denise is an AI and business expert, data scientist, lecturer, executive educator and entrepreneur based in Malta. Her work spans artificial intelligence, data science, business transformation, emerging technologies, education and strategic advisory, helping organisations translate complex technology into practical business value. She is also actively involved in public speaking, professional education, research and innovation, with experience addressing both academic and industry audiences. Denise combines technical expertise with hands-on entrepreneurial experience across technology, education and digital ventures. She is particularly interested in the intersection of AI, data, innovation and the future of business and education.\n\nLinkedIn: Denise De Gaetano on LinkedIn",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DGD-HD.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-15T12:10:21Z"
+          }
         },
         {
-          "id": "16-deep-dive-mastering-hydra-nerdio-for-azure-virtual-desktop-a",
+          "id": "16-when-private-equity-hijacks-your-it-budget-how-we-escaped-a",
           "start": "12:50",
           "end": "13:05",
           "kind": "talk",
-          "title": "Deep-Dive: Mastering Hydra & Nerdio for Azure Virtual Desktop and Windows 365 (intro session)",
-          "description": "Azure Virtual Desktop (AVD) and Windows 365 have matured rapidly, but operational complexity, cost control, and scalability remain major challenges for enterprises.\n\nIn this deep-dive session, we will explore how Hydra and Nerdio Manager can be combined to create a highly automated, scalable, and cost-optimized EUC platform on Azure.\n\nThe session goes beyond basic setup and focuses on real-world operational patterns, automation strategies, and architectural decisions used in large-scale production environments.\n\nTopics covered include:\n\nDesigning host pool strategies for AVD & Windows 365 (Enterprise & Frontline)\n\nAdvanced image lifecycle management with Hydra Intelligent scaling, power management, and cost governance with Nerdio Multi-tenant and enterprise governance models Handling GPU-accelerated workloads (vGPU, AI, and graphics)\n\nCommon pitfalls, lessons learned, and best practices from real customer deployments Attendees will leave with practical guidance they can apply immediately, whether they manage a single tenant or hundreds of customers.",
+          "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
+          "speakers": [
+            {
+              "name": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
+              "bio": "Soaring renewal quotes. Multi-year lock-ins. “All-you-can-eat” licences that leave a bitter aftertaste. When private-equity-owned EUC vendors rewrite the rules, your IT budget can quickly become their growth strategy. This is the real-world story of a 12k-seat renewal that became a six-month migration race. Learn how we HDeXited, what we replaced it with, and the practical decisions, trade-offs, and lessons that got us out."
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:10:21Z",
+            "what": [
+              "time",
+              "speakers",
+              "description"
+            ]
+          }
+        },
+        {
+          "id": "16-neil-has-spent-more-than-20-years-convincing-large-organisat",
+          "start": "12:50",
+          "end": "13:05",
+          "kind": "talk",
+          "title": "Neil has spent more than 20 years convincing large organisations that desktops do not necessarily need to live under desks. He has worked with Citrix since the WinFrame and MetaFrame days, which makes him old enough to remember when “the cloud” was mainly a weather-related availability risk.",
+          "description": "A ex-Citrix Technology Professional since 2013 and a TOGAF-certified Enterprise Architect, and more recently a Microsoft MVP, Neil has accumulated enough acronyms to make a network diagram look concise. He has contributed to Citrix certification exams, delivered large XenApp environments, and has strong opinions on virtualisation, EUC, cloud platforms, automation, and why “it worked in test” is not an operational strategy.\n\nNeil now works across Microsoft, Azure, Windows 365, VDI, infrastructure, automation, containers, AI tooling and whatever other technology someone has bought before asking how it integrates. He is equally at home designing enterprise architecture, debugging an obscure issue at 2am, playing with Raspberry Pi or Home Assistant or explaining why the answer is not always “just put it in Kubernetes”.\n\nA familiar face in the UK and European EUC community, Neil is on the steering group of EUC Forum and has run community events in the UK for over 15 years and has spoken at numerous E2E/PubForum, iForum and Synergy events.\n\nOutside work, Neil is a STEM Ambassador, former Code Club leader, supporter of diversity in technology, and proof that a career in IT can begin with server-based computing and somehow end with AI, Docker and an ever-growing collection of USB-C adapters.",
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-15T12:10:21Z"
+          }
+        },
+        {
+          "id": "16-bye-bye-fas-achieving-pure-citrix-sso-with-netscaler-and-ent",
+          "start": "12:50",
+          "end": "13:05",
+          "kind": "talk",
+          "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID (intro)",
+          "description": "With the release of Citrix 2607 LTSR, OpenID Connect (OIDC) is officially Generally Available (GA). This milestone marks a massive shift for Citrix architects: you can finally say goodbye to the complexity of Citrix Federated Authentication Service (FAS) on-premise. In this session, Thomas Poppelgaard shares a real-world case study of a greenfield Citrix 2607 LTSR deployment. The client required full Microsoft MFA with a seamless, pure Single Sign-On (SSO) experience—without the baggage of an internal Certificate Authority (PKI) or Citrix FAS infrastructure. We will dive deep into the end-to-end architecture, covering the exact configurations needed across:\n\nMicrosoft Entra ID (Enterprise Applications and MFA)\n\nNetScaler (IdP and traffic management)\n\nCitrix Studio \u0026 Delivery Controllers (2607 LTSR native policies)\n\nCitrix StoreFront (Modern authentication integration)\n\nAttendees will leave this session with a practical, enterprise-ready blueprint to simplify their identity stack, reduce infrastructure overhead, and eliminate FAS maintenance for good.",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
               "bio": "is a Microsoft MVP, NVIDIA Enterprise Platform Advisor (NEPA), Former Citrix Technology Professional (CTP), and founder of Poppelgaard.com ApS. He specializes in GPU-accelerated EUC, Azure Virtual Desktop, Windows 365, and large-scale automation using platforms such as Hydra and Nerdio.\n\nThomas is a frequent international speaker and conference organizer (EUCtech Denmark, Experts Live Denmark) and works hands-on with complex enterprise and MSP environments across healthcare, defense, manufacturing, and reinsurance.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/TPop.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-15T12:10:21Z"
+          }
         },
         {
           "id": "16-the-next-wave-of-avd-and-windows-365-adoption-intro",
@@ -272,21 +313,6 @@
           ]
         },
         {
-          "id": "16-avd-hybrid-a-bridge-to-the-cloud-or-schrodinger-s-desktop-in",
-          "start": "14:50",
-          "end": "15:05",
-          "kind": "talk",
-          "title": "AVD Hybrid: A bridge to the cloud, or Schrodinger's desktop? (intro session)",
-          "description": "AVD Hybrid has the potential for the best of both worlds, access to on-prem VDIs that have low latency access to resources, with direct integration into the identity and access solution you're already likely using today. Does the reality match the promise? Has Microsoft written a cheque for AVD Hybrid that it cannot cash? In this session, Sean lifts the lid on the AVD Hybrid box and finds out if it's dead or alive, or something else entirely.",
-          "speakers": [
-            {
-              "name": "Sean Corrigan",
-              "bio": "Sean has been in the EUC space for over 15 years, wearing all the hats from helpdesk trainee to architect. Having spent almost a decade consulting and working full time with large financials, Sean is now helping others simplify and speed up the deployment of EUC environments in Azure, providing deeper insights and understanding of their workloads, while reducing costs.\n\nLinkedIn:\n\nwww.linkedin.com/in/mrseancorrigan",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SCHD.jpeg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ]
-        },
-        {
           "id": "16-ai-hype-vs-reality-2026-edition-intro-session",
           "start": "15:15",
           "end": "15:30",
@@ -300,7 +326,7 @@
             },
             {
               "name": "Gerjon Kunst",
-              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot & Copilot Studio), Speaker & Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact.\n\nAs AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value.\n\nAlongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use.\n\nAs a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance.\n\nIn February 2024, James O'Regan and Gerjon launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise."
+              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot \u0026 Copilot Studio), Speaker \u0026 Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact.\n\nAs AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value.\n\nAlongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use.\n\nAs a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance.\n\nIn February 2024, James O'Regan and Gerjon launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise."
             }
           ],
           "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JOGK.jpg/:/rs=w:480,cg:true"
@@ -341,7 +367,7 @@
           "end": "16:40",
           "kind": "talk",
           "title": "Stop Giving AI Agents Your Desktop (intro session)",
-          "description": "The dominant CUA architecture — agent -> VM -> screenshot -> mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run on.",
+          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run on.",
           "speakers": [
             {
               "name": "Denis Gundarev",
@@ -383,7 +409,7 @@
           "end": "10:30",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Architecting Sovereign DaaS: Transforming Legacy VDI -> Cloud-Native Private Cloud VDI Platform",
+          "title": "Architecting Sovereign DaaS: Transforming Legacy VDI -\u003e Cloud-Native Private Cloud VDI Platform",
           "description": "This 30-minute session outlines an enterprise architecture blueprint for transforming an established on-premises Citrix estate into a sovereign, automated Desktop-as-a-Service (DaaS) model inside a private cloud. We examine the architectural decoupling of the control plane from the workload execution layer, enabling zero-touch lifecycle management, automated image pipelines (BYOI), and standardized T-shirt sizing through ITSM self-service integration. Furthermore, the presentation walks through a phased migration roadmap that balances operational continuity with multi-stack resilience across private data centers, while highlighting strategic trigger points for market evaluations and vendor-agnostic portability.",
           "speakers": [
             {
@@ -467,7 +493,7 @@
           "end": "11:10",
           "room": "Room 3",
           "kind": "talk",
-          "title": "Mastering Hydra & Nerdio for AVD and W365 (Part 2)",
+          "title": "Mastering Hydra \u0026 Nerdio for AVD and W365 (Part 2)",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
@@ -604,7 +630,7 @@
           "end": "14:10",
           "room": "Room 3",
           "kind": "talk",
-          "title": "Beyond Intune: Smarter Workspace & App Control with AppVentiX Inside (AI)",
+          "title": "Beyond Intune: Smarter Workspace \u0026 App Control with AppVentiX Inside (AI)",
           "description": "Intune is a great foundation for modern endpoint management, but managing the user workspace and controlling what applications can run requires more.\n\nIn this technical session, we’ll show how AppVentiX adds Workspace Control and App Control across modern, Intune-managed Windows endpoints, traditional on-premises environments, and everything in between. And while everyone is talking about AI, we’ll introduce our own interpretation: AppVentiX Inside.\n\nWe’ll revisit what we showed last year, demonstrate how your feedback shaped the product, and dive into the latest capabilities with real-world examples and live demos. Expect less slides, more tech, and a practical look at consistent workspace management and application control across your hybrid Windows estate.",
           "speakers": [
             {
@@ -637,7 +663,7 @@
           "room": "Room 2",
           "kind": "talk",
           "title": "Stop Giving AI Agents Your Desktop (Part 2)",
-          "description": "The dominant CUA architecture — agent -> VM -> screenshot -> mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
+          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
           "speakers": [
             {
               "name": "Denis Gundarev",
@@ -657,7 +683,7 @@
           "speakers": [
             {
               "name": "Gerjon Kunst",
-              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot & Copilot Studio), Speaker & Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact. As AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value. Alongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use. As a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance."
+              "bio": "Gerjon is AI Lead @ Interstellar Group, CTO @ RawWorks, Dual Microsoft MVP (M365 Copilot \u0026 Copilot Studio), Speaker \u0026 Podcast Host. Gerjon IS A incurable tech optimist with 25+ years of experience pushing the boundary between \"can't\" and \"can\" and then automating the boring bits. Today, he help organizations move from AI hype to real business impact. As AI Lead at Interstellar Group, his mission is simple: close the gap between AI ambition and AI results. He brings together AI expertise across the Interstellar ecosystem and help turn AI opportunities into practical solutions that deliver measurable business value. Alongside this role, he serves as CTO at RawWorks, where he help shape practical AI strategies, architectures, and ways of working that customers can actually use. As a Microsoft MVP in both M365 Copilot and Copilot Studio, he actively help organizations understand, adopt, and scale AI solutions that create real outcomes.\n\nGerjon is regular speaker at conferences, community events, and user groups, translating complex AI and technology trends into practical insights and actionable guidance."
             },
             {
               "name": "James O'Regan",
@@ -685,7 +711,7 @@
             },
             {
               "name": "Gerardo Luján Moltó",
-              "bio": "is an IT specialist with more than a decade of experience in Microsoft infrastructure, virtualization, and End-User Computing. Over the years, he has designed, implemented, and troubleshot enterprise environments based on technologies such as Microsoft RDS, Citrix Virtual Apps and Desktops, Parallels RAS, VMware, and hyperconverged infrastructures, combining hands-on technical expertise with solution architecture and technical presales. Currently leading Identity & Access initiatives, Gerardo bridges infrastructure, security, and modern workspace technologies. At EUC EUCDEX.Ai, he will share practical insights and real-world experiences from migrating VDI solutions to Parallels."
+              "bio": "is an IT specialist with more than a decade of experience in Microsoft infrastructure, virtualization, and End-User Computing. Over the years, he has designed, implemented, and troubleshot enterprise environments based on technologies such as Microsoft RDS, Citrix Virtual Apps and Desktops, Parallels RAS, VMware, and hyperconverged infrastructures, combining hands-on technical expertise with solution architecture and technical presales. Currently leading Identity \u0026 Access initiatives, Gerardo bridges infrastructure, security, and modern workspace technologies. At EUC EUCDEX.Ai, he will share practical insights and real-world experiences from migrating VDI solutions to Parallels."
             }
           ]
         },
@@ -731,14 +757,14 @@
           "room": "Room 1",
           "kind": "talk",
           "title": "AVD Hybrid: A bridge to the cloud, or Schrodinger's desktop? (intro session)",
-          "description": "AVD Hybrid has the potential for the best of both worlds, access to on-prem VDIs that have low latency access to resources, with direct integration into the identity and access solution you're already likely using today. Does the reality match the promise? Has Microsoft written a cheque for AVD Hybrid that it cannot cash? In this session, Sean lifts the lid on the AVD Hybrid box and finds out if it's dead or alive, or something else entirely.",
-          "speakers": [
-            {
-              "name": "Sean Corrigan",
-              "bio": "Sean has been in the EUC space for over 15 years, wearing all the hats from helpdesk trainee to architect. Having spent almost a decade consulting and working full time with large financials, Sean is now helping others simplify and speed up the deployment of EUC environments in Azure, providing deeper insights and understanding of their workloads, while reducing costs.\n\nLinkedIn:\n\nwww.linkedin.com/in/mrseancorrigan",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SCHD.jpeg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ]
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:10:21Z",
+            "what": [
+              "speakers",
+              "description"
+            ]
+          }
         },
         {
           "id": "17-euc-for-the-agentic-enterprise-the-workspace-as-a-secure-exe",
@@ -813,6 +839,20 @@
       ]
     }
   ],
+  "removed": [
+    {
+      "at": "2026-10-15T12:10:21Z",
+      "date": "2026-10-16",
+      "title": "Deep-Dive: Mastering Hydra \u0026 Nerdio for Azure Virtual Desktop and Windows 365 (intro session)",
+      "start": "12:50"
+    },
+    {
+      "at": "2026-10-15T12:10:21Z",
+      "date": "2026-10-16",
+      "title": "AVD Hybrid: A bridge to the cloud, or Schrodinger's desktop? (intro session)",
+      "start": "14:50"
+    }
+  ],
   "info": {
     "about": [
       "The Experts 2 Experts EUCDEX.Ai conference (formerly known as E2EVC/ E2EMVC / PubForum) is a global series of non-commercial events within the end user computing community. Our primary objective is to convene top server based computing, virtualization, cloud, onprem and end user computing experts for knowledge exchange and networking. EUCDEX.Ai offers a packed weekend featuring presentations, Master Classes, and discussions led by virtualization vendors' product teams and independent industry experts.",
@@ -823,7 +863,7 @@
       "title": "(E2E) EUCDEX.Ai MALTA, October 16 - 18, 2026",
       "details": [
         "The 62th E2E EUXDEX.Ai Conference will take place in Valletta, Malta on October 16-18, 2026.",
-        "The event will take place at the Conference & Events Unit Facility of University of Malta, Valletta Campus. Address: Saint Paul Street, Valletta, VLT, Malta.",
+        "The event will take place at the Conference \u0026 Events Unit Facility of University of Malta, Valletta Campus. Address: Saint Paul Street, Valletta, VLT, Malta.",
         "In case you have any questions about your existing registration please contact us CONFEU @ EUCDEXAI.COM."
       ],
       "terms": [
