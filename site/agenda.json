@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-15T12:10:21Z",
+  "updatedAt": "2026-10-15T12:15:23Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -165,8 +165,8 @@
         },
         {
           "id": "16-how-to-grow-a-second-brain-into-session",
-          "start": "11:20",
-          "end": "11:35",
+          "start": "11:25",
+          "end": "11:40",
           "kind": "talk",
           "title": "How to grow a second brain (into session)",
           "description": "Running complex projects is less about individual decisions and more about knowing how everything fits together. In this session, I will show you how to grow a practical markdown second brain helping speed things up, not replace judgment. We will walk a simple CLAW/VSCode-style loop: capture context, generate options, execute with human checkpoints, and write outcomes back for traceability. You will see concrete patterns for skills, prompt contracts, approval gates, and rollback-ready workflows, plus where automation should stop. Real experience, zero theater.",
@@ -176,11 +176,18 @@
               "bio": "Jim is a Principal Program Manager at Microsoft focused on Windows 365 for Agents and enterprise AI integration. A long-standing member of the EUC community, he works with customers and partners to explore how AI and cloud technologies can transform application delivery and modern workplace environments. At E2EVC Malta, he is presenting “Growing a Second Brain,” sharing how he uses a practical, markdown-based Second Brain to keep knowledge, decisions, and AI-assisted work connected and useful. He also runs around a lot and drinks tea. LinkedIn https://www.linkedin.com/in/jimmoyle/ GitHub https://github.com/JimMoyle.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JMSH.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "time"
+            ]
+          }
         },
         {
           "id": "16-a-year-of-cvad-and-daas-intro",
-          "start": "11:40",
+          "start": "11:45",
           "end": "12:00",
           "kind": "talk",
           "title": "A Year of CVAD and DaaS (intro)",
@@ -191,14 +198,21 @@
               "bio": "Jason is a longtime member of the end-user computing community, technologist, advisor, and speaker with nearly three decades of experience across EUC, virtualization, cloud, automation, and security.\n\nOver the years, he has been recognized through several industry and community programs, including Citrix Technology Professional (CTP), VMware vExpert and EUC Champion, among others. Jason has worked with hundreds of enterprises around the world and has shared his experience at industry and community events across five continents.\n\nThroughout his career, Jason has remained closely involved with the EUC community, sharing practical experience and perspectives gained from working with customers, partners, and technology teams around the world. Today, he is also a product leader at Citrix, bringing both practitioner and product perspectives to the technologies he has spent much of his career working with.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JS-HD.png/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "time"
+            ]
+          }
         },
         {
           "id": "16-implementing-microsoft-entra-private-access-for-1000-users-a",
           "start": "12:05",
           "end": "12:20",
           "kind": "talk",
-          "title": "Implementing Microsoft Entra Private Access for 1000+ Users: A Real-World Journey (intro session)",
+          "title": "Implementing Microsoft Entra Private Access for 1000+ Users: A Real-World Journey (intro)",
           "description": "Discover how Microsoft Entra Private Access revolutionizes secure access to private corporate resources by eliminating traditional VPN complexities with a modern Zero Trust approach. In this session, we will explore:\n\nWhat is Microsoft Entra Private Access?\n\nLearn the fundamentals of Microsoft’s cloud-delivered secure access solution, its key features such as identity-centric controls, conditional access, multi-factor authentication, and per-app adaptive access that provide seamless and secure connectivity for remote and on-premises users across hybrid environments.\n\nHow to Implement Microsoft Entra Private Access at Scale Dive into a practical, real-world case study of deploying Entra Private Access in an enterprise with more than 1,000 users. Understand step-by-step how to configure enterprise applications, set up connectors, apply granular access policies, and roll out secure access without disrupting user productivity.\n\nLessons Learned and Best Practices Gain invaluable insights from the implementation journey, including challenges encountered, strategies for effective segmentation and policy enforcement, user adoption tips, and integration with existing Microsoft 365 security frameworks to maximize security and usability.\n\nWhether you are planning to modernize your network access strategy or looking for proven solutions to secure your private applications, this session will provide a comprehensive roadmap and actionable takeaways to empower your organization’s Zero Trust journey with Microsoft Entra Private Access.",
           "speakers": [
             {
@@ -209,7 +223,14 @@
               "name": "Gerjon Kunst",
               "bio": "Gerjon CTO@RawWorks| Micosoft MVP | AI| EUC| CLOUD| MCT | CTA .\n\nGerjon is CTO at RawWorks in het Netherlands, focusing on AI, future Workspace and Cloud. He has been awarded the Microsoft MVP tile for his work in AI. Gerjon has 25 years of experience in the IT business starting as a system engineer working his way up to a IT pro with broad and in depth knowledge of AI, Workspace and Cloud. Gerjon is a known presenter on Expertslive, Azure/M365/Citrix User Groups and E2EVC. He has a Podcast called the Impact of AI: Explored with James 'O Regan and as he is a Microsoft Certified Trainer you might have met him in a classroom somewhere."
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "title"
+            ]
+          }
         },
         {
           "id": "16-practical-enterprise-ai-adoption",
@@ -227,28 +248,6 @@
           "changed": {
             "kind": "new",
             "at": "2026-10-15T12:10:21Z"
-          }
-        },
-        {
-          "id": "16-when-private-equity-hijacks-your-it-budget-how-we-escaped-a",
-          "start": "12:50",
-          "end": "13:05",
-          "kind": "talk",
-          "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
-          "speakers": [
-            {
-              "name": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
-              "bio": "Soaring renewal quotes. Multi-year lock-ins. “All-you-can-eat” licences that leave a bitter aftertaste. When private-equity-owned EUC vendors rewrite the rules, your IT budget can quickly become their growth strategy. This is the real-world story of a 12k-seat renewal that became a six-month migration race. Learn how we HDeXited, what we replaced it with, and the practical decisions, trade-offs, and lessons that got us out."
-            }
-          ],
-          "changed": {
-            "kind": "updated",
-            "at": "2026-10-15T12:10:21Z",
-            "what": [
-              "time",
-              "speakers",
-              "description"
-            ]
           }
         },
         {
@@ -283,9 +282,29 @@
           }
         },
         {
+          "id": "16-when-private-equity-hijacks-your-it-budget-how-we-escaped-a",
+          "start": "13:40",
+          "end": "13:55",
+          "kind": "talk",
+          "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
+          "speakers": [
+            {
+              "name": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
+              "bio": "Soaring renewal quotes. Multi-year lock-ins. “All-you-can-eat” licences that leave a bitter aftertaste. When private-equity-owned EUC vendors rewrite the rules, your IT budget can quickly become their growth strategy. This is the real-world story of a 12k-seat renewal that became a six-month migration race. Learn how we HDeXited, what we replaced it with, and the practical decisions, trade-offs, and lessons that got us out."
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "time"
+            ]
+          }
+        },
+        {
           "id": "16-the-next-wave-of-avd-and-windows-365-adoption-intro",
-          "start": "14:00",
-          "end": "14:15",
+          "start": "14:25",
+          "end": "14:40",
           "kind": "talk",
           "title": "The Next Wave of AVD and Windows 365 Adoption (intro)",
           "description": "21 years in End User Computing, and I watched the first AVD and Windows 365 deployments stick to the easy jobs.\n\nCall centres. Task workers. Lightly managed desktops.\n\nKnowledge workers are a different problem. More apps, more dependencies, more user state, and far less tolerance for a slow login.\n\nThis session covers what changes when you scale AVD and Windows 365 to that population:\n\nApplication delivery and management without rebuilding images every time something changes User onboarding and profile management at scale Visibility into performance and user experience across the environment The operational blockers that stall large deployments, and how people are getting past them We'll also look at where the platform and the ecosystem around it are heading, and what that means for your next rollout.",
@@ -295,12 +314,19 @@
               "bio": "is a Product Marketing Manager and Community Lead at Liquidware, bringing 21 years of End User Computing (EUC) experience across the realities of desktops, VDI, and the day-to-day grind of keeping users productive.\n\nHe combines deep technical credibility with commercial storytelling: turning complex EUC challenges into clear messaging that resonates with IT teams, leaders, and partners.\n\nHe is active in the wider EUC community, regularly collaborating with peers across the industry and speaking at events such as E2EVC.\n\nIn February 2024, James and Gerjon Kunst launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JO_HD.png/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "time"
+            ]
+          }
         },
         {
           "id": "16-enabling-ai-agents-to-operate-desktop-applications-like-peop",
-          "start": "14:25",
-          "end": "14:40",
+          "start": "14:50",
+          "end": "15:05",
           "kind": "talk",
           "title": "Enabling AI Agents to Operate Desktop Applications Like People (intro session)",
           "description": "Most enterprise workflows run on desktop applications that lack modern APIs, putting them out of reach of AI automation. Amazon WorkSpaces agent access lets AI agents securely operate these applications through managed virtual desktops and the Model Context Protocol (MCP), with no application changes required. In this session we walk through the architecture, demonstrate agents automating workflows such as data entry and application testing, and show how to monitor and audit agent activity with CloudWatch and CloudTrail.",
@@ -310,7 +336,14 @@
               "bio": "Andrew came to AWS in 2019 from a large datacenter environment where he specialized VMware, Cisco UCS, and automation. His AWS career began on the Windows team in Premium Support. By 2020, he was the Lead Subject Matter Expert on Amazon WorkSpaces. He then transitioned to a Solutions Architecture role specializing in End User Computing (EUC). Through his work on EUC services, he developed a passion for the DCV streaming protocol. In 2022, he started his current role as the DCV Developer Advocate.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/AWM.png/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-15T12:15:23Z",
+            "what": [
+              "time"
+            ]
+          }
         },
         {
           "id": "16-ai-hype-vs-reality-2026-edition-intro-session",
