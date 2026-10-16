@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-16T12:56:26Z",
+  "updatedAt": "2026-10-16T19:54:31Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -101,7 +101,6 @@
     {
       "date": "2026-10-16",
       "title": "Main conference, day 1",
-      "updating": true,
       "sessions": [
         {
           "id": "16-welcome-session",
@@ -375,7 +374,6 @@
     {
       "date": "2026-10-17",
       "title": "Main conference, day 2",
-      "updating": true,
       "rooms": [
         "Room 1",
         "Room 2",
@@ -472,7 +470,7 @@
           "end": "11:10",
           "room": "Room 3",
           "kind": "talk",
-          "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID (PART 2)",
+          "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
@@ -482,27 +480,35 @@
           ],
           "changed": {
             "kind": "updated",
-            "at": "2026-10-16T12:00:58Z",
+            "at": "2026-10-16T19:54:31Z",
             "what": [
-              "description"
+              "title"
             ]
           }
         },
         {
-          "id": "17-how-remoting-protocols-move-the-world-across-the-wire",
+          "id": "17-beyond-the-portal-native-avd-orchestration-without-third-par",
           "start": "11:20",
           "end": "12:00",
           "room": "Room 1",
           "kind": "talk",
-          "title": "How Remoting Protocols Move the World Across the Wire",
-          "description": "A deep technical tour of how remoting protocols shuttle devices, applications, and media streams between endpoints. We’ll compare redirection models for USB, printers, audio, webcams, file systems, clipboards, COM automation, graphics, and app virtualization.",
+          "title": "Beyond the Portal: Native AVD Orchestration Without Third-Party Tooling",
+          "description": "Learn and see how itopia built an AVD solution for hundreds of customers and thousands of concurrent users without any third party tooling making for a simpler, more robust and supportable stack",
           "speakers": [
             {
-              "name": "Denis Gundarev",
-              "bio": "has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft. His work focuses on remoting protocols, session infrastructure, graphics, SDKs, and computer-use agents, especially making desktop environments reliable for both humans and AI.\n\nLinkedIn: https://www.linkedin.com/in/dgundarev/",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
+              "name": "Guy Leech",
+              "bio": "Guy is an EUC veteran with over 30 years of hands-on experience in that field having worked for software vendors and partners in that space since 1995. He also has software development skills spanning 5 decades. Guy is currently the CTO at itopia - a US based EdTech company delivering VDI to students from both Google Cloud and Azure. Watch out for the odd Dad joke too!\n\nLinkedIn: https://www.linkedin.com/in/guyrleech",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m",
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time"
+            ]
+          }
         },
         {
           "id": "17-post-quantum-cryptography-pqc-a-new-encryption-era-till-2030",
@@ -531,25 +537,31 @@
           "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GGHD.jpg/:/rs=w:240,h:240,cg:true,m"
         },
         {
-          "id": "17-building-your-own-remote-protocol-extensions-a-practical-gui",
+          "id": "17-building-your-own-iac-for-on-premises-cvad-build-it-shape-it",
           "start": "12:10",
           "end": "12:50",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Building Your Own Remote Protocol Extensions: A Practical Guide to Plugins and Virtual CH",
-          "description": "This session demystifies how modern remoting protocols can be extended to support in-house workflows. We’ll explore the architecture of virtual channels, how data travels between client and host, and the security boundaries shaping extension design. Attendees will walk through the lifecycle of a plugin: idea, implementation and development. Whether you're adding data synchronization, workflow automation, or a custom device redirection path, you’ll leave with a clear blueprint for building and deploying protocol extensions.",
+          "title": "Building Your Own IaC for on-premises CVAD: build it, shape it, keep it running (intro session)",
+          "description": "This session walks through the full lifecycle of an on-premises CVAD site, run entirely from code: an unattended install, its base configuration, and then a daily desired state run that corrects drift before anyone notices. A monthly pipeline replaces every certificate in the environment, server certificates included, and a set of health checks repairs what it finds broken instead of only reporting it. None of it goes through Studio.",
           "speakers": [
             {
-              "name": "Denis Gundarev",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
+              "name": "Jeroen Meppelink",
+              "bio": "Jeroen is a lead infrastructure engineer specialising in Citrix, End User Computing and Infrastructure as Code. He works in a large, heavily regulated enterprise environment, where automation has to survive real security and compliance constraints rather than a lab. His focus is desired state management of Citrix estates: automated builds, drift correction and certificate rotation without a console in sight.\n\nLinks:\n\nhttps://meppie.eu/ https://www.linkedin.com/in/jeroenmeppelink",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JeroenM.jpeg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JeroenM.jpeg/:/rs=w:240,h:240,cg:true,m",
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-16T19:54:31Z"
+          }
         },
         {
           "id": "17-from-idea-to-demo-how-ai-helped-deliver-session-recording-at",
           "start": "12:10",
           "end": "12:50",
-          "room": "Room 1",
+          "room": "Room 2",
           "kind": "talk",
           "title": "From Idea to Demo: How AI helped deliver Session Recording at Parallels",
           "description": "In this session we’ll walk you through the requirement and the timeline for delivery of a new feature. We’ll summarise how AI accelerated the development cycle and we’ll finish by demoing how we have implemented Session Recording.",
@@ -559,56 +571,77 @@
               "bio": "is Vice President of Engineering with over 30 years of experience in End User Computing (EUC), spanning technologies from IBM mainframe environments to modern cloud and enterprise platforms. Throughout his career, he has led the design and delivery of software solutions across a wide range of technologies and industries. Passionate about software development and engineering excellence, Paul combines deep technical expertise with extensive leadership experience to help organizations innovate, scale, and deliver impactful customer outcomes.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/PGAF-HD.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "room"
+            ]
+          }
         },
         {
-          "id": "17-ctx-profile-container-vs-fslogix-new-features-field-war-stor",
+          "id": "17-azure-virtual-desktop-hybrid-why-what-and-how-much",
           "start": "12:10",
           "end": "12:50",
           "room": "Room 3",
           "kind": "talk",
-          "title": "CTX Profile Container vs. FSLogix – New Features, Field War Stories, and What Really Changed",
-          "description": "In this session, we revisit the Profile Container Wars with fresh eyes. We’ll explore what has changed since our last talk, highlight the most interesting new features and fixes, and share war stories from the field, including the clever workarounds, the “why did nobody tell us this?” gotchas, and the moments where theory met reality in the least graceful way. Expect a look at how Citrix Profile Management and FSLogix have evolved, what actually matters in production environments today, and where the hidden traps (and occasional victories) lie.",
+          "title": "Azure Virtual Desktop Hybrid: Why, What, and How Much?",
+          "description": "Everyone loves the Azure Virtual Desktop control plane. Not everyone loves moving their workloads to Azure!\n\nSo, can you keep your session hosts on-premises and still benefit from AVD?\n\nIs AVD Hybrid the best of both worlds, or just another acronym Microsoft expects us to understand? Will it help solve compliance and latency challenges?\n\nAnd perhaps the most important question of all: how much is it going to cost? In this session, we'll explore what AVD Hybrid is, why organizations should care, what we know so far, and how licensing and pricing compare to existing solutions. We'll separate facts from assumptions, marketing from reality and try to answer the question everyone is asking:\n\nIs AVD Hybrid actually worth it?",
           "speakers": [
             {
               "name": "Markus Zehnle",
               "bio": "Markus is a Lead Solution Expert at braincon and is based in Germany's Black Forest region with more than 20 years of experience in IT and End User Computing (EUC). He is a co-founder of EUCforumDE, an active member of the World of EUC and ControlUp Communities, and a Nerdio Valued Professional (NVP). When he's not helping customers design and optimize modern workplace solutions, he enjoys spending time with his two kids at Europa-Park, which he still believes would be a perfect location for an future E2E event.",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/MZHD.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-16T19:54:31Z"
+          }
         },
         {
-          "id": "17-beyond-the-portal-native-avd-orchestration-without-third-par",
+          "id": "17-deep-dive-cup",
           "start": "13:30",
           "end": "14:10",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Beyond the Portal: Native AVD Orchestration Without Third-Party Tooling",
-          "description": "Learn and see how itopia built an AVD solution for hundreds of customers and thousands of concurrent users without any third party tooling making for a simpler, more robust and supportable stack",
+          "title": "Deep dive cup",
+          "description": "1.5 hour of Deep dive into ControlUp",
           "speakers": [
             {
-              "name": "Guy Leech",
-              "bio": "Guy is an EUC veteran with over 30 years of hands-on experience in that field having worked for software vendors and partners in that space since 1995. He also has software development skills spanning 5 decades. Guy is currently the CTO at itopia - a US based EdTech company delivering VDI to students from both Google Cloud and Azure. Watch out for the odd Dad joke too!\n\nLinkedIn: https://www.linkedin.com/in/guyrleech",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m"
+              "name": "Sam Legrand",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SM.jpg/:/rs=w:240,h:240,cg:true,m"
             }
           ],
-          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/GL-a1a2bea.jpg/:/rs=w:240,h:240,cg:true,m"
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-16T19:54:31Z"
+          }
         },
         {
-          "id": "17-a-year-of-cvad-and-daas-part-2",
+          "id": "17-enabling-ai-agents-to-operate-desktop-applications-like-peop",
           "start": "13:30",
           "end": "14:10",
           "room": "Room 2",
           "kind": "talk",
-          "title": "A Year of CVAD and DaaS (Part 2)",
-          "description": "Citrix shipped a lot into CVAD and DaaS this year. Twelve months of it, pulled into one session, with ship dates and minimum versions on the slides so you can tell straight away whether something applies to the release you are on. Identity, provisioning, protocol and operations. Some of it can be turned on this week. Some needs a VDA upgrade first, and the session says which is which. Interrupt whenever. The goal is to make this the longest session of the day.",
+          "title": "Enabling AI Agents to Operate Desktop Applications Like People (PART 2)",
+          "description": "Most enterprise workflows run on desktop applications that lack modern APIs, putting them out of reach of AI automation. Amazon WorkSpaces agent access lets AI agents securely operate these applications through managed virtual desktops and the Model Context Protocol (MCP), with no application changes required. In this session we walk through the architecture, demonstrate agents automating workflows such as data entry and application testing, and show how to monitor and audit agent activity with CloudWatch and CloudTrail.",
           "speakers": [
             {
-              "name": "Jason Samuel",
-              "bio": "Jason is a longtime member of the end-user computing community, technologist, advisor, and speaker with nearly three decades of experience across EUC, virtualization, cloud, automation, and security. Over the years, he has been recognized through several industry and community programs, including Citrix Technology Professional (CTP), VMware vExpert and EUC Champion, among others. Jason has worked with hundreds of enterprises around the world and has shared his experience at industry and community events across five continents.\n\nThroughout his career, Jason has remained closely involved with the EUC community, sharing practical experience and perspectives gained from working with customers, partners, and technology teams around the world. Today, he is also a product leader at Citrix, bringing both practitioner and product perspectives to the technologies he has spent much of his career working with.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JS-HD.png/:/rs=w:240,h:240,cg:true,m"
+              "name": "Andrew Morgan",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/AWM.png/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time",
+              "room",
+              "title"
+            ]
+          }
         },
         {
           "id": "17-beyond-intune-smarter-workspace-app-control-with-appventix-i",
@@ -627,42 +660,29 @@
           ]
         },
         {
-          "id": "17-unwelding-the-endpoint-apps-off-the-image-windows-off-the-ha",
+          "id": "17-cup-deep-dive",
           "start": "14:20",
           "end": "15:00",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Unwelding the Endpoint: Apps Off the Image, Windows Off the Hardware, Evidence Off the Console",
-          "description": "Your apps are welded into the image, your OS is welded to the hardware, and your telemetry lives in somebody else's console. That was survivable when attacks were written by hand. It is a different proposition now that they are AI-driven and arrive faster than your change window, and now that plenty of what touches your endpoints is not a person at all. Taking the three layers apart changes what you can deliver to a human user, what you can deliver to a non-human one, and how fast you recover when something moves through the fleet at machine speed. Bring your worst image and your worst recovery story.",
+          "title": "Cup deep dive",
+          "description": "1.5 hour of Deep dive into ControlUp",
           "speakers": [
             {
-              "name": "Jason Samuel",
-              "bio": "Jason is a longtime member of the end-user computing community, technologist, advisor, and speaker with nearly three decades of experience across EUC, virtualization, cloud, automation, and security. Over the years, he has been recognized through several industry and community programs, including Citrix Technology Professional (CTP), VMware vExpert and EUC Champion, among others. Jason has worked with hundreds of enterprises around the world and has shared his experience at industry and community events across five continents.\n\nThroughout his career, Jason has remained closely involved with the EUC community, sharing practical experience and perspectives gained from working with customers, partners, and technology teams around the world. Today, he is also a product leader at Citrix, bringing both practitioner and product perspectives to the technologies he has spent much of his career working with.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JS-HD.png/:/rs=w:240,h:240,cg:true,m"
+              "name": "Sam Legrand",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SM.jpg/:/rs=w:240,h:240,cg:true,m"
             }
-          ]
-        },
-        {
-          "id": "17-stop-giving-ai-agents-your-desktop-part-2",
-          "start": "14:20",
-          "end": "15:00",
-          "room": "Room 2",
-          "kind": "talk",
-          "title": "Stop Giving AI Agents Your Desktop (Part 2)",
-          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
-          "speakers": [
-            {
-              "name": "Denis Gundarev",
-              "bio": "has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft. His work focuses on remoting protocols, session infrastructure, graphics, SDKs, and computer-use agents, especially making desktop environments reliable for both humans and AI.\n\nLinkedIn: https://www.linkedin.com/in/dgundarev/",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ]
+          ],
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-16T19:54:31Z"
+          }
         },
         {
           "id": "17-ai-hype-vs-reality-2026-edition-part-2",
           "start": "14:20",
           "end": "15:00",
-          "room": "Room 3",
+          "room": "Room 2",
           "kind": "talk",
           "title": "AI Hype vs Reality 2026 edition (Part 2)",
           "description": "The 'Impact of AI Explored' podcast has built a reputation for honest conversations about AI's real-world potential and limitations. In this session, James O'Regan and Gerjon Kunst share surprising findings from their most compelling episodes: * Why AI is simultaneously overhyped and under hyped * Private AI: building proprietary models that don't leak corporate data * Enterprise adoption patterns: where AI is actually delivering ROI * The gap between AI innovation and practical workforce implementation We also made some 2025 predictions and we’ll look at what hit, what missed, what surprised us. Also we'll take a look at what the rest of 2026 (and perhaps a small peak into 2027) will bring us on AI based This is for anyone making decisions about AI investment, technologists building with AI, and anyone curious about what the noise is actually about.",
@@ -677,7 +697,33 @@
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JO_HD.png/:/rs=w:240,h:240,cg:true,m"
             }
           ],
-          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JORGKT_.jpg/:/rs=w:480,cg:true"
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JORGKT_.jpg/:/rs=w:480,cg:true",
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "room"
+            ]
+          }
+        },
+        {
+          "id": "17-euc-for-the-agentic-enterprise-workspace-as-a-secure-executi",
+          "start": "14:20",
+          "end": "15:00",
+          "room": "Room 3",
+          "kind": "talk",
+          "title": "EUC for the Agentic Enterprise - Workspace as a Secure Execution Layer for Agentic AI (PART 2)",
+          "description": "Enterprises spent years and significant capital building sophisticated EUC and VDI estates. As remote-work patterns normalized, SaaS adoption accelerated, renewal pressures increased, and alternative application and desktop delivery models matured, many organizations began to reassess the long-term strategic role of those environments.\n\nAgentic AI should force organizations to reassess the value of their existing EUC platforms and the role those platforms can play in the controlled integration of autonomous agents into the enterprise.\n\nThis does not remove the need to modernize authentication, migrate appropriate services out of legacy data centers, improve data governance, or address technical debt. In fact, agentic AI makes those modernization efforts more important. But many of the architectural and operational principles required to run EUC well controlled execution, identity-based access, application entitlement, isolation, policy enforcement, observability, lifecycle management, and operational accountability closely resemble the disciplines enterprises will need when introducing autonomous software.\n\nAt the same time, the EUC ecosystem itself is evolving. Agent identities, managed execution environments, Conditional Access for agents, MCP gateways, Cloud PCs for agents, and AI-specific policy controls are beginning to blur the line between the traditional user workspace and a governed execution environment for software actors.\n\nThis session explores whether mature EUC architecture can provide a practical starting point for secure agentic AI adoption. We will examine what translates well, what does not, and what still needs to be modernized before agents can be introduced safely at enterprise scale.\n\nAttendees will leave with an understanding of how agentic AI changes familiar EUC assumptions around identity, execution, applications, data, and trust. The session will explore how established EUC design principles may translate into agent governance; where Citrix, Windows 365, AVD, Horizon, and similar platforms could play a role as controlled execution environments; why legacy applications may keep EUC relevant in an agentic world; and what still has to change across authentication, data governance, DLP, observability, lifecycle management, and cloud architecture.",
+          "speakers": [
+            {
+              "name": "Jeremy Ingram",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JIHD.jpg/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "new",
+            "at": "2026-10-16T19:54:31Z"
+          }
         },
         {
           "id": "17-notes-from-the-field-how-parallels-tackles-real-challenges",
@@ -702,26 +748,10 @@
           ]
         },
         {
-          "id": "17-ai-home-with-hardware-you-probably-can-t-afford",
-          "start": "15:10",
-          "end": "15:50",
-          "room": "Room 2",
-          "kind": "talk",
-          "title": "AI @Home with hardware you probably can't afford.",
-          "description": "Running modern AI workloads locally promises total data privacy, zero API throttling, and the sheer joy of independent compute—provided you don’t look at the bill. While the open-source community often champions lightweight quantization and modest home-lab setups, truly uncompromised local inference and fine-tuning demand serious enterprise-grade silicon, multi-GPU topologies, and infrastructure that pushes residential power circuits to their absolute limit. This 20-minute talk delivers concrete architectural models from sub-$100 single-task hardware and pragmatic consumer setups to high-end multi-GPU workstations and no-limits enterprise silicon where power and budget cease to exist.",
-          "speakers": [
-            {
-              "name": "Saša Mašić",
-              "bio": "Saša is Lead Enterprise Architect at BWI GmbH and part of the architecture management team. He spends most of his time with application delivery, infrastructure, and infrastructure management projects. Saša started his journey in server-based computing space during his bachelor thesis with first contact with virtualisation technology on GSX 1.0 an ESX 1.0 Beta. E2EVC has had a big impact on his career since 2005 and is proud (Alex please fill here my actual achievement) of E2EVC. Is easy to grow among gorgeous people. Always happy and grateful for the opportunity to present on E2EVC. Works for living, happily married, father of two teenagers. In his spare time Saša is Basketball trainer in 5th German basketball league and is heavily trying to connect with his kids (teenagers are not easy to connect to).",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SM.PNG/:/rs=w:240,h:240,cg:true,m"
-            }
-          ]
-        },
-        {
           "id": "17-from-scripts-to-strategy-scaling-infrastructure-as-code-for",
           "start": "15:10",
           "end": "15:50",
-          "room": "Room 3",
+          "room": "Room 2",
           "kind": "talk",
           "title": "From Scripts to Strategy: Scaling Infrastructure as Code for the Enterprise",
           "description": "Everyone can write Infrastructure as Code. But building it for the enterprise? That’s a different game.\n\nAfter years of hands-on experience applying IaC and DevOps practices in large-scale organizations, this session cuts through the theory and shares what actually works in the real world. Moving beyond isolated scripts and proof-of-concepts, we’ll explore how to design IaC that is scalable, maintainable, and ready for enterprise complexity.\n\nYou’ll learn how to structure your codebase for growth, implement effective branching strategies, and establish version control practices that support collaboration across teams. We’ll also cover how to scale deployments across environments, avoid common pitfalls, and turn fragmented automation into a consistent, governed platform.\n\nWhether you're just starting or already working with IaC, this session will help you elevate your approach from “it works” to “it works at scale.”\n\nWalk away with practical insights to transform your IaC projects into enterprise-grade solutions.",
@@ -734,48 +764,65 @@
               "name": "Ryan Ververs-Bijkerk",
               "bio": "Technologist at GO-INIT, Ryan is a self-employed Technologist at GO-INIT focused on the EUC and Code area. Ryan is primarily focusing on the user experience in centralized desktop environments. With his development skills, Ryan is capable of adapting quickly to customers’ needs by having an agile mindset. Ryan is a bit lazy, yes lazy but in a good way. Ryan is all about automation as he is not made for repeating tasks."
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "room"
+            ]
+          }
         },
         {
-          "id": "17-enabling-ai-agents-to-operate-desktop-applications-like-peop",
+          "id": "17-unwelding-the-endpoint-apps-off-the-image-windows-off-the-ha",
+          "start": "15:10",
+          "end": "15:50",
+          "room": "Room 3",
+          "kind": "talk",
+          "title": "Unwelding the Endpoint: Apps Off the Image, Windows Off the Hardware, Evidence Off the Console",
+          "description": "Your apps are welded into the image, your OS is welded to the hardware, and your telemetry lives in somebody else's console. That was survivable when attacks were written by hand. It is a different proposition now that they are AI-driven and arrive faster than your change window, and now that plenty of what touches your endpoints is not a person at all. Taking the three layers apart changes what you can deliver to a human user, what you can deliver to a non-human one, and how fast you recover when something moves through the fleet at machine speed. Bring your worst image and your worst recovery story.",
+          "speakers": [
+            {
+              "name": "Jason Samuel",
+              "bio": "Jason is a longtime member of the end-user computing community, technologist, advisor, and speaker with nearly three decades of experience across EUC, virtualization, cloud, automation, and security. Over the years, he has been recognized through several industry and community programs, including Citrix Technology Professional (CTP), VMware vExpert and EUC Champion, among others. Jason has worked with hundreds of enterprises around the world and has shared his experience at industry and community events across five continents.\n\nThroughout his career, Jason has remained closely involved with the EUC community, sharing practical experience and perspectives gained from working with customers, partners, and technology teams around the world. Today, he is also a product leader at Citrix, bringing both practitioner and product perspectives to the technologies he has spent much of his career working with.",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JS-HD.png/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time",
+              "room"
+            ]
+          }
+        },
+        {
+          "id": "17-the-next-wave-of-avd-and-windows-365-adoption-part-2",
           "start": "16:00",
           "end": "16:40",
           "room": "Room 1",
           "kind": "talk",
-          "title": "Enabling AI Agents to Operate Desktop Applications Like People (intro session)",
-          "description": "Most enterprise workflows run on desktop applications that lack modern APIs, putting them out of reach of AI automation. Amazon WorkSpaces agent access lets AI agents securely operate these applications through managed virtual desktops and the Model Context Protocol (MCP), with no application changes required. In this session we walk through the architecture, demonstrate agents automating workflows such as data entry and application testing, and show how to monitor and audit agent activity with CloudWatch and CloudTrail.",
+          "title": "The Next Wave of AVD and Windows 365 Adoption (PART 2)",
+          "description": "21 years in End User Computing, and I watched the first AVD and Windows 365 deployments stick to the easy jobs.\n\nCall centres. Task workers. Lightly managed desktops.\n\nKnowledge workers are a different problem. More apps, more dependencies, more user state, and far less tolerance for a slow login.\n\nThis session covers what changes when you scale AVD and Windows 365 to that population:\n\nApplication delivery and management without rebuilding images every time something changes User onboarding and profile management at scale Visibility into performance and user experience across the environment The operational blockers that stall large deployments, and how people are getting past them We'll also look at where the platform and the ecosystem around it are heading, and what that means for your next rollout.",
           "speakers": [
             {
-              "name": "Andrew Morgan",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/AWM.png/:/rs=w:240,h:240,cg:true,m"
+              "name": "James O'Regan",
+              "bio": "is a Product Marketing Manager and Community Lead at Liquidware, bringing 21 years of End User Computing (EUC) experience across the realities of desktops, VDI, and the day-to-day grind of keeping users productive.\n\nHe combines deep technical credibility with commercial storytelling: turning complex EUC challenges into clear messaging that resonates with IT teams, leaders, and partners.\n\nHe is active in the wider EUC community, regularly collaborating with peers across the industry and speaking at events such as E2EVC.\n\nIn February 2024, James and Gerjon Kunst launched an AI podcast: The Impact of AI: Explored. The goal is simple: cut through the hype, translate what’s real into plain language, and help IT and EUC professionals make better decisions about AI based on practical experience, not vendor noise.",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JO_HD.png/:/rs=w:240,h:240,cg:true,m"
             }
           ],
+          "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JO_HD.png/:/rs=w:240,h:240,cg:true,m",
           "changed": {
             "kind": "new",
-            "at": "2026-10-16T10:20:14Z"
+            "at": "2026-10-16T19:54:31Z"
           }
-        },
-        {
-          "id": "17-euc-for-the-agentic-enterprise-the-workspace-as-a-secure-exe",
-          "start": "16:00",
-          "end": "16:40",
-          "room": "Room 2",
-          "kind": "talk",
-          "title": "EUC for the Agentic Enterprise - The Workspace as a Secure Execution Layer for Agentic AI (intro)",
-          "description": "Enterprises spent years and significant capital building sophisticated EUC and VDI estates. As remote-work patterns normalized, SaaS adoption accelerated, renewal pressures increased, and alternative application and desktop delivery models matured, many organizations began to reassess the long-term strategic role of those environments.\n\nAgentic AI should force organizations to reassess the value of their existing EUC platforms and the role those platforms can play in the controlled integration of autonomous agents into the enterprise.\n\nThis does not remove the need to modernize authentication, migrate appropriate services out of legacy data centers, improve data governance, or address technical debt. In fact, agentic AI makes those modernization efforts more important. But many of the architectural and operational principles required to run EUC well controlled execution, identity-based access, application entitlement, isolation, policy enforcement, observability, lifecycle management, and operational accountability closely resemble the disciplines enterprises will need when introducing autonomous software.\n\nAt the same time, the EUC ecosystem itself is evolving. Agent identities, managed execution environments, Conditional Access for agents, MCP gateways, Cloud PCs for agents, and AI-specific policy controls are beginning to blur the line between the traditional user workspace and a governed execution environment for software actors.\n\nThis session explores whether mature EUC architecture can provide a practical starting point for secure agentic AI adoption. We will examine what translates well, what does not, and what still needs to be modernized before agents can be introduced safely at enterprise scale.\n\nAttendees will leave with an understanding of how agentic AI changes familiar EUC assumptions around identity, execution, applications, data, and trust. The session will explore how established EUC design principles may translate into agent governance; where Citrix, Windows 365, AVD, Horizon, and similar platforms could play a role as controlled execution environments; why legacy applications may keep EUC relevant in an agentic world; and what still has to change across authentication, data governance, DLP, observability, lifecycle management, and cloud architecture.",
-          "speakers": [
-            {
-              "name": "Jeremy Ingram",
-              "bio": "Jeremy is a Consulting Architect with Ferroque Systems, specializing in Citrix virtualization and networking, modern workspace architecture, application and desktop delivery, identity modernization, and cloud transformation. He has worked in end-user computing since 2008 and joined Ferroque Systems in 2020. His consulting experience spans complex enterprise environments across multiple industries, with a focus on designing, modernizing, and operating secure digital workspace platforms at scale. Jeremy also contributes to Ferroque’s Modern Workspace practice, with a growing focus on Microsoft cloud, endpoint management, authentication, automation, and the impact of agentic AI on the future of EUC.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JIHD.jpg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ]
         },
         {
           "id": "17-engineering-an-ironman-ai-data-and-discipline-beyond-your-co",
           "start": "16:00",
           "end": "16:40",
-          "room": "Room 3",
+          "room": "Room 2",
           "kind": "talk",
           "title": "Engineering an IRONMAN: AI, Data, and Discipline Beyond Your Comfort Zone",
           "description": "What does it take to prepare for an IRONMAN? And what can it teach us about achieving ambitious goals in our professional lives?\n\nThis session explores our personal journey of training for an IRONMAN Triathlon through the lens of planning, data, and continuous improvement. Stepping far outside the comfort zone of a typical tech event, we’ll connect endurance sports with the same principles used in engineering and DevOps: iteration, feedback loops, and long-term strategy.",
@@ -788,7 +835,84 @@
               "name": "Ryan Ververs-Bijkerk",
               "bio": "Technologist at GO-INIT, Ryan is a self-employed Technologist at GO-INIT focused on the EUC and Code area. Ryan is primarily focusing on the user experience in centralized desktop environments. With his development skills, Ryan is capable of adapting quickly to customers’ needs by having an agile mindset. Ryan is a bit lazy, yes lazy but in a good way. Ryan is all about automation as he is not made for repeating tasks."
             }
-          ]
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "room"
+            ]
+          }
+        },
+        {
+          "id": "17-a-year-of-cvad-and-daas-part-2",
+          "start": "16:00",
+          "end": "16:40",
+          "room": "Room 2",
+          "kind": "talk",
+          "title": "A Year of CVAD and DaaS (Part 2)",
+          "description": "Citrix shipped a lot into CVAD and DaaS this year. Twelve months of it, pulled into one session, with ship dates and minimum versions on the slides so you can tell straight away whether something applies to the release you are on. Identity, provisioning, protocol and operations. Some of it can be turned on this week. Some needs a VDA upgrade first, and the session says which is which. Interrupt whenever. The goal is to make this the longest session of the day.",
+          "speakers": [
+            {
+              "name": "Jason Samuel",
+              "bio": "Jason is a longtime member of the end-user computing community, technologist, advisor, and speaker with nearly three decades of experience across EUC, virtualization, cloud, automation, and security. Over the years, he has been recognized through several industry and community programs, including Citrix Technology Professional (CTP), VMware vExpert and EUC Champion, among others. Jason has worked with hundreds of enterprises around the world and has shared his experience at industry and community events across five continents.\n\nThroughout his career, Jason has remained closely involved with the EUC community, sharing practical experience and perspectives gained from working with customers, partners, and technology teams around the world. Today, he is also a product leader at Citrix, bringing both practitioner and product perspectives to the technologies he has spent much of his career working with.",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/JS-HD.png/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time"
+            ]
+          }
+        },
+        {
+          "id": "17-ai-home-with-hardware-you-probably-can-t-afford",
+          "start": "16:40",
+          "end": "17:00",
+          "room": "Room 1",
+          "kind": "talk",
+          "title": "AI @Home with hardware you probably can't afford.",
+          "description": "Running modern AI workloads locally promises total data privacy, zero API throttling, and the sheer joy of independent compute—provided you don’t look at the bill. While the open-source community often champions lightweight quantization and modest home-lab setups, truly uncompromised local inference and fine-tuning demand serious enterprise-grade silicon, multi-GPU topologies, and infrastructure that pushes residential power circuits to their absolute limit. This 20-minute talk delivers concrete architectural models from sub-$100 single-task hardware and pragmatic consumer setups to high-end multi-GPU workstations and no-limits enterprise silicon where power and budget cease to exist.",
+          "speakers": [
+            {
+              "name": "Saša Mašić",
+              "bio": "Saša is Lead Enterprise Architect at BWI GmbH and part of the architecture management team. He spends most of his time with application delivery, infrastructure, and infrastructure management projects. Saša started his journey in server-based computing space during his bachelor thesis with first contact with virtualisation technology on GSX 1.0 an ESX 1.0 Beta. E2EVC has had a big impact on his career since 2005 and is proud (Alex please fill here my actual achievement) of E2EVC. Is easy to grow among gorgeous people. Always happy and grateful for the opportunity to present on E2EVC. Works for living, happily married, father of two teenagers. In his spare time Saša is Basketball trainer in 5th German basketball league and is heavily trying to connect with his kids (teenagers are not easy to connect to).",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/SM.PNG/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time",
+              "room"
+            ]
+          }
+        },
+        {
+          "id": "17-stop-giving-ai-agents-your-desktop-part-2",
+          "start": "16:40",
+          "end": "17:00",
+          "room": "Room 2",
+          "kind": "talk",
+          "title": "Stop Giving AI Agents Your Desktop (Part 2)",
+          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
+          "speakers": [
+            {
+              "name": "Denis Gundarev",
+              "bio": "has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft. His work focuses on remoting protocols, session infrastructure, graphics, SDKs, and computer-use agents, especially making desktop environments reliable for both humans and AI.\n\nLinkedIn: https://www.linkedin.com/in/dgundarev/",
+              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
+            }
+          ],
+          "changed": {
+            "kind": "updated",
+            "at": "2026-10-16T19:54:31Z",
+            "what": [
+              "time"
+            ]
+          }
         }
       ]
     },
@@ -829,6 +953,34 @@
     }
   ],
   "removed": [
+    {
+      "at": "2026-10-16T19:54:31Z",
+      "date": "2026-10-17",
+      "title": "Building Your Own Remote Protocol Extensions: A Practical Guide to Plugins and Virtual CH",
+      "start": "12:10",
+      "room": "Room 1"
+    },
+    {
+      "at": "2026-10-16T19:54:31Z",
+      "date": "2026-10-17",
+      "title": "EUC for the Agentic Enterprise - The Workspace as a Secure Execution Layer for Agentic AI (intro)",
+      "start": "16:00",
+      "room": "Room 2"
+    },
+    {
+      "at": "2026-10-16T19:54:31Z",
+      "date": "2026-10-17",
+      "title": "CTX Profile Container vs. FSLogix – New Features, Field War Stories, and What Really Changed",
+      "start": "12:10",
+      "room": "Room 3"
+    },
+    {
+      "at": "2026-10-16T19:54:31Z",
+      "date": "2026-10-17",
+      "title": "How Remoting Protocols Move the World Across the Wire",
+      "start": "11:20",
+      "room": "Room 1"
+    },
     {
       "at": "2026-10-16T12:00:58Z",
       "date": "2026-10-16",
