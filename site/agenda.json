@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-16T10:20:14Z",
+  "updatedAt": "2026-10-16T12:00:58Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -251,50 +251,6 @@
           }
         },
         {
-          "id": "16-when-private-equity-hijacks-your-it-budget-how-we-escaped-a",
-          "start": "13:40",
-          "end": "13:55",
-          "kind": "talk",
-          "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
-          "description": "Soaring renewal quotes. Multi-year lock-ins. “All-you-can-eat” licences that leave a bitter aftertaste. When private-equity-owned EUC vendors rewrite the rules, your IT budget can quickly become their growth strategy. This is the real-world story of a 12k-seat renewal that became a six-month migration race. Learn how we HDeXited, what we replaced it with, and the practical decisions, trade-offs, and lessons that got us out.",
-          "speakers": [
-            {
-              "name": "Neil Spellings",
-              "bio": "Neil has spent more than 20 years convincing large organisations that desktops do not necessarily need to live under desks. He has worked with Citrix since the WinFrame and MetaFrame days, which makes him old enough to remember when “the cloud” was mainly a weather-related availability risk.\n\nA ex-Citrix Technology Professional since 2013 and a TOGAF-certified Enterprise Architect, and more recently a Microsoft MVP, Neil has accumulated enough acronyms to make a network diagram look concise. He has contributed to Citrix certification exams, delivered large XenApp environments, and has strong opinions on virtualisation, EUC, cloud platforms, automation, and why “it worked in test” is not an operational strategy.\n\nNeil now works across Microsoft, Azure, Windows 365, VDI, infrastructure, automation, containers, AI tooling and whatever other technology someone has bought before asking how it integrates. He is equally at home designing enterprise architecture, debugging an obscure issue at 2am, playing with Raspberry Pi or Home Assistant or explaining why the answer is not always “just put it in Kubernetes”.\n\nA familiar face in the UK and European EUC community, Neil is on the steering group of EUC Forum and has run community events in the UK for over 15 years and has spoken at numerous E2E/PubForum, iForum and Synergy events.\n\nOutside work, Neil is a STEM Ambassador, former Code Club leader, supporter of diversity in technology, and proof that a career in IT can begin with server-based computing and somehow end with AI, Docker and an ever-growing collection of USB-C adapters.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/NSHD.jpg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ],
-          "changed": {
-            "kind": "updated",
-            "at": "2026-10-15T12:15:23Z",
-            "what": [
-              "time"
-            ]
-          }
-        },
-        {
-          "id": "16-bye-bye-fas-achieving-pure-citrix-sso-with-netscaler-and-ent",
-          "start": "14:05",
-          "end": "14:20",
-          "kind": "talk",
-          "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID (intro)",
-          "description": "With the release of Citrix 2607 LTSR, OpenID Connect (OIDC) is officially Generally Available (GA). This milestone marks a massive shift for Citrix architects: you can finally say goodbye to the complexity of Citrix Federated Authentication Service (FAS) on-premise. In this session, Thomas Poppelgaard shares a real-world case study of a greenfield Citrix 2607 LTSR deployment. The client required full Microsoft MFA with a seamless, pure Single Sign-On (SSO) experience—without the baggage of an internal Certificate Authority (PKI) or Citrix FAS infrastructure. We will dive deep into the end-to-end architecture, covering the exact configurations needed across:\n\nMicrosoft Entra ID (Enterprise Applications and MFA)\n\nNetScaler (IdP and traffic management)\n\nCitrix Studio \u0026 Delivery Controllers (2607 LTSR native policies)\n\nCitrix StoreFront (Modern authentication integration)\n\nAttendees will leave this session with a practical, enterprise-ready blueprint to simplify their identity stack, reduce infrastructure overhead, and eliminate FAS maintenance for good.",
-          "speakers": [
-            {
-              "name": "Thomas Poppelgaard",
-              "bio": "is a Microsoft MVP, NVIDIA Enterprise Platform Advisor (NEPA), Former Citrix Technology Professional (CTP), and founder of Poppelgaard.com ApS. He specializes in GPU-accelerated EUC, Azure Virtual Desktop, Windows 365, and large-scale automation using platforms such as Hydra and Nerdio.\n\nThomas is a frequent international speaker and conference organizer (EUCtech Denmark, Experts Live Denmark) and works hands-on with complex enterprise and MSP environments across healthcare, defense, manufacturing, and reinsurance.",
-              "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/TPop.jpg/:/rs=w:240,h:240,cg:true,m"
-            }
-          ],
-          "changed": {
-            "kind": "updated",
-            "at": "2026-10-16T10:20:14Z",
-            "what": [
-              "time"
-            ]
-          }
-        },
-        {
           "id": "16-the-next-wave-of-avd-and-windows-365-adoption-intro",
           "start": "14:25",
           "end": "14:40",
@@ -517,7 +473,6 @@
           "room": "Room 3",
           "kind": "talk",
           "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID (PART 2)",
-          "description": "With the release of Citrix 2607 LTSR, OpenID Connect (OIDC) is officially Generally Available (GA). This milestone marks a massive shift for Citrix architects: you can finally say goodbye to the complexity of Citrix Federated Authentication Service (FAS) on-premise. In this session, Thomas Poppelgaard shares a real-world case study of a greenfield Citrix 2607 LTSR deployment. The client required full Microsoft MFA with a seamless, pure Single Sign-On (SSO) experience—without the baggage of an internal Certificate Authority (PKI) or Citrix FAS infrastructure. We will dive deep into the end-to-end architecture, covering the exact configurations needed across:\n\nMicrosoft Entra ID (Enterprise Applications and MFA)\n\nNetScaler (IdP and traffic management)\n\nCitrix Studio \u0026 Delivery Controllers (2607 LTSR native policies)\n\nCitrix StoreFront (Modern authentication integration)\n\nAttendees will leave this session with a practical, enterprise-ready blueprint to simplify their identity stack, reduce infrastructure overhead, and eliminate FAS maintenance for good.",
           "speakers": [
             {
               "name": "Thomas Poppelgaard",
@@ -526,8 +481,11 @@
             }
           ],
           "changed": {
-            "kind": "new",
-            "at": "2026-10-16T10:20:14Z"
+            "kind": "updated",
+            "at": "2026-10-16T12:00:58Z",
+            "what": [
+              "description"
+            ]
           }
         },
         {
@@ -871,6 +829,18 @@
     }
   ],
   "removed": [
+    {
+      "at": "2026-10-16T12:00:58Z",
+      "date": "2026-10-16",
+      "title": "Bye-Bye FAS! Achieving Pure Citrix SSO with Netscaler and Entra ID (intro)",
+      "start": "14:05"
+    },
+    {
+      "at": "2026-10-16T12:00:58Z",
+      "date": "2026-10-16",
+      "title": "When Private Equity Hijacks Your IT Budget: How We Escaped a 12K Seat EUC Renewal in 6 Months (intro",
+      "start": "13:40"
+    },
     {
       "at": "2026-10-16T10:20:14Z",
       "date": "2026-10-16",
