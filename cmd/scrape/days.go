@@ -183,7 +183,7 @@ func parseGroups(cards []Card) []Session {
 				}
 			}
 		}
-		if _, _, ok := findTime(c); ok {
+		if _, _, ok := findTime(c); ok && !strayTimeOnSpeakerCard(c, groups) {
 			groups = append(groups, []Card{c})
 		} else if len(groups) > 0 {
 			groups[len(groups)-1] = append(groups[len(groups)-1], c)
@@ -231,6 +231,11 @@ func parseGroups(cards []Card) []Session {
 		}
 		if spk != nil {
 			s.Speakers = splitNames(firstHeading(*spk, notTitle))
+			if len(s.Speakers) == 0 && spk.Image != "" && len(parasText(*spk)) > 0 {
+				// A speaker card without a name (the heading holds a stray time).
+				// The name is filled in from the photo by speakersFromPhotos.
+				s.Speakers = []Speaker{{}}
+			}
 			if len(s.Speakers) > 0 {
 				assignBios(s.Speakers, spk.Paras())
 				if len(s.Speakers) == 1 {
@@ -525,4 +530,25 @@ func assignBios(sp []Speaker, paras []Block) {
 	for i := range sp {
 		sp[i].Bio = joinParas(parts[i])
 	}
+}
+
+// strayTimeOnSpeakerCard reports whether a card that contains a time is really
+// the speaker card of the slot before it: that slot has its time and talk card
+// but no speaker yet, and this card has a portrait, bio text and no heading
+// other than the time. On 16 October Neil Spellings' card had "12:50 - 13:05"
+// where his name should be.
+func strayTimeOnSpeakerCard(c Card, groups [][]Card) bool {
+	if len(groups) == 0 || len(groups[len(groups)-1]) != 2 || c.Image == "" {
+		return false
+	}
+	for _, h := range c.Headings() {
+		if !isTimeOnly(h) {
+			return false
+		}
+	}
+	long := 0
+	for _, p := range c.Paras() {
+		long += len(p.Text())
+	}
+	return long > 120
 }

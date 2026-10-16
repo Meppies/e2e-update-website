@@ -484,7 +484,7 @@ func photoKey(u string) string {
 func speakersFromPhotos(days []Day, info *Info) {
 	owner := map[string]Speaker{}
 	note := func(sp Speaker) {
-		if sp.Photo == "" {
+		if sp.Photo == "" || sp.Name == "" {
 			return
 		}
 		k := photoKey(sp.Photo)
@@ -507,6 +507,16 @@ func speakersFromPhotos(days []Day, info *Info) {
 	for di := range days {
 		for si := range days[di].Sessions {
 			s := &days[di].Sessions[si]
+			// A speaker who has bio text and a photo but no name: take the name
+			// that goes with the same photo elsewhere, keep this card's bio.
+			for j := range s.Speakers {
+				sp := &s.Speakers[j]
+				if sp.Name == "" && sp.Photo != "" {
+					if o, ok := owner[photoKey(sp.Photo)]; ok {
+						sp.Name = o.Name
+					}
+				}
+			}
 			if len(s.Speakers) > 0 || s.Photo == "" {
 				continue
 			}
