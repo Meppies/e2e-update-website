@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-16T19:54:31Z",
+  "updatedAt": "2026-10-17T10:35:26Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -892,26 +892,23 @@
           }
         },
         {
-          "id": "17-stop-giving-ai-agents-your-desktop-part-2",
+          "id": "17-inside-device-app-redirection-how-remoting-protocols-move-th",
           "start": "16:40",
           "end": "17:00",
           "room": "Room 2",
           "kind": "talk",
-          "title": "Stop Giving AI Agents Your Desktop (Part 2)",
-          "description": "The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.",
+          "title": "Inside Device \u0026 App Redirection: How Remoting Protocols Move the World Across the Wire",
+          "description": "A deep technical tour of how remoting protocols shuttle devices, applications, and media streams between endpoints. We’ll compare redirection models for USB, printers, audio, webcams, file systems, clipboards, COM automation, graphics, and app virtualization.The dominant CUA architecture — agent -\u003e VM -\u003e screenshot -\u003e mouse — treats the agent as a very fast remote employee. But remote computing spent three decades building the primitives agents actually need: session brokering, isolation, process and window ownership, input routing, graphics capture, auditing, and human shadowing. This talk reframes MCP as the control plane over session infrastructure, not the runtime itself. Drawing on lessons from building Vedon, an experimental desktop execution stack for computer-use agents, I'll cover multi-session orchestration, browser attachment, agent/human coexistence, and why VDI-style infrastructure — far from being obsolete — may become the substrate agents run Denis Gundarev has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft.\n\nHis work focuses on remoting protocols, session infrastructure, graphics, SDKs, and computer-use agents, especially making desktop environments reliable for both humans and AI.",
           "speakers": [
             {
               "name": "Denis Gundarev",
-              "bio": "has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft. His work focuses on remoting protocols, session infrastructure, graphics, SDKs, and computer-use agents, especially making desktop environments reliable for both humans and AI.\n\nLinkedIn: https://www.linkedin.com/in/dgundarev/",
+              "bio": "has over 25 years of experience in EUC, VDI, remote computing, and desktop operating systems, with a background spanning Citrix, VMware, AWS, and Microsoft. His work focuses on rem LinkedIn: https://www.linkedin.com/in/dgundarev/",
               "photo": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/DG-1235362.jpg/:/rs=w:240,h:240,cg:true,m"
             }
           ],
           "changed": {
-            "kind": "updated",
-            "at": "2026-10-16T19:54:31Z",
-            "what": [
-              "time"
-            ]
+            "kind": "new",
+            "at": "2026-10-17T10:35:26Z"
           }
         }
       ]
@@ -953,6 +950,13 @@
     }
   ],
   "removed": [
+    {
+      "at": "2026-10-17T10:35:26Z",
+      "date": "2026-10-17",
+      "title": "Stop Giving AI Agents Your Desktop (Part 2)",
+      "start": "16:40",
+      "room": "Room 2"
+    },
     {
       "at": "2026-10-16T19:54:31Z",
       "date": "2026-10-17",
