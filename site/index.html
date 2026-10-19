@@ -470,7 +470,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   <div class="wrap">
     <span>Unofficial copy. The organiser's page at <a href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> is leading; check it when in doubt.</span>
     <span>Built by <a href="https://meppie.eu/" rel="noopener">Jeroen Meppelink</a>. No cookies, no tracking. Your stars stay in this browser unless you save them to GitHub with Sync.</span>
-    <span>Ratings and synced stars go through public issues on <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a>, under your GitHub name. One vote per account per session; your latest vote counts.</span>
+    <span>Votes go through <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a> encrypted: nobody can see what you voted. The site shows only averages, once a session has 3 votes, updated once a day. One vote per GitHub account per session; your latest vote counts. Synced stars are saved publicly under your GitHub name.</span>
   </div>
 </footer>
 <aside class="sponsor-strip bottom" id="featuredStrip" aria-label="Featured sponsors" hidden></aside>
@@ -484,6 +484,8 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   const RECENT_H = 48;
   const REPO_URL = "https://github.com/Meppies/e2e-update-website";
   const PREVIEW_DAYS = 7; // the agenda shows up this many days before the first day
+  // Votes are encrypted with this public key before they go to GitHub; only the counting bot has the private key.
+  const VOTE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtKMLekohk2vdTWdWOmklZ21Xokd1nce6W5poRhB5RkZcAhwWpJs1KT9T5e5Bdd0gqAuKAfjUZIA8a4xZlxa7eHcletZIo9rnXlHKVeCvGSxQWWSAjFXmAtVW2aA9Tq7rdJCoNn7PVj1yaW/eHoWluuucLuTyGfloZBjpWF6BZKwfu/Xv+LdIKURoXaRnscEMKiy7rLxR83gVJ8kJ68FvTE7Y+M5u49XsbPhKSSopWJT2mJAQK6mBHYPbmeRfHfdbPTxwTS9oyup303yaGXjQ8EWmFCsAzmsEfzT+Ju4CI7ehfN1tLedYTY0MbcEP+pN/eCINGIWsKEBlavPbqa2OFwIDAQAB";
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
@@ -841,12 +843,16 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   }
 
   /* Ratings: open from the start of a session. A star opens a pre-filled GitHub
-     issue; a bot counts it (one vote per GitHub account, the latest counts). */
-  function voteUrl(ev, s, n) {
-    return `${REPO_URL}/issues/new?` + new URLSearchParams({
-      template: "rating.yml", title: `Rating: ${s.title}`.slice(0, 180) + ` (${n}★)`,
-      event: ev.id, session: s.id, stars: String(n)
-    });
+     issue with the vote encrypted, so the issue does not show the session or the
+     stars. A bot counts it (one vote per GitHub account, the latest counts) and
+     the site only shows averages of at least 3 votes, updated once a day. */
+  async function voteUrl(key, n) {
+    const [e, sid] = key.split("/");
+    const der = Uint8Array.from(atob(VOTE_KEY), c => c.charCodeAt(0));
+    const pub = await crypto.subtle.importKey("spki", der, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "RSA-OAEP" }, pub, new TextEncoder().encode(JSON.stringify({ e, s: sid, n }))));
+    let bin = ""; ct.forEach(b => { bin += String.fromCharCode(b); });
+    return `${REPO_URL}/issues/new?` + new URLSearchParams({ template: "rating.yml", title: "Session rating", vote: btoa(bin) });
   }
   function rateHtml(s, date) {
     if (s.kind === "break" || !renderEv) return "";
@@ -856,11 +862,11 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     if (!st && !open) return "";
     const key = renderEv.id + "/" + s.id, mine = myVotes[key] || 0;
     const avg = st
-      ? `<span class="avg" title="${st.n} vote${st.n > 1 ? "s" : ""}">★ ${st.avg.toFixed(1)} <small>(${st.n} vote${st.n > 1 ? "s" : ""})</small></span>`
-      : `<span class="avg none">No ratings yet</span>`;
+      ? `<span class="avg" title="Average rating">★ ${st.avg.toFixed(1)} <small>average</small></span>`
+      : `<span class="avg none">No average yet</span>`;
     const btns = open ? `<span class="rate-btns" role="group" aria-label="Rate this session (opens GitHub)">${[1, 2, 3, 4, 5].map(n =>
-      `<a class="${n <= mine ? "on" : ""}" href="${esc(voteUrl(renderEv, s, n))}" target="_blank" rel="noopener" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</a>`).join("")}</span>` : "";
-    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★` : "rate via GitHub"}</span>` : ""}</div>`;
+      `<a class="${n <= mine ? "on" : ""}" href="${REPO_URL}/issues/new?template=rating.yml" rel="noopener" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</a>`).join("")}</span>` : "";
+    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★ (private)` : "private vote via GitHub"}</span>` : ""}</div>`;
   }
 
   function matches(s) {
@@ -979,13 +985,13 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       const titles = {};
       if (a) a.days.forEach(d => d.sessions.forEach(x => { titles[x.id] = x.title; }));
       const r = Object.entries((ratings.events || {})[e.id] || {}).filter(([id]) => titles[id])
-        .sort((x, y) => y[1].avg - x[1].avg || y[1].n - x[1].n).slice(0, 3);
-      const votes = Object.values((ratings.events || {})[e.id] || {}).reduce((t, x) => t + x.n, 0);
+        .sort((x, y) => y[1].avg - x[1].avg).slice(0, 3);
+      const votes = 0; // vote counts stay private
       return `<article class="event past-ev">
         ${flagFor({ title: e.name, lines: [e.place] })}
         <h3>${esc(e.name)}</h3>
         <p>${esc(fmtRange(e.start, e.end))} · ${e.sessions} sessions${votes ? ` · ${votes} vote${votes > 1 ? "s" : ""}` : ""}</p>
-        ${r.length ? `<span class="label">Top rated so far</span><ol class="top-rated">${r.map(([id, st]) => `<li><b>★ ${st.avg.toFixed(1)}</b> ${esc(titles[id])} <small>(${st.n})</small></li>`).join("")}</ol>` : ""}
+        ${r.length ? `<span class="label">Top rated so far</span><ol class="top-rated">${r.map(([id, st]) => `<li><b>★ ${st.avg.toFixed(1)}</b> ${esc(titles[id])}</li>`).join("")}</ol>` : ""}
         <button class="toggle" type="button" data-open-past="${esc(e.id)}">Open agenda and rate →</button>
       </article>`;
     }).join("");
@@ -1248,12 +1254,17 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     }
     const v = e.target.closest("[data-vote]");
     if (v) {
-      // The link opens GitHub; remember the choice here so the stars show it.
-      const first = !Object.keys(myVotes).length;
-      myVotes[v.dataset.key] = Number(v.dataset.vote);
-      store.set("e2e-votes", myVotes);
-      toast(first ? "GitHub opens with your vote filled in. Press Submit; it is counted within a minute or two." : `Press Submit on GitHub to count your ${v.dataset.vote}★.`);
-      setTimeout(render, 400);
+      e.preventDefault();
+      const n = Number(v.dataset.vote), key = v.dataset.key;
+      // Open the tab now (inside the tap, so it is not blocked), fill in the address once the vote is encrypted.
+      const w = window.open("", "_blank");
+      voteUrl(key, n).then(url => {
+        if (w) { try { w.opener = null; } catch {} w.location.href = url; } else location.href = url;
+        const first = !Object.keys(myVotes).length;
+        myVotes[key] = n; store.set("e2e-votes", myVotes);
+        toast(first ? "GitHub opens with your vote encrypted. Press Submit. Nobody sees what you voted; the site shows averages from 3 votes, updated daily." : `Press Submit on GitHub to count your ${n}★.`);
+        render();
+      }, () => { if (w) w.close(); toast("Your browser could not encrypt the vote. Try another browser."); });
       return;
     }
     const star = e.target.closest("[data-star]");

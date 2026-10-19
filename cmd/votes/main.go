@@ -3,27 +3,43 @@
 // every vote belongs to one GitHub account. Each account has one vote per
 // session and the latest one counts.
 //
+// Votes are private. The site encrypts event, session and stars with the
+// public key in index.html, so the issue only shows that someone voted. This
+// program decrypts them with the private key (secret VOTE_KEY), keeps the
+// register encrypted in data/votes.enc, and publishes only averages of at
+// least MinVotes votes in site/ratings.json, and only with -publish (the daily
+// run), so a single vote cannot be read from the change it makes.
+//
 // Input is the JSON of `gh issue list --json number,author,body,title`.
-// Output: data/votes.json (who voted what, accounts hashed), site/ratings.json
-// (averages for the site), site/favs/<login>.json, and a list of replies for
-// the workflow to post before it closes each issue.
 package main
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
+	"crypto/hmac"
+	"crypto/rand"
+	"crypto/rsa"
 	"crypto/sha256"
+	"crypto/x509"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"encoding/pem"
+	"errors"
 	"flag"
 	"fmt"
 	"math"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 )
+
+// MinVotes is the smallest number of votes for which an average is shown.
+const MinVotes = 3
 
 type issue struct {
 	Number int    `json:"number"`
@@ -64,9 +80,100 @@ type known struct {
 }
 
 type stat struct {
-	N    int     `json:"n"`
-	Avg  float64 `json:"avg"`
-	Dist [5]int  `json:"dist"`
+	N   int     `json:"-"` // never published: only the average is shown
+	Avg float64 `json:"avg"`
+}
+
+type ballot struct {
+	Event   string `json:"e"`
+	Session string `json:"s"`
+	Stars   int    `json:"n"`
+}
+
+type keys struct {
+	priv  *rsa.PrivateKey
+	store []byte // AES key for the register
+	salt  []byte // HMAC key for voter ids
+}
+
+func loadKeys() (*keys, error) {
+	raw := os.Getenv("VOTE_KEY")
+	if raw == "" {
+		return nil, errors.New("VOTE_KEY is not set")
+	}
+	blk, _ := pem.Decode([]byte(raw))
+	if blk == nil {
+		return nil, errors.New("VOTE_KEY is not a PEM key")
+	}
+	k, err := x509.ParsePKCS8PrivateKey(blk.Bytes)
+	if err != nil {
+		return nil, err
+	}
+	priv, ok := k.(*rsa.PrivateKey)
+	if !ok {
+		return nil, errors.New("VOTE_KEY is not an RSA key")
+	}
+	der := x509.MarshalPKCS1PrivateKey(priv)
+	a := sha256.Sum256(append([]byte("e2e-votes-store:"), der...))
+	b := sha256.Sum256(append([]byte("e2e-votes-voter:"), der...))
+	return &keys{priv, a[:], b[:]}, nil
+}
+
+func (k *keys) open(b64 string) (ballot, error) {
+	var bl ballot
+	ct, err := base64.StdEncoding.DecodeString(strings.Join(strings.Fields(b64), ""))
+	if err != nil {
+		return bl, err
+	}
+	pt, err := rsa.DecryptOAEP(sha256.New(), nil, k.priv, ct, nil)
+	if err != nil {
+		return bl, err
+	}
+	err = json.Unmarshal(pt, &bl)
+	return bl, err
+}
+
+func (k *keys) voter(login string) string {
+	m := hmac.New(sha256.New, k.salt)
+	m.Write([]byte(strings.ToLower(login)))
+	return hex.EncodeToString(m.Sum(nil)[:12])
+}
+
+func (k *keys) readStore(path string) (map[string]map[string]int, error) {
+	votes := map[string]map[string]int{}
+	b, err := os.ReadFile(path)
+	if errors.Is(err, os.ErrNotExist) {
+		return votes, nil
+	} else if err != nil {
+		return nil, err
+	}
+	raw, err := base64.StdEncoding.DecodeString(strings.TrimSpace(string(b)))
+	if err != nil {
+		return nil, err
+	}
+	blk, _ := aes.NewCipher(k.store)
+	gcm, _ := cipher.NewGCM(blk)
+	if len(raw) < gcm.NonceSize() {
+		return nil, errors.New("register too short")
+	}
+	pt, err := gcm.Open(nil, raw[:gcm.NonceSize()], raw[gcm.NonceSize():], nil)
+	if err != nil {
+		return nil, fmt.Errorf("register cannot be read with this VOTE_KEY: %w", err)
+	}
+	return votes, json.Unmarshal(pt, &votes)
+}
+
+func (k *keys) writeStore(path string, votes map[string]map[string]int) error {
+	pt, _ := json.Marshal(votes)
+	blk, _ := aes.NewCipher(k.store)
+	gcm, _ := cipher.NewGCM(blk)
+	nonce := make([]byte, gcm.NonceSize())
+	if _, err := rand.Read(nonce); err != nil {
+		return err
+	}
+	out := base64.StdEncoding.EncodeToString(gcm.Seal(nonce, nonce, pt, nil))
+	_ = os.MkdirAll(filepath.Dir(path), 0o755)
+	return os.WriteFile(path, []byte(out+"\n"), 0o644)
 }
 
 func main() {
@@ -75,13 +182,25 @@ func main() {
 	site := flag.String("site", "site", "site folder")
 	data := flag.String("data", "data", "folder for the vote register")
 	actionsOut := flag.String("actions", "actions.json", "where to write the replies")
+	publish := flag.Bool("publish", false, "rewrite site/ratings.json from the register")
 	flag.Parse()
 
 	sessions := loadSessions(*site)
-	votesPath := filepath.Join(*data, "votes.json")
+	votesPath := filepath.Join(*data, "votes.enc")
+	k, keyErr := loadKeys()
 	votes := map[string]map[string]int{}
-	if b, err := os.ReadFile(votesPath); err == nil {
-		_ = json.Unmarshal(b, &votes)
+	if keyErr == nil {
+		var err error
+		if votes, err = k.readStore(votesPath); err != nil {
+			fail(err)
+		}
+	}
+	before := map[string]map[string]int{}
+	for key, m := range votes {
+		before[key] = map[string]int{}
+		for v, n := range m {
+			before[key][v] = n
+		}
 	}
 
 	var acts []action
@@ -91,36 +210,39 @@ func main() {
 	}
 	now := time.Now().In(loc)
 
-	for _, is := range readIssues(*ratingsIn) {
+	ratingIssues := readIssues(*ratingsIn)
+	if keyErr != nil && len(ratingIssues) > 0 {
+		// Leave the issues open; they are counted once the key is there.
+		fmt.Fprintln(os.Stderr, "votes: cannot count ratings:", keyErr)
+		ratingIssues = nil
+	}
+	for _, is := range ratingIssues {
 		if is.Author.IsBot || is.Author.Login == "" {
 			acts = append(acts, action{is.Number, "Votes come from people, not bots. Closing this one.", "not planned"})
 			continue
 		}
-		f := fields(is.Body)
-		ev, sid := strings.TrimSpace(f["event"]), strings.TrimSpace(f["session"])
-		stars, _ := strconv.Atoi(strings.TrimSpace(strings.TrimRight(f["stars"], "★* ")))
+		bl, err := k.open(fields(is.Body)["vote"])
+		if err != nil {
+			acts = append(acts, action{is.Number, "Sorry, this vote could not be read. Please vote with the stars on https://e2emvc.meppie.eu/, they fill in this form for you.", "not planned"})
+			continue
+		}
+		ev, sid, stars := bl.Event, bl.Session, bl.Stars
 		s, ok := sessions[ev+"/"+sid]
+		// Replies never repeat the session or the stars: the issue is public.
 		switch {
 		case !ok:
 			acts = append(acts, action{is.Number, "Sorry, I could not find that session. Please use the stars on https://e2emvc.meppie.eu/ to rate, they fill in this form for you.", "not planned"})
-		case s.Kind == "break":
-			acts = append(acts, action{is.Number, "Breaks cannot be rated (not even the coffee). Closing this one.", "not planned"})
-		case stars < 1 || stars > 5:
-			acts = append(acts, action{is.Number, "A rating is 1 to 5 stars. Please try again from the site.", "not planned"})
+		case s.Kind == "break" || stars < 1 || stars > 5:
+			acts = append(acts, action{is.Number, "Sorry, this vote could not be counted. Please vote with the stars on the site.", "not planned"})
 		case !started(s, now, loc):
-			acts = append(acts, action{is.Number, fmt.Sprintf("“%s” has not started yet. You can rate it once you have seen it.", s.Title), "not planned"})
+			acts = append(acts, action{is.Number, "This session has not started yet. You can rate it once you have seen it.", "not planned"})
 		default:
 			key := ev + "/" + sid
 			if votes[key] == nil {
 				votes[key] = map[string]int{}
 			}
-			_, again := votes[key][voter(is.Author.Login)]
-			votes[key][voter(is.Author.Login)] = stars
-			msg := fmt.Sprintf("Thanks @%s! Your %s for “%s” is counted.", is.Author.Login, starText(stars), s.Title)
-			if again {
-				msg = fmt.Sprintf("Thanks @%s! Your vote for “%s” is now %s; it replaces your earlier one.", is.Author.Login, s.Title, starText(stars))
-			}
-			acts = append(acts, action{is.Number, msg + " The average on the site updates in a minute or two.", "completed"})
+			votes[key][k.voter(is.Author.Login)] = stars
+			acts = append(acts, action{is.Number, fmt.Sprintf("Thanks @%s, your vote is counted. It stays private: only the averages are shown, once a session has %d votes, and they are updated once a day.", is.Author.Login, MinVotes), "completed"})
 		}
 	}
 
@@ -153,48 +275,49 @@ func main() {
 		acts = append(acts, action{is.Number, fmt.Sprintf("Saved %d favourite sessions for @%s. On another phone or computer: open https://e2emvc.meppie.eu/, tap “Sync” and enter `%s`.", len(ids), is.Author.Login, is.Author.Login), "completed"})
 	}
 
-	// The register: who (hashed) gave what. Stable output, so git only sees real changes.
-	_ = os.MkdirAll(*data, 0o755)
-	b, _ := json.MarshalIndent(votes, "", "  ")
-	if err := os.WriteFile(votesPath, append(b, '\n'), 0o644); err != nil {
-		fail(err)
+	// The register is encrypted with a fresh nonce, so write it only on a real change.
+	if keyErr == nil && !reflect.DeepEqual(before, votes) {
+		if err := k.writeStore(votesPath, votes); err != nil {
+			fail(err)
+		}
 	}
 
-	// Averages per event and session for the site.
-	agg := map[string]map[string]*stat{}
-	for key, byVoter := range votes {
-		ev, sid, ok := strings.Cut(key, "/")
-		if !ok || len(byVoter) == 0 {
-			continue
-		}
-		st := &stat{}
-		sum := 0
-		for _, v := range byVoter {
-			if v >= 1 && v <= 5 {
-				st.N++
-				st.Dist[v-1]++
-				sum += v
+	// Averages per event and session, only from MinVotes votes, only on the daily run.
+	if *publish && keyErr == nil {
+		agg := map[string]map[string]*stat{}
+		for key, byVoter := range votes {
+			ev, sid, ok := strings.Cut(key, "/")
+			if !ok {
+				continue
 			}
+			st := &stat{}
+			sum := 0
+			for _, v := range byVoter {
+				if v >= 1 && v <= 5 {
+					st.N++
+					sum += v
+				}
+			}
+			if st.N < MinVotes {
+				continue
+			}
+			st.Avg = math.Round(float64(sum)/float64(st.N)*10) / 10
+			if agg[ev] == nil {
+				agg[ev] = map[string]*stat{}
+			}
+			agg[ev][sid] = st
 		}
-		if st.N == 0 {
-			continue
+		b, _ := json.MarshalIndent(map[string]any{"minVotes": MinVotes, "events": agg}, "", "  ")
+		if err := os.WriteFile(filepath.Join(*site, "ratings.json"), append(b, '\n'), 0o644); err != nil {
+			fail(err)
 		}
-		st.Avg = math.Round(float64(sum)/float64(st.N)*10) / 10
-		if agg[ev] == nil {
-			agg[ev] = map[string]*stat{}
-		}
-		agg[ev][sid] = st
-	}
-	b, _ = json.MarshalIndent(map[string]any{"events": agg}, "", "  ")
-	if err := os.WriteFile(filepath.Join(*site, "ratings.json"), append(b, '\n'), 0o644); err != nil {
-		fail(err)
 	}
 
 	sort.Slice(acts, func(i, j int) bool { return acts[i].Number < acts[j].Number })
 	if acts == nil {
 		acts = []action{}
 	}
-	b, _ = json.MarshalIndent(acts, "", "  ")
+	b, _ := json.MarshalIndent(acts, "", "  ")
 	if err := os.WriteFile(*actionsOut, b, 0o644); err != nil {
 		fail(err)
 	}
@@ -236,15 +359,6 @@ func fields(body string) map[string]string {
 		out[key] = value
 	}
 	return out
-}
-
-func voter(login string) string {
-	h := sha256.Sum256([]byte("e2e-vote:" + strings.ToLower(login)))
-	return hex.EncodeToString(h[:8])
-}
-
-func starText(n int) string {
-	return strings.Repeat("★", n) + strings.Repeat("☆", 5-n)
 }
 
 // started: a session can be rated from its start time (event local time,

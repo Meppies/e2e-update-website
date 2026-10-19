@@ -13,21 +13,21 @@ Unofficial. The organiser's page at [e2emvc.com](https://e2emvc.com/) is leading
 ## How it works
 
 - `cmd/scrape` (Go) fetches e2emvc.com and writes `site/agenda.json`: the days, the general information and an `event` block (id, name, first and last day). New or changed sessions get a change marker; removed ones go into a `removed` list. With `-events site/events` it first archives the previous event once it has ended.
-- `cmd/votes` (Go) handles ratings and favourites sent in as GitHub issues (see below) and writes `data/votes.json` and `site/ratings.json`.
+- `cmd/votes` (Go) handles ratings and favourites sent in as GitHub issues (see below) and writes the encrypted register `data/votes.enc` and `site/ratings.json`.
 - `.github/workflows/update.yml` runs once a day, on every push, on manual runs, and when someone opens a rating or favourites issue. It commits what changed and deploys `site/` to GitHub Pages. If the repository has had no commit for 50 days it writes `.github/keepalive`, because GitHub switches off schedules in quiet repositories after 60 days.
 - `site/index.html` is a single static page that reads the JSON files.
 
 ## Ratings and favourites
 
-The site is static, so voting goes through GitHub, which also handles the login:
+The site is static, so voting goes through GitHub, which also handles the login. Votes are private:
 
-1. Tapping a star on a session that has started opens a pre-filled issue form (`.github/ISSUE_TEMPLATE/rating.yml`). The visitor presses Submit.
-2. The workflow reads all open `rating` issues, checks the event, session, stars (1-5) and that the session has started, stores the vote under a hash of the GitHub account (one vote per account per session, the latest counts), answers and closes the issue.
-3. Averages land in `site/ratings.json`.
+1. Tapping a star on a session that has started encrypts `{event, session, stars}` in the browser with the public key in `index.html` (RSA-OAEP, SHA-256) and opens a pre-filled issue form (`.github/ISSUE_TEMPLATE/rating.yml`). The issue only shows that someone voted. The visitor presses Submit.
+2. The workflow decrypts open `rating` issues with the private key (repository secret `VOTE_KEY`), checks the session and that it has started, and stores the vote under a keyed hash of the GitHub account (one vote per account per session, the latest counts). The register `data/votes.enc` is encrypted (AES-GCM, key derived from `VOTE_KEY`). Replies never mention the session or the stars.
+3. Only the daily, manual and push runs rewrite `site/ratings.json`, and only for sessions with at least 3 votes: averages only, no counts per star.
 
-Favourites work the same way: **Sync → Save to GitHub** opens a `favourites` issue with the starred sessions; the workflow writes `site/favs/<login>.json`. On another device, **Sync → Load** with the GitHub name merges them in.
+Replacing `VOTE_KEY` makes the register unreadable, so it starts again from zero.
 
-Votes and favourites are public: the issues show the GitHub name.
+Favourites work the same way, but are not secret: **Sync → Save to GitHub** opens a `favourites` issue with the starred sessions; the workflow writes `site/favs/<login>.json`. On another device, **Sync → Load** with the GitHub name merges them in.
 
 ## Safety net
 
