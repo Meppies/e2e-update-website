@@ -917,7 +917,10 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     if (!html) { el.hidden = true; el.innerHTML = ""; return; }
     el.innerHTML = html; el.hidden = false;
   }
-  function signIn() {
+  async function signIn() {
+    // Check the vote helper first, so nobody is sent to GitHub when it cannot be reached.
+    try { await fetch(WORKER + "/", { mode: "no-cors", cache: "no-store" }); }
+    catch { sheet(null); toast("Voting is not available right now. Please try again a bit later."); return; }
     const st = [...crypto.getRandomValues(new Uint32Array(4))].map(x => x.toString(36)).join("");
     try { sessionStorage.setItem("e2e-auth-state", st); sessionStorage.setItem("e2e-auth-return", location.hash.startsWith("#auth=") ? "" : location.hash); } catch {}
     location.href = `${WORKER}/login?` + new URLSearchParams({ state: st, return: location.origin + location.pathname });
