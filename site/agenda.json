@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-19T08:33:13Z",
+  "updatedAt": "2026-10-19T08:50:39Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -1031,6 +1031,7 @@
     }
   ],
   "info": {
+    "brand": "E2E EUCDEX.Ai",
     "about": [
       "The Experts 2 Experts EUCDEX.Ai conference (formerly known as E2EVC/ E2EMVC / PubForum) is a global series of non-commercial events within the end user computing community. Our primary objective is to convene top server based computing, virtualization, cloud, onprem and end user computing experts for knowledge exchange and networking. EUCDEX.Ai offers a packed weekend featuring presentations, Master Classes, and discussions led by virtualization vendors' product teams and independent industry experts.",
       "After hosting over 60 successful events, commencing in August 2003 with just 4 participants, E2EMVC has evolved into a renowned event with approximately 200 attendees from over 25 countries. Over the past two decades, our conferences have been held in various cities worldwide, including Athens, London, Copenhagen, Amsterdam, Barcelona, Berlin, Brussels, Cape Town, Frankfurt, Dublin, Orlando, Paris, Prague, Las Vegas, Los Angeles, Madrid, Montreal, Munich, New York, Nice, Lisbon, Rome, Hamburg, Hong Kong, Singapore, Sydney, Tokyo, Tel Aviv, and Vienna. Each event typically features 40 - 50 sessions covering server, application, desktop, and storage virtualization, showcasing products from industry leaders such as Microsoft, Parallels, VMware, Citrix, and others.",
