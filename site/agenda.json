@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-19T08:50:39Z",
+  "updatedAt": "2026-10-19T12:25:04Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -1040,13 +1040,11 @@
     "event": {
       "title": "(E2E) EUCDEX.Ai MALTA, October 16 - 18, 2026",
       "details": [
-        "The 62th E2E EUXDEX.Ai Conference will take place in Valletta, Malta on October 16-18, 2026.",
-        "The event will take place at the Conference \u0026 Events Unit Facility of University of Malta, Valletta Campus. Address: Saint Paul Street, Valletta, VLT, Malta.",
         "In case you have any questions about your existing registration please contact us CONFEU @ EUCDEXAI.COM."
       ],
       "terms": [
         "The Registration Fee is non refundable.",
-        "In case you are unable to attend the Event you booked you can use your UNUSED ticket in the next 2 events after the one you registered for. So, say you bought a ticket for 2026 MALTA event. If you skip or unable to attend MALTA 2026 you can still use the ticket for NICE 2027 OR MILANO 2027 IN EUROPE. There are no further extensions to that.",
+        "In case you are unable to attend the Event you booked you can use your UNUSED ticket in the next 2 events after the one you registered for. So, say you bought a ticket for 2026 MALTA event. If you skip or unable to attend NICE 2027 you can still use the ticket for MILANO 2027 OR BRUSSELS 2028 IN EUROPE. There are no further extensions to that.",
         "By signing to the event you agree to follow Health and Safety advisory from the Organizers. In case you are unable to attend the event you have registered for, you MUST notify the organizers at least 2 weeks before planned event start, that you are unable to attend. Otherwise your ticket will expire with the event you have registered for. No exceptions.",
         "The Management of EUCDEX.Ai reserves the right to refuse admission, with full registration fee refund."
       ]
@@ -1162,15 +1160,6 @@
       }
     ],
     "upcoming": [
-      {
-        "title": "E2E EUCDEX.Ai MALTA",
-        "lines": [
-          "October 16-18, 2026",
-          "Pre Event \"Ai in EUC\" Workshop Master Class October 15, 2026",
-          "Valletta, Malta"
-        ],
-        "image": "https://img1.wsimg.com/isteam/ip/a1ec2209-a4a4-459d-bfbe-2961eac6afb8/Malta.jpg/:/rs=w:480,cg:true"
-      },
       {
         "title": "EUCDEX.Ai NICE",
         "lines": [
