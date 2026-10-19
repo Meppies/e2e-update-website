@@ -63,7 +63,8 @@ jobs:
       - name: Commit
         id: commit
         run: |
-          git add -A site data .github/keepalive 2>/dev/null || git add -A site data
+          git add -A site
+          for p in data .github/keepalive; do if [ -e "$p" ]; then git add -A "$p"; fi; done
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
