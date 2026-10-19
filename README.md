@@ -21,15 +21,17 @@ Unofficial. The organiser's page at [e2emvc.com](https://e2emvc.com/) is leading
 
 ## Ratings and favourites
 
-The site is static, so voting goes through GitHub, which also handles the login. Votes are private:
+Visitors vote on the site itself. The flow, and how it keeps bots out:
 
-1. Tapping a star on a session that has started encrypts `{event, session, stars}` in the browser with the public key in `index.html` (RSA-OAEP, SHA-256) and opens a pre-filled issue form (`.github/ISSUE_TEMPLATE/rating.yml`). The issue only shows that someone voted. The visitor presses Submit.
-2. The workflow decrypts open `rating` issues with the private key (repository secret `VOTE_KEY`), checks the session and that it has started, and stores the vote under a keyed hash of the GitHub account (one vote per account per session, the latest counts). The register `data/votes.enc` is encrypted (AES-GCM, key derived from `VOTE_KEY`). Replies never mention the session or the stars.
-3. Only the daily, manual and push runs rewrite `site/ratings.json`, and only for sessions with at least 3 votes: averages only, no counts per star.
+1. **Sign in with GitHub, once per device.** The GitHub App *E2E Unofficial Votes* (owned by Meppies, installed only on this repository, permission: issues) signs people in. The Cloudflare Worker in `worker/` (`https://e2e-votes.meppie.workers.dev`) holds the app's client secret and swaps the login code for a user token, which the site keeps in the browser.
+2. **Voting.** The site encrypts `{event, session, stars}` with the public key in `index.html` (RSA-OAEP, SHA-256) and sends it to the Worker together with a Cloudflare Turnstile token (human check, usually invisible).
+3. **Checks in the Worker.** Turnstile must pass, the GitHub account must be a personal account (type `User`) and at least `MIN_ACCOUNT_DAYS` (7) days old. The Worker then signs the ballot (HMAC with `VOTE_HMAC`, bound to the GitHub login) and opens an issue titled "Session rating" as the user.
+4. **Counting.** The workflow reads open issues; `cmd/votes` counts only ballots with a valid signature, decrypts them with `VOTE_KEY`, checks the session has started, and stores one vote per account per session (the latest counts) in the encrypted register `data/votes.enc`. Replies never mention the session or the stars.
+5. **Publishing.** Only the daily, manual and push runs rewrite `site/ratings.json`, and only for sessions with at least 3 votes: averages only.
 
-Replacing `VOTE_KEY` makes the register unreadable, so it starts again from zero.
+Favourites: **Sync → Save** sends the starred sessions through the Worker as a "Favourites" issue; the workflow writes `site/favs/<login>.json` (public). **Get my saved stars** loads them on another signed-in device.
 
-Favourites work the same way, but are not secret: **Sync → Save to GitHub** opens a `favourites` issue with the starred sessions; the workflow writes `site/favs/<login>.json`. On another device, **Sync → Load** with the GitHub name merges them in.
+Secrets: repository secrets `VOTE_KEY` and `VOTE_HMAC`; Worker secrets `GH_CLIENT_SECRET`, `TURNSTILE_SECRET` and `VOTE_HMAC` (same value as the repository's). Replacing `VOTE_KEY` makes the register unreadable, so votes start again from zero. Deploy the Worker with `cd worker && npx wrangler deploy`.
 
 ## Safety net
 

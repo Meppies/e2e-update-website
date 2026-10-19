@@ -7,5 +7,5 @@ workers_dev = true
 SITE_ORIGIN = "https://e2emvc.meppie.eu"
 REPO = "Meppies/e2e-update-website"
 MIN_ACCOUNT_DAYS = "7"
-GH_CLIENT_ID = "set-after-app-creation"
+GH_CLIENT_ID = "Iv23liJFS4lJaVhnNqrL"
 # Secrets (wrangler secret put): GH_CLIENT_SECRET, TURNSTILE_SECRET, VOTE_HMAC

@@ -23,7 +23,7 @@ concurrency:
 jobs:
   update:
     # Issues only matter when they are a rating or a favourites list.
-    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'rating') || contains(github.event.issue.labels.*.name, 'favourites')
+    if: github.event_name != 'issues' || github.event.issue.title == 'Session rating' || github.event.issue.title == 'Favourites' || contains(github.event.issue.labels.*.name, 'rating') || contains(github.event.issue.labels.*.name, 'favourites')
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
@@ -47,12 +47,12 @@ jobs:
       - name: Count ratings and save favourites
         env:
           VOTE_KEY: ${{ secrets.VOTE_KEY }}
+          VOTE_HMAC: ${{ secrets.VOTE_HMAC }}
         run: |
-          gh issue list -R "$REPO" --state open --label rating --limit 500 --json number,author,body,title > "$RUNNER_TEMP/rating.json"
-          gh issue list -R "$REPO" --state open --label favourites --limit 500 --json number,author,body,title > "$RUNNER_TEMP/favourites.json"
+          gh issue list -R "$REPO" --state open --limit 1000 --json number,author,body,title,labels > "$RUNNER_TEMP/issues.json"
           # Averages are published on the daily, manual and push runs only, not right after a vote.
           publish=true; [ "${{ github.event_name }}" = "issues" ] && publish=false
-          go run ./cmd/votes -publish=$publish -ratings "$RUNNER_TEMP/rating.json" -favourites "$RUNNER_TEMP/favourites.json" -actions "$RUNNER_TEMP/actions.json"
+          go run ./cmd/votes -publish=$publish -issues "$RUNNER_TEMP/issues.json" -actions "$RUNNER_TEMP/actions.json"
 
       # GitHub switches off schedules after 60 days without a commit.
       - name: Keep the daily schedule alive

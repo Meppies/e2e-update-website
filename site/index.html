@@ -392,11 +392,21 @@ footer a { color: var(--band-text); }
 .rating .avg small { font-weight: 400; color: var(--text-2); }
 .rating .avg.none { font-weight: 400; color: var(--text-2); }
 .rate-btns { display: inline-flex; gap: 2px; }
-.rate-btns a { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 8px; font-size: 1.25rem; line-height: 1; color: var(--line); font-weight: 400; }
-.rate-btns a.on { color: var(--star); }
-.rate-btns:hover a { color: var(--star); }
-.rate-btns a:hover ~ a { color: var(--line); }
-.rate-btns a:focus-visible { outline-offset: 0; }
+.rate-btns button { all: unset; cursor: pointer; display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 8px; font-size: 1.25rem; line-height: 1; color: var(--line); font-weight: 400; }
+.rate-btns button.on { color: var(--star); }
+.rate-btns:hover button { color: var(--star); }
+.rate-btns button:hover ~ button { color: var(--line); }
+.rate-btns button:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; }
+/* Bottom sheet for sign-in and the human check */
+.sheet { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(60px + env(safe-area-inset-bottom, 0px)); z-index: 12;
+  width: min(30rem, calc(100% - 24px)); background: var(--card); color: var(--text); border: 1px solid var(--line); border-top: 4px solid var(--e2e-red);
+  border-radius: 14px; padding: 14px 16px; box-shadow: 0 10px 30px #0004; display: grid; gap: 8px; }
+.sheet p { margin: 0; }
+.sheet .note { font-size: .92rem; }
+.toggle.primary { background: var(--e2e-ink); color: #FFFFFF; border-color: var(--e2e-ink); }
+:root[data-theme="dark"] .toggle.primary { background: #FFFFFF; color: #161616; }
+.who-am-i { font-family: var(--mono); font-size: .85rem; color: var(--text-2); }
+.linkish { all: unset; cursor: pointer; color: var(--change); font-weight: 700; }
 .rate-hint { color: var(--text-2); font-family: var(--mono); font-size: .8rem; }
 /* Recap of an event that has ended */
 .recap { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 20px 18px; display: grid; gap: 12px; box-shadow: inset 0 4px 0 var(--e2e-red); }
@@ -483,10 +493,11 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   <div class="wrap">
     <span>Unofficial copy. The organiser's page at <a href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> is leading; check it when in doubt.</span>
     <span>Built by <a href="https://meppie.eu/" rel="noopener">Jeroen Meppelink</a>. No cookies, no tracking. Your stars stay in this browser unless you save them to GitHub with Sync.</span>
-    <span>Votes go through <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a> encrypted: nobody can see what you voted. The site shows only averages, once a session has 3 votes, updated once a day. One vote per GitHub account per session; your latest vote counts. Synced stars are saved publicly under your GitHub name.</span>
+    <span>To vote you sign in with GitHub once; a quick human check keeps bots out. Votes are encrypted: nobody can see what you voted. The site shows only averages, once a session has 3 votes, updated once a day. One vote per GitHub account per session; your latest vote counts. Synced stars are saved publicly under your GitHub name. Code on <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a>.</span>
   </div>
 </footer>
 <aside class="sponsor-strip bottom" id="featuredStrip" aria-label="Featured sponsors" hidden></aside>
+<aside class="sheet" id="sheet" role="dialog" aria-live="polite" hidden></aside>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
@@ -496,6 +507,9 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   const REFRESH_MS = 5 * 60 * 1000;
   const RECENT_H = 48;
   const REPO_URL = "https://github.com/Meppies/e2e-update-website";
+  // Vote helper (Cloudflare Worker): GitHub sign-in, human check, and opening the vote issue for you.
+  const WORKER = "https://e2e-votes.meppie.workers.dev";
+  const TS_KEY = "0x4AAAAAAFbWFY-fwAJwJkmg"; // Cloudflare Turnstile site key (public)
   const PREVIEW_DAYS = 7; // the agenda shows up this many days before the first day
   /* A short look back per event, shown once it has ended. Written by hand: no numbers or claims beyond the agenda. */
   const RECAPS = {
@@ -527,7 +541,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   let renderEv = null;            // event of the sessions being drawn (for votes)
   let myVotes = store.get("e2e-votes", {});
   let syncOpen = false;
-  let ghName = store.get("e2e-gh", "");
+  let auth = store.get("e2e-auth", null); // { login, t, r, e } after "Sign in with GitHub"
   let starred = new Set(store.get("e2e-stars", []));
   let mineOnly = store.get("e2e-mine", false);
   // Tools per view: none on Info and the Past list, only search in a past agenda,
@@ -887,13 +901,103 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
      issue with the vote encrypted, so the issue does not show the session or the
      stars. A bot counts it (one vote per GitHub account, the latest counts) and
      the site only shows averages of at least 3 votes, updated once a day. */
-  async function voteUrl(key, n) {
+  async function encryptBallot(key, n) {
     const [e, sid] = key.split("/");
     const der = Uint8Array.from(atob(VOTE_KEY), c => c.charCodeAt(0));
     const pub = await crypto.subtle.importKey("spki", der, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
     const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "RSA-OAEP" }, pub, new TextEncoder().encode(JSON.stringify({ e, s: sid, n }))));
     let bin = ""; ct.forEach(b => { bin += String.fromCharCode(b); });
-    return `${REPO_URL}/issues/new?` + new URLSearchParams({ template: "rating.yml", title: "Session rating", vote: btoa(bin) });
+    return btoa(bin);
+  }
+
+  /* Sign in with GitHub, once per device. The Worker does the exchange with GitHub and
+     sends the token back in the address; a random check value guards against forgery. */
+  function sheet(html) {
+    const el = $("#sheet");
+    if (!html) { el.hidden = true; el.innerHTML = ""; return; }
+    el.innerHTML = html; el.hidden = false;
+  }
+  function signIn() {
+    const st = [...crypto.getRandomValues(new Uint32Array(4))].map(x => x.toString(36)).join("");
+    try { sessionStorage.setItem("e2e-auth-state", st); sessionStorage.setItem("e2e-auth-return", location.hash.startsWith("#auth=") ? "" : location.hash); } catch {}
+    location.href = `${WORKER}/login?` + new URLSearchParams({ state: st, return: location.origin + location.pathname });
+  }
+  function readAuthHash() {
+    const m = location.hash.match(/^#auth=([A-Za-z0-9_-]+)/);
+    if (!m) return;
+    let p = null, st = null, ret = "";
+    try { p = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); } catch {}
+    try { st = sessionStorage.getItem("e2e-auth-state"); ret = sessionStorage.getItem("e2e-auth-return") || ""; sessionStorage.removeItem("e2e-auth-state"); sessionStorage.removeItem("e2e-auth-return"); } catch {}
+    try { history.replaceState(null, "", location.pathname + ret); } catch { location.hash = ret; }
+    if (p && p.t && st && p.state === st) {
+      auth = { login: p.login, t: p.t, r: p.r || "", e: p.e || 0 };
+      store.set("e2e-auth", auth);
+      setTimeout(() => toast(`Signed in as @${auth.login}.`), 300);
+    } else if (p && p.error) setTimeout(() => toast(p.error), 300);
+  }
+  function signOut(quiet) {
+    auth = null;
+    try { localStorage.removeItem("e2e-auth"); } catch {}
+    if (!quiet) toast("Signed out on this device.");
+    render();
+  }
+  async function token() {
+    if (!auth) return null;
+    if (auth.e && Date.now() > auth.e) {
+      try {
+        const r = await fetch(WORKER + "/refresh", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ r: auth.r }) });
+        const j = await r.json();
+        if (!r.ok || !j.t) throw new Error("refresh");
+        auth = { ...auth, ...j }; store.set("e2e-auth", auth);
+      } catch { signOut(true); return null; }
+    }
+    return auth.t;
+  }
+
+  /* Cloudflare Turnstile: usually invisible, asks for a tap only when it is unsure. */
+  let tsLoad = null;
+  function loadTurnstile() {
+    return tsLoad || (tsLoad = new Promise((res, rej) => {
+      const sc = document.createElement("script");
+      sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; sc.async = true;
+      sc.onload = () => res(window.turnstile); sc.onerror = () => { tsLoad = null; rej(new Error("turnstile")); };
+      document.head.appendChild(sc);
+    }));
+  }
+  async function humanToken() {
+    const ts = await loadTurnstile();
+    return new Promise((res, rej) => {
+      sheet(`<p><b>Quick check that you are human…</b></p><div id="tsBox"></div>`);
+      const id = ts.render("#tsBox", {
+        sitekey: TS_KEY, appearance: "interaction-only", action: "vote",
+        callback: (t) => { res(t); setTimeout(() => { try { ts.remove(id); } catch {} }, 0); },
+        "error-callback": () => rej(new Error("turnstile")), "expired-callback": () => rej(new Error("turnstile"))
+      });
+    });
+  }
+  const signInSheet = (why) => sheet(`<p><b>${esc(why)}</b></p>
+    <p class="note">Once per device. Nobody can see what you voted; the site only shows averages. The GitHub app can only open issues in this site's repository.</p>
+    <div class="sync-row"><button class="toggle primary" type="button" data-signin="1">Sign in with GitHub</button><button class="toggle" type="button" data-sheet-close="1">Not now</button></div>`);
+
+  async function castVote(key, n) {
+    const t = await token();
+    if (!t) {
+      try { sessionStorage.setItem("e2e-pending", JSON.stringify({ key, n })); } catch {}
+      signInSheet("Sign in with GitHub to vote");
+      return;
+    }
+    try {
+      const ballot = await encryptBallot(key, n);
+      const human = await humanToken();
+      sheet(`<p><b>Sending your vote…</b></p>`);
+      const r = await fetch(WORKER + "/vote", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + t }, body: JSON.stringify({ ballot, turnstile: human }) });
+      const j = await r.json().catch(() => ({}));
+      sheet(null);
+      if (r.status === 401) { signOut(true); signInSheet("Please sign in with GitHub again"); return; }
+      if (!r.ok) { toast(j.error || "The vote could not be sent. Please try again."); return; }
+      myVotes[key] = n; store.set("e2e-votes", myVotes); render();
+      toast(`✓ Your ${n}★ is in. It stays private; averages update once a day.`);
+    } catch { sheet(null); toast("The vote could not be sent. Please try again."); }
   }
   function rateHtml(s, date) {
     if (s.kind === "break" || !renderEv) return "";
@@ -905,9 +1009,9 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     const avg = st
       ? `<span class="avg" title="Average rating">★ ${st.avg.toFixed(1)} <small>average</small></span>`
       : `<span class="avg none">No average yet</span>`;
-    const btns = open ? `<span class="rate-btns" role="group" aria-label="Rate this session (opens GitHub)">${[1, 2, 3, 4, 5].map(n =>
-      `<a class="${n <= mine ? "on" : ""}" href="${REPO_URL}/issues/new?template=rating.yml" rel="noopener" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</a>`).join("")}</span>` : "";
-    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★ (private)` : "private vote via GitHub"}</span>` : ""}</div>`;
+    const btns = open ? `<span class="rate-btns" role="group" aria-label="Rate this session">${[1, 2, 3, 4, 5].map(n =>
+      `<button type="button" class="${n <= mine ? "on" : ""}" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</button>`).join("")}</span>` : "";
+    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★ (private)` : auth ? "private vote" : "sign in with GitHub to vote"}</span>` : ""}</div>`;
   }
 
   function matches(s) {
@@ -1042,23 +1146,36 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       <div class="events">${items}</div></section></div>`;
   }
 
-  function favUrl() {
-    return `${REPO_URL}/issues/new?` + new URLSearchParams({ template: "favourites.yml", title: "Favourites", favourites: [...starred].sort().join("\n") });
-  }
   function renderSync() {
     if (!syncOpen) return "";
+    if (!auth) return `<section class="panel sync" aria-label="Sync your stars">
+      <h2>Take your stars to another device</h2>
+      <p class="note">Stars live in this browser. Sign in with GitHub (free account) to save them, then sign in on your other phone or computer to get them back. The saved list is public, like everything in the site's repository.</p>
+      <div class="sync-row"><button class="toggle primary" type="button" data-signin="1">Sign in with GitHub</button></div>
+    </section>`;
     return `<section class="panel sync" aria-label="Sync your stars">
       <h2>Take your stars to another device</h2>
-      <p class="note">Stars live in this browser. Save them to GitHub (free account needed), then load them anywhere with your GitHub name. The saved list is public.</p>
-      <div class="sync-row"><a class="toggle" href="${esc(favUrl())}" target="_blank" rel="noopener" data-savefavs="1">⇧ Save ${starred.size} star${starred.size === 1 ? "" : "s"} to GitHub</a><span class="rate-hint">then press Submit on GitHub</span></div>
-      <form class="sync-row" id="syncForm"><label class="sr" for="ghUser">Your GitHub name</label>
-        <input id="ghUser" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Your GitHub name" value="${esc(ghName)}">
-        <button class="toggle" type="submit">⇩ Load</button></form>
+      <p class="who-am-i">Signed in as @${esc(auth.login)} · <button class="linkish" type="button" data-signout="1">Sign out</button></p>
+      <div class="sync-row">
+        <button class="toggle" type="button" data-savefavs="1">⇧ Save ${starred.size} star${starred.size === 1 ? "" : "s"}</button>
+        <button class="toggle" type="button" data-loadfavs="1">⇩ Get my saved stars</button>
+      </div>
+      <p class="note">Saved stars are ready on your other devices a minute or two later. The saved list is public.</p>
     </section>`;
+  }
+  async function saveFavs() {
+    const t = await token();
+    if (!t) { signInSheet("Sign in with GitHub to save your stars"); return; }
+    try {
+      const r = await fetch(WORKER + "/favourites", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + t }, body: JSON.stringify({ stars: [...starred].sort() }) });
+      const j = await r.json().catch(() => ({}));
+      if (r.status === 401) { signOut(true); signInSheet("Please sign in with GitHub again"); return; }
+      toast(r.ok ? `✓ Saved ${j.n} stars. Ready on your other devices in a minute or two.` : (j.error || "Could not save your stars."));
+    } catch { toast("Could not save your stars. Please try again."); }
   }
   async function loadFavs(name, quiet) {
     name = String(name || "").trim().replace(/^@/, "").toLowerCase();
-    if (!/^[a-z0-9-]{1,39}$/.test(name)) { if (!quiet) toast("That is not a GitHub name."); return; }
+    if (!/^[a-z0-9-]{1,39}$/.test(name)) return;
     try {
       const res = await fetch(`favs/${name}.json?t=${Date.now()}`, { cache: "no-store" });
       if (!res.ok) { if (!quiet) toast(`No saved stars for ${name} yet. Save them first; it takes a minute or two.`); return; }
@@ -1066,7 +1183,6 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       const before = starred.size;
       (f.stars || []).forEach(id => starred.add(id));
       store.set("e2e-stars", [...starred]);
-      ghName = name; store.set("e2e-gh", name);
       if (!quiet) toast(`Loaded ${(f.stars || []).length} stars from GitHub (${starred.size - before} new).`);
       render();
     } catch { if (!quiet) toast("Could not reach the saved stars. Try again later."); }
@@ -1281,7 +1397,12 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       if (pastIndex[0] && phase() !== "during") await ensureArchive(pastIndex[0].id);
       if (initial || !day) await route(readHash());
       render();
-      if (initial && ghName) loadFavs(ghName, true);
+      if (initial && auth) {
+        loadFavs(auth.login, true);
+        let pend = null;
+        try { pend = JSON.parse(sessionStorage.getItem("e2e-pending") || "null"); sessionStorage.removeItem("e2e-pending"); } catch {}
+        if (pend && pend.key && pend.n) castVote(pend.key, pend.n);
+      }
       if (changed && phase() === "during" && !pastId) toast("▲ Agenda updated " + fmtClock(next.updatedAt));
     } catch (e) {
       if (initial) $("#list").innerHTML = `<p class="empty">The agenda could not be loaded (${esc(e.message)}). Check your connection and reload, or open <a href="https://e2emvc.com/">e2emvc.com</a>.</p>`;
@@ -1304,20 +1425,12 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       return;
     }
     const v = e.target.closest("[data-vote]");
-    if (v) {
-      e.preventDefault();
-      const n = Number(v.dataset.vote), key = v.dataset.key;
-      // Open the tab now (inside the tap, so it is not blocked), fill in the address once the vote is encrypted.
-      const w = window.open("", "_blank");
-      voteUrl(key, n).then(url => {
-        if (w) { try { w.opener = null; } catch {} w.location.href = url; } else location.href = url;
-        const first = !Object.keys(myVotes).length;
-        myVotes[key] = n; store.set("e2e-votes", myVotes);
-        toast(first ? "GitHub opens with your vote encrypted. Press Submit. Nobody sees what you voted; the site shows averages from 3 votes, updated daily." : `Press Submit on GitHub to count your ${n}★.`);
-        render();
-      }, () => { if (w) w.close(); toast("Your browser could not encrypt the vote. Try another browser."); });
-      return;
-    }
+    if (v) { castVote(v.dataset.key, Number(v.dataset.vote)); return; }
+    if (e.target.closest("[data-signin]")) { signIn(); return; }
+    if (e.target.closest("[data-signout]")) { signOut(false); return; }
+    if (e.target.closest("[data-sheet-close]")) { sheet(null); try { sessionStorage.removeItem("e2e-pending"); } catch {} return; }
+    if (e.target.closest("[data-savefavs]")) { saveFavs(); return; }
+    if (e.target.closest("[data-loadfavs]")) { if (auth) loadFavs(auth.login, false); return; }
     const star = e.target.closest("[data-star]");
     if (star) {
       const id = star.dataset.star;
@@ -1396,14 +1509,13 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
 
   $("#mineBtn").addEventListener("click", () => { mineOnly = !mineOnly; store.set("e2e-mine", mineOnly); render(); });
   $("#syncBtn").addEventListener("click", () => { syncOpen = !syncOpen; render(); if (syncOpen) $("#top").scrollIntoView({ block: "nearest" }); });
-  document.addEventListener("input", (e) => { if (e.target.id === "ghUser") ghName = e.target.value; });
-  document.addEventListener("submit", (e) => { if (e.target.id === "syncForm") { e.preventDefault(); loadFavs($("#ghUser").value, false); } });
   let qt;
   $("#q").addEventListener("input", (e) => { clearTimeout(qt); qt = setTimeout(() => { query = e.target.value.trim(); render(); }, 150); });
   window.addEventListener("hashchange", () => { const r = readHash(); if (r) route(r).then(render); });
   document.addEventListener("visibilitychange", () => { if (!document.hidden) load(false); });
   setInterval(() => { if (document.activeElement?.id !== "ghUser") load(false); }, REFRESH_MS);
   setInterval(() => { if (document.activeElement?.id !== "ghUser") render(); }, 60 * 1000);
+  readAuthHash();
   load(true);
 })();
 </script>

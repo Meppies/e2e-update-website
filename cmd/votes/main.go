@@ -49,6 +49,37 @@ type issue struct {
 		Login string `json:"login"`
 		IsBot bool   `json:"is_bot"`
 	} `json:"author"`
+	Labels []struct {
+		Name string `json:"name"`
+	} `json:"labels"`
+}
+
+func (is issue) has(label string) bool {
+	for _, l := range is.Labels {
+		if l.Name == label {
+			return true
+		}
+	}
+	return false
+}
+
+// The site's Worker opens issues with these titles (labels need repository rights).
+func (is issue) isRating() bool     { return is.Title == "Session rating" || is.has("rating") }
+func (is issue) isFavourites() bool { return is.Title == "Favourites" || is.has("favourites") }
+
+var sigRe = regexp.MustCompile(`<!-- sig:([0-9a-f]{64}) -->`)
+
+// signedBy checks the Worker's signature: only votes sent through the site,
+// after sign-in, the human check and the account checks, carry a valid one.
+func signedBy(body, login, ballot string, key []byte) bool {
+	m := sigRe.FindStringSubmatch(body)
+	if m == nil || len(key) == 0 {
+		return false
+	}
+	mac := hmac.New(sha256.New, key)
+	mac.Write([]byte(strings.ToLower(login) + "\n" + ballot))
+	want := hex.EncodeToString(mac.Sum(nil))
+	return hmac.Equal([]byte(want), []byte(m[1]))
 }
 
 type action struct {
@@ -177,8 +208,7 @@ func (k *keys) writeStore(path string, votes map[string]map[string]int) error {
 }
 
 func main() {
-	ratingsIn := flag.String("ratings", "", "open rating issues (gh issue list JSON)")
-	favsIn := flag.String("favourites", "", "open favourites issues (gh issue list JSON)")
+	issuesIn := flag.String("issues", "", "open issues (gh issue list --json number,author,body,title,labels)")
 	site := flag.String("site", "site", "site folder")
 	data := flag.String("data", "data", "folder for the vote register")
 	actionsOut := flag.String("actions", "actions.json", "where to write the replies")
@@ -210,7 +240,19 @@ func main() {
 	}
 	now := time.Now().In(loc)
 
-	ratingIssues := readIssues(*ratingsIn)
+	var ratingIssues, favIssues []issue
+	for _, is := range readIssues(*issuesIn) {
+		switch {
+		case is.isRating():
+			ratingIssues = append(ratingIssues, is)
+		case is.isFavourites():
+			favIssues = append(favIssues, is)
+		}
+	}
+	hmacKey := []byte(os.Getenv("VOTE_HMAC"))
+	if len(hmacKey) == 0 && keyErr == nil {
+		keyErr = errors.New("VOTE_HMAC is not set")
+	}
 	if keyErr != nil && len(ratingIssues) > 0 {
 		// Leave the issues open; they are counted once the key is there.
 		fmt.Fprintln(os.Stderr, "votes: cannot count ratings:", keyErr)
@@ -221,7 +263,12 @@ func main() {
 			acts = append(acts, action{is.Number, "Votes come from people, not bots. Closing this one.", "not planned"})
 			continue
 		}
-		bl, err := k.open(fields(is.Body)["vote"])
+		ballot := strings.TrimSpace(strings.SplitN(fields(is.Body)["vote"]+"\n", "\n", 2)[0])
+		if !signedBy(is.Body, is.Author.Login, ballot, hmacKey) {
+			acts = append(acts, action{is.Number, "Votes only count when they are sent from https://e2emvc.meppie.eu/ after signing in there. Closing this one.", "not planned"})
+			continue
+		}
+		bl, err := k.open(ballot)
 		if err != nil {
 			acts = append(acts, action{is.Number, "Sorry, this vote could not be read. Please vote with the stars on https://e2emvc.meppie.eu/, they fill in this form for you.", "not planned"})
 			continue
@@ -247,7 +294,7 @@ func main() {
 	}
 
 	idRe := regexp.MustCompile(`^[a-z0-9][a-z0-9-]{1,100}$`)
-	for _, is := range readIssues(*favsIn) {
+	for _, is := range favIssues {
 		login := strings.ToLower(is.Author.Login)
 		if is.Author.IsBot || login == "" {
 			acts = append(acts, action{is.Number, "Closing: favourites belong to people.", "not planned"})
@@ -272,7 +319,7 @@ func main() {
 		if err := os.WriteFile(p, append(b, '\n'), 0o644); err != nil {
 			fail(err)
 		}
-		acts = append(acts, action{is.Number, fmt.Sprintf("Saved %d favourite sessions for @%s. On another phone or computer: open https://e2emvc.meppie.eu/, tap “Sync” and enter `%s`.", len(ids), is.Author.Login, is.Author.Login), "completed"})
+		acts = append(acts, action{is.Number, fmt.Sprintf("Saved %d favourite sessions for @%s. On another phone or computer: open https://e2emvc.meppie.eu/, tap “Sync”, sign in and get your saved stars.", len(ids), is.Author.Login), "completed"})
 	}
 
 	// The register is encrypted with a fresh nonce, so write it only on a real change.
