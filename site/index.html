@@ -748,7 +748,11 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     }
     if ((i.upcoming || []).length) {
       out.push(`<section><h2>Coming up</h2>
-        <div class="events">${i.upcoming.map(e => {
+        <div class="events">${i.upcoming.filter(e => {
+          // e2emvc.com keeps an event in its list for a while after it ended; past events live under Past.
+          const text = e.title + " " + (e.lines || []).join(" ");
+          return !pastIndex.some(p => new RegExp("\\b" + p.place + "\\b", "i").test(e.title) && text.includes(p.start.slice(0, 4)));
+        }).map(e => {
           const text = e.title + " " + (e.lines || []).join(" ");
           const past = pastIndex.find(p => new RegExp("\\b" + p.place + "\\b", "i").test(e.title) && text.includes(p.start.slice(0, 4)));
           const current = !past && ev && ph !== "after" && new RegExp("\\b" + ev.place + "\\b", "i").test(e.title);
