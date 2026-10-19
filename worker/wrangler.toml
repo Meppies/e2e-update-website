@@ -1,0 +1,11 @@
+name = "e2e-votes"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[vars]
+SITE_ORIGIN = "https://e2emvc.meppie.eu"
+REPO = "Meppies/e2e-update-website"
+MIN_ACCOUNT_DAYS = "7"
+GH_CLIENT_ID = "set-after-app-creation"
+# Secrets (wrangler secret put): GH_CLIENT_SECRET, TURNSTILE_SECRET, VOTE_HMAC
