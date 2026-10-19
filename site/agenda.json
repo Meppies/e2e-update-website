@@ -1,6 +1,6 @@
 {
   "source": "https://e2emvc.com/",
-  "updatedAt": "2026-10-17T10:35:26Z",
+  "updatedAt": "2026-10-19T08:33:13Z",
   "days": [
     {
       "date": "2026-10-15",
@@ -1199,5 +1199,12 @@
         "- Master Class \"Ai in EUC III\" on April 8, 2027"
       ]
     }
+  },
+  "event": {
+    "id": "2026-10-malta",
+    "name": "E2E EUCDEX.Ai Malta 2026",
+    "place": "Malta",
+    "start": "2026-10-15",
+    "end": "2026-10-18"
   }
 }
