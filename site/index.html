@@ -67,6 +67,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--ground); color: var(--text);
@@ -444,7 +445,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   <div class="sponsor-strip top" id="diamondStrip" hidden></div>
 </nav>
 <main class="wrap">
-  <div class="tools">
+  <div class="tools" id="tools">
     <div class="search">
       <label class="sr" for="q">Search sessions and speakers</label>
       <input id="q" type="search" placeholder="Search sessions or speakers" autocomplete="off">
@@ -529,6 +530,10 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   let ghName = store.get("e2e-gh", "");
   let starred = new Set(store.get("e2e-stars", []));
   let mineOnly = store.get("e2e-mine", false);
+  // Tools per view: none on Info and the Past list, only search in a past agenda,
+  // search, My agenda and Sync on the live agenda days.
+  const toolMode = () => pastId ? "search" : (day === "info" || day === "past") ? "none" : "all";
+  const mineOn = () => mineOnly && toolMode() === "all";
   let query = "";
   let day = null;
   let demoNow = window.E2E_DEMO || null;
@@ -906,8 +911,8 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   }
 
   function matches(s) {
-    if (mineOnly && !starred.has(s.id) && s.kind !== "break") return false;
-    if (mineOnly && s.kind === "break") return false;
+    if (mineOn() && !starred.has(s.id) && s.kind !== "break") return false;
+    if (mineOn() && s.kind === "break") return false;
     if (!query) return true;
     const hay = [s.title, s.description, s.room, ...(s.speakers || []).map(p => displayName(p.name))].join(" ").toLowerCase();
     return query.toLowerCase().split(/\s+/).every(w => hay.includes(w));
@@ -969,13 +974,13 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       html += `<p class="note">Official agenda: <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com ↗</a></p>`;
     }
     if (d.updating) html += `<p class="note"><span class="flag">▲</span> The organiser marks this day as still being updated.</p>`;
-    if (!list.length) return html + `<p class="empty">${mineOnly ? "No starred sessions on this day yet. Tap ☆ on a session to add it." : "No sessions match your search on this day."}</p>`;
+    if (!list.length) return html + `<p class="empty">${mineOn() ? "No starred sessions on this day yet. Tap ☆ on a session to add it." : "No sessions match your search on this day."}</p>`;
     let prevEnd = null;
     html += `<div class="${rooms ? "rooms" : ""}" style="${rooms ? `--cols:${rooms.length}` : ""}">`;
     if (rooms) html += `<div class="room-heads" aria-hidden="true"><span class="rh-gap"></span><div class="rh-row">${rooms.map(r => `<span class="rh"${roomStyle(r)}>${esc(r)}</span>`).join("")}</div></div>`;
     for (const [, group] of slotsOf(d, list)) {
       const s0 = group[0];
-      if (prevEnd != null && s0.start && mins(s0.start) - prevEnd >= 20 && !mineOnly && !query) {
+      if (prevEnd != null && s0.start && mins(s0.start) - prevEnd >= 20 && !mineOn() && !query) {
         const gs = prevEnd, ge = mins(s0.start);
         const lunch = ge - gs >= 30 && gs < 14 * 60 && ge > 12 * 60;
         html += `<div class="gap"><b>${lunch ? "Lunch break" : "Break"}</b> · ${String(Math.floor(gs / 60)).padStart(2, "0")}:${String(gs % 60).padStart(2, "0")}–${esc(s0.start)}</div>`;
@@ -1214,7 +1219,11 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     $("#updated").textContent = fmtStamp(agenda.updatedAt);
     if (!pastId && day !== "info" && day !== "past" && !liveDays().some(d => d.date === day)) day = "info";
     renderTabs();
-    const sync = renderSync();
+    const mode = toolMode();
+    $("#tools").hidden = mode === "none";
+    $("#mineBtn").hidden = $("#syncBtn").hidden = mode !== "all";
+    if (mode === "none" && query) { query = ""; $("#q").value = ""; }
+    const sync = mode === "all" ? renderSync() : "";
     if (_on(query)) {
       $("#top").innerHTML = "";
       $("#list").innerHTML = tty(query);
