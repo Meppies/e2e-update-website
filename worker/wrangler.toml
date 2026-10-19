@@ -8,4 +8,12 @@ SITE_ORIGIN = "https://e2emvc.meppie.eu"
 REPO = "Meppies/e2e-update-website"
 MIN_ACCOUNT_DAYS = "7"
 GH_CLIENT_ID = "Iv23liJFS4lJaVhnNqrL"
-# Secrets (wrangler secret put): GH_CLIENT_SECRET, TURNSTILE_SECRET, VOTE_HMAC
+# Slides after voting: switched off until the next event (see README, "Slides").
+SLIDES_ENABLED = "0"
+SLIDES_REPO = "Meppies/e2e-slides"
+# Secrets (wrangler secret put): GH_CLIENT_SECRET, TURNSTILE_SECRET, VOTE_HMAC, later SLIDES_TOKEN
+
+# Who voted on which session (keyed hash only, never the stars), to unlock slides.
+[[kv_namespaces]]
+binding = "VOTED"
+id = "444a4b29a4fd406aa16c0530bea62384"

@@ -405,6 +405,7 @@ footer a { color: var(--band-text); }
 .sheet .note { font-size: .92rem; }
 .toggle.primary { background: var(--e2e-ink); color: #FFFFFF; border-color: var(--e2e-ink); }
 :root[data-theme="dark"] .toggle.primary { background: #FFFFFF; color: #161616; }
+.slides-btn { padding: 5px 12px; font-size: .9rem; }
 .who-am-i { font-family: var(--mono); font-size: .85rem; color: var(--text-2); }
 .linkish { all: unset; cursor: pointer; color: var(--change); font-weight: 700; }
 .rate-hint { color: var(--text-2); font-family: var(--mono); font-size: .8rem; }
@@ -982,6 +983,33 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     <p class="note">Once per device. Nobody can see what you voted; the site only shows averages. The GitHub app can only open issues in this site's repository.</p>
     <div class="sync-row"><button class="toggle primary" type="button" data-signin="1">Sign in with GitHub</button><button class="toggle" type="button" data-sheet-close="1">Not now</button></div>`);
 
+  /* Slides after voting (switched on per event by publishing slides/<event>.json,
+     a plain list of session ids that have slides; the files stay private). */
+  const slideSets = {};
+  function ensureSlides(evId) {
+    if (slideSets[evId] !== undefined) return;
+    slideSets[evId] = null;
+    getJSON(`slides/${encodeURIComponent(evId)}.json`).then(list => {
+      slideSets[evId] = Array.isArray(list) && list.length ? new Set(list) : null;
+      if (slideSets[evId]) render();
+    });
+  }
+  async function downloadSlides(key) {
+    const t = await token();
+    if (!t) { signInSheet("Sign in with GitHub to get the slides"); return; }
+    sheet(`<p><b>Fetching the slides…</b></p>`);
+    try {
+      const r = await fetch(`${WORKER}/slides?` + new URLSearchParams({ key }), { headers: { "Authorization": "Bearer " + t } });
+      if (!r.ok) { const j = await r.json().catch(() => ({})); sheet(null); toast(j.error || "The slides could not be fetched."); return; }
+      const blob = await r.blob();
+      const name = ((r.headers.get("Content-Disposition") || "").match(/filename="([^"]+)"/) || [])[1] || "slides";
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+      sheet(null);
+    } catch { sheet(null); toast("The slides could not be fetched. Please try again."); }
+  }
+
   async function castVote(key, n) {
     const t = await token();
     if (!t) {
@@ -993,7 +1021,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       const ballot = await encryptBallot(key, n);
       const human = await humanToken();
       sheet(`<p><b>Sending your vote…</b></p>`);
-      const r = await fetch(WORKER + "/vote", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + t }, body: JSON.stringify({ ballot, turnstile: human }) });
+      const r = await fetch(WORKER + "/vote", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + t }, body: JSON.stringify({ ballot, key, turnstile: human }) });
       const j = await r.json().catch(() => ({}));
       sheet(null);
       if (r.status === 401) { signOut(true); signInSheet("Please sign in with GitHub again"); return; }
@@ -1014,7 +1042,12 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       : `<span class="avg none">No average yet</span>`;
     const btns = open ? `<span class="rate-btns" role="group" aria-label="Rate this session">${[1, 2, 3, 4, 5].map(n =>
       `<button type="button" class="${n <= mine ? "on" : ""}" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</button>`).join("")}</span>` : "";
-    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★ (private)` : auth ? "private vote" : "sign in with GitHub to vote"}</span>` : ""}</div>`;
+    const hasSlides = slideSets[renderEv.id] && slideSets[renderEv.id].has(s.id);
+    if (slideSets[renderEv.id] === undefined) ensureSlides(renderEv.id);
+    const slidesHtml = !hasSlides ? "" : mine
+      ? `<button class="toggle slides-btn" type="button" data-slides="${esc(key)}">⬇ Slides</button>`
+      : `<span class="rate-hint">🔒 slides unlock after your vote</span>`;
+    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★ (private)` : auth ? "private vote" : "sign in with GitHub to vote"}</span>` : ""}${slidesHtml}</div>`;
   }
 
   function matches(s) {
@@ -1430,6 +1463,8 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     const v = e.target.closest("[data-vote]");
     if (v) { castVote(v.dataset.key, Number(v.dataset.vote)); return; }
     if (e.target.closest("[data-signin]")) { signIn(); return; }
+    const sl = e.target.closest("[data-slides]");
+    if (sl) { downloadSlides(sl.dataset.slides); return; }
     if (e.target.closest("[data-signout]")) { signOut(false); return; }
     if (e.target.closest("[data-sheet-close]")) { sheet(null); try { sessionStorage.removeItem("e2e-pending"); } catch {} return; }
     if (e.target.closest("[data-savefavs]")) { saveFavs(); return; }

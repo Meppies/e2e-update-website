@@ -33,6 +33,26 @@ Favourites: **Sync → Save** sends the starred sessions through the Worker as a
 
 Secrets: repository secrets `VOTE_KEY` and `VOTE_HMAC`; Worker secrets `GH_CLIENT_SECRET`, `TURNSTILE_SECRET` and `VOTE_HMAC` (same value as the repository's). Replacing `VOTE_KEY` makes the register unreadable, so votes start again from zero. Deploy the Worker with `cd worker && npx wrangler deploy`.
 
+## Slides after voting (built, switched off)
+
+For the next event: decks shared by the speakers become downloadable for people who voted on that session. Everything is in place but off; nothing is published until the steps below are done.
+
+- The Worker remembers **that** an account voted on a session (a keyed hash in the KV namespace `VOTED`, never the stars). `/slides?key=<event>/<session>` checks that, then streams the deck from the private repository `SLIDES_REPO` (`Meppies/e2e-slides`) using `SLIDES_TOKEN`. It answers "not available" while `SLIDES_ENABLED` is not `"1"`.
+- The site shows **⬇ Slides** (after voting) or **🔒 slides unlock after your vote** only for sessions listed in `site/slides/<event>.json`. No list, no button.
+- `cmd/slides` proposes which deck belongs to which session (file name, deck text, speaker names) and, after review, copies the approved decks into the slides repository with its `manifest.json` and writes the public list.
+- `scripts/signal-export-slides.sh` exports the attachments of the Signal group from Signal Desktop with sigtop.
+
+To switch it on:
+
+1. Ask Alex and the speakers. Leave out every deck whose speaker says no.
+2. Create the private repository `Meppies/e2e-slides`.
+3. Create a fine-grained token with read-only *Contents* access to that repository only and store it with `cd worker && npx wrangler secret put SLIDES_TOKEN` (paste from the clipboard, never into a file).
+4. Export the decks: `scripts/signal-export-slides.sh "<group>" ~/slides-in` (or collect them by hand in that folder).
+5. Propose: `go run ./cmd/slides -agenda site/events/<event>/agenda.json -in ~/slides-in -out ~/slides-in/match.json`. Review `match.json`: fix wrong sessions, set `"session": ""` to leave a deck out.
+6. Apply: `go run ./cmd/slides -apply ~/slides-in/match.json -agenda site/events/<event>/agenda.json -repo ~/e2e-slides -site site`, then push both repositories.
+7. Set `SLIDES_ENABLED = "1"` in `worker/wrangler.toml` and `npx wrangler deploy`.
+8. Test with one account: vote on a session with slides, press ⬇ Slides; try one you did not vote on (should say "Vote on this session first").
+
 ## Safety net
 
 The scraper refuses to publish when the parse looks broken: no event heading, no about text and no sponsors, a day that disappeared, or more than 30% of sessions gone. When the organiser switches to the next event, the comparison with the old agenda is skipped. Use `-force` to override after checking.
