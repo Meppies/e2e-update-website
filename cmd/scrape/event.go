@@ -154,13 +154,17 @@ func eventMeta(info *Info, days []Day) *EventMeta {
 	if start == "" {
 		return nil
 	}
+	brand := "E2E EUCDEX.Ai"
+	if info != nil && info.Brand != "" {
+		brand = info.Brand
+	}
 	place := placeOf(title)
 	if place == "" {
 		place = "Event"
 	}
 	return &EventMeta{
 		ID:    start[:7] + "-" + slug(place),
-		Name:  fmt.Sprintf("E2E EUCDEX.Ai %s %s", place, start[:4]),
+		Name:  fmt.Sprintf("%s %s %s", brand, place, start[:4]),
 		Place: place,
 		Start: start,
 		End:   end,

@@ -1,4 +1,6 @@
-# E2EMVC unofficial
+# E2E EUCDEX.Ai unofficial
+
+The name follows the organiser’s own, taken from the "What is … CONFERENCE?" heading on e2emvc.com.
 
 A readable, phone-friendly copy of the E2E EUCDEX.Ai conference agenda, with an archive of past events and session ratings. Live at https://e2emvc.meppie.eu/.
 

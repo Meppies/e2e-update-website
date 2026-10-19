@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>E2EMVC unofficial</title>
+<title>E2E EUCDEX.Ai unofficial</title>
 <meta name="description" content="Unofficial, phone-friendly agenda for the E2E EUCDEX.Ai conferences: the current agenda, past events and session ratings, copied from e2emvc.com.">
 <link rel="canonical" href="https://e2emvc.meppie.eu/">
-<meta property="og:title" content="E2EMVC unofficial">
+<meta property="og:title" content="E2E EUCDEX.Ai unofficial">
 <meta property="og:description" content="Phone-friendly agenda for the E2E EUCDEX.Ai conferences, with past events and session ratings.">
 <meta property="og:url" content="https://e2emvc.meppie.eu/">
 <meta property="og:type" content="website">
@@ -103,7 +103,7 @@ header.band .wrap { position: relative; }
 .brand-text { min-width: 0; }
 .eyebrow { font-family: var(--mono); font-size: .9rem; color: var(--label); margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
 .unofficial { font-family: var(--mono); font-size: .75rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); }
-h1 { font-weight: 800; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.05; margin: 4px 0 0; letter-spacing: -.01em; color: var(--text); }
+h1 { font-weight: 800; font-size: clamp(1.9rem, 6.4vw, 3.4rem); line-height: 1.05; margin: 4px 0 0; letter-spacing: -.01em; color: var(--text); }
 h1 .dot { color: var(--e2e-red); }
 h1 .u { font-weight: 400; color: var(--label); font-size: .62em; letter-spacing: 0; white-space: nowrap; }
 .sub { color: var(--text-2); margin: 0; max-width: 44rem; grid-column: 1 / -1; }
@@ -421,9 +421,9 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     <a class="logo-link" href="https://e2emvc.com/" rel="noopener" title="Official site: e2emvc.com"><img class="e2e-logo" src="e2e-logo.png" alt="Experts 2 Experts EUCDEX.Ai, official site" width="400" height="235"></a>
     <div class="brand-text">
       <p class="eyebrow"><span id="eyebrow">E2E EUCDEX.Ai</span></p>
-      <h1>E2EMVC <span class="u">unofficial</span><span class="dot">.</span></h1>
+      <h1><span id="brand">E2E EUCDEX.Ai</span> <span class="u">unofficial</span><span class="dot">.</span></h1>
     </div>
-    <p class="sub">The E2E EUCDEX.Ai conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every day. The agenda shows up a week before each event; afterwards it moves to Past, where you can rate the sessions you saw.</p>
+    <p class="sub">The <span class="brand-name">E2E EUCDEX.Ai</span> conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every day. The agenda shows up a week before each event; afterwards it moves to Past, where you can rate the sessions you saw.</p>
     <p class="stamp"><span>Last changed <b id="updated">…</b></span><span>Times are local event time</span><a href="#where" id="whereLink">Venue and hotel ↓</a></p>
   </div>
 </header>
@@ -1146,7 +1146,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
 
   function renderHeader() {
     const ev = evOf(agenda), ph = phase();
-    let line = "E2E EUCDEX.Ai";
+    let line = (agenda.info || {}).brand || "E2E EUCDEX.Ai";
     if (pastId && archives[pastId]) {
       const p = evOf(archives[pastId]);
       line = `Past event · ${p.place} · ${fmtRange(p.start, p.end)}`;
@@ -1158,6 +1158,11 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       if (next) line = `Next: ${nice(next.title)} · ${((next.lines || [])[0] || "").replace(/\s*-\s*/, "–")}`;
     }
     $("#eyebrow").textContent = line;
+    // The name follows the organiser's site, so a rename there shows up here too.
+    const brand = (agenda.info || {}).brand || "E2E EUCDEX.Ai";
+    $("#brand").textContent = brand;
+    document.querySelectorAll(".brand-name").forEach(x => { x.textContent = brand; });
+    document.title = brand + " unofficial";
     // The venue block is written for Malta; show it only around that event.
     const venue = !pastId && ev && /malta/i.test(ev.place) && ph !== "after";
     $("#where").hidden = !venue; $("#whereLink").hidden = !venue;

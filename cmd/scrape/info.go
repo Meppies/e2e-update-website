@@ -9,6 +9,9 @@ import (
 // Info holds the non-agenda parts of e2emvc.com: about text, event details,
 // sponsors, the master class panel and upcoming events.
 type Info struct {
+	// Brand is the conference name as the organiser writes it ("E2E EUCDEX.Ai"),
+	// taken from the "What is ... CONFERENCE?" heading so a rename follows here.
+	Brand    string     `json:"brand,omitempty"`
 	About    []string   `json:"about,omitempty"`
 	Event    *Event     `json:"event,omitempty"`
 	Diamond  []Sponsor  `json:"diamondSponsors,omitempty"`
@@ -96,6 +99,17 @@ var (
 	trailingSiteRe = regexp.MustCompile(`(?i)\s*website\s*:\s*\S+\s*$`)
 )
 
+var brandJunk = regexp.MustCompile(`(?i)^\s*what\s+is\s+(the\s+)?|\bconferences?\b|[?()]`)
+
+// brandOf turns "What is (E2E) EUCDEX.Ai CONFERENCE?" into "E2E EUCDEX.Ai".
+func brandOf(heading string) string {
+	b := clean(brandJunk.ReplaceAllString(heading, " "))
+	if len(b) < 3 || len(b) > 40 {
+		return ""
+	}
+	return b
+}
+
 func isRange(s string) bool { _, _, ok := eventRange(s); return ok }
 
 func cardTexts(c Card) []string {
@@ -115,6 +129,9 @@ func buildInfo(secs []Section) *Info {
 		h := strings.ToLower(sec.Heading)
 		switch {
 		case strings.Contains(h, "what is"):
+			if info.Brand == "" {
+				info.Brand = brandOf(sec.Heading)
+			}
 			for _, b := range sec.Loose {
 				if b.Tag == "p" {
 					info.About = append(info.About, b.Text())
