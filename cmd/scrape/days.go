@@ -47,7 +47,6 @@ var (
 	timeRe    = regexp.MustCompile(`(\d{1,2})[:.](\d{2})\s*[-–—]\s*(\d{1,2})[:.](\d{2})`)
 	roomRe    = regexp.MustCompile(`(?i)(\d{1,2})[:.](\d{2})\s*[-–—]\s*(\d{1,2})[:.](\d{2})\s*,?\s*room\s*(\d+)\s*,?`)
 	breakRe   = regexp.MustCompile(`(?i)\b(lunch|coffee|break|dinner|drinks)\b`)
-	dayRe     = regexp.MustCompile(`(?i)october\s+(\d{1,2})\s*(?:,|$)`)
 	quotedRe  = regexp.MustCompile(`^(.+?)\s*["“”]\s*(.+?)\s*["“”]\s*$`)
 	nameJunk  = regexp.MustCompile(`\s+-\s+.*$`)
 	stopNames = map[string]bool{"linkedin": true, "twitter": true, "x": true, "blog": true, "github": true, "socials": true, "website": true, "links": true}
@@ -107,23 +106,6 @@ func splitNames(s string) []Speaker {
 		}
 	}
 	return out
-}
-
-// dayOf maps a section heading to an October date, or 0 if it is not a day.
-func dayOf(heading string) int {
-	h := strings.ToLower(heading)
-	if strings.Contains(h, "panel of experts") {
-		return 0
-	}
-	m := dayRe.FindStringSubmatch(heading)
-	if m == nil {
-		return 0
-	}
-	d, _ := strconv.Atoi(m[1])
-	if d < 14 || d > 19 {
-		return 0
-	}
-	return d
 }
 
 func dayTitle(heading string) string {

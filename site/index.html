@@ -3,9 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>E2E Malta Agenda</title>
-<meta name="description" content="Readable, phone-friendly copy of the E2E EUCDEX.Ai Malta 2026 agenda, refreshed from e2emvc.com every 5 minutes.">
-<meta name="robots" content="noindex, nofollow, noarchive">
+<title>E2EMVC unofficial</title>
+<meta name="description" content="Unofficial, phone-friendly agenda for the E2E EUCDEX.Ai conferences: the current agenda, past events and session ratings, copied from e2emvc.com.">
+<link rel="canonical" href="https://e2emvc.meppie.eu/">
+<meta property="og:title" content="E2EMVC unofficial">
+<meta property="og:description" content="Phone-friendly agenda for the E2E EUCDEX.Ai conferences, with past events and session ratings.">
+<meta property="og:url" content="https://e2emvc.meppie.eu/">
+<meta property="og:type" content="website">
 <meta name="theme-color" content="#161616">
 <script>try { const t = localStorage.getItem("e2e-theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); } catch {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,6 +105,7 @@ header.band .wrap { position: relative; }
 .unofficial { font-family: var(--mono); font-size: .75rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); }
 h1 { font-weight: 800; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.05; margin: 4px 0 0; letter-spacing: -.01em; color: var(--text); }
 h1 .dot { color: var(--e2e-red); }
+h1 .u { font-weight: 400; color: var(--label); font-size: .62em; letter-spacing: 0; white-space: nowrap; }
 .sub { color: var(--text-2); margin: 0; max-width: 44rem; grid-column: 1 / -1; }
 .stamp { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 4px 0 0; font-family: var(--mono); font-size: .9rem; color: var(--text-2); grid-column: 1 / -1; }
 .stamp b { color: var(--text); font-weight: 600; }
@@ -380,6 +385,29 @@ footer a { color: var(--band-text); }
   background: var(--band); color: var(--band-text); padding: 10px 16px; border-radius: 12px;
   font-weight: 700; box-shadow: 0 6px 20px #0005; z-index: 10; width: max-content; max-width: min(30rem, calc(100% - 32px)); text-align: center; border: 1px solid #333;
 }
+/* Ratings */
+.rating { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: .9rem; border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 2px; }
+.rating .avg { font-weight: 700; color: var(--text); }
+.rating .avg small { font-weight: 400; color: var(--text-2); }
+.rating .avg.none { font-weight: 400; color: var(--text-2); }
+.rate-btns { display: inline-flex; gap: 2px; }
+.rate-btns a { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 8px; font-size: 1.25rem; line-height: 1; color: var(--line); font-weight: 400; }
+.rate-btns a.on { color: var(--star); }
+.rate-btns:hover a { color: var(--star); }
+.rate-btns a:hover ~ a { color: var(--line); }
+.rate-btns a:focus-visible { outline-offset: 0; }
+.rate-hint { color: var(--text-2); font-family: var(--mono); font-size: .8rem; }
+/* Past events */
+.past-ev .top-rated { margin: 6px 0 2px; padding-left: 1.2rem; display: grid; gap: 4px; color: var(--text-2); font-size: .92rem; }
+.past-ev .top-rated b { color: var(--text); font-weight: 700; }
+.past-ev .toggle, .ended .toggle { justify-self: start; margin-top: 6px; }
+.archive-note { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; background: var(--chip); border-radius: 10px; padding: 8px 12px; margin-top: 10px; }
+.days button.backtab .d { color: var(--mark); }
+/* Sync */
+.sync .sync-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.sync input { font: inherit; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--ground); color: var(--text); flex: 1 1 12rem; min-width: 0; }
+a.toggle { display: inline-block; }
+a.toggle:hover { color: var(--text); border-color: var(--change); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
@@ -392,11 +420,11 @@ footer a { color: var(--band-text); }
     </button>
     <a class="logo-link" href="https://e2emvc.com/" rel="noopener" title="Official site: e2emvc.com"><img class="e2e-logo" src="e2e-logo.png" alt="Experts 2 Experts EUCDEX.Ai, official site" width="400" height="235"></a>
     <div class="brand-text">
-      <p class="eyebrow"><span>Valletta, Malta · 15-18 Oct 2026</span><span class="unofficial">Unofficial copy</span></p>
-      <h1>Agenda<span class="dot">.</span></h1>
+      <p class="eyebrow"><span id="eyebrow">E2E EUCDEX.Ai</span></p>
+      <h1>E2EMVC <span class="u">unofficial</span><span class="dot">.</span></h1>
     </div>
-    <p class="sub">The E2E EUCDEX.Ai conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every 5 minutes, so late changes show up here too.</p>
-    <p class="stamp"><span>Agenda last changed <b id="updated">…</b></span><span>Times are Malta time (CEST)</span><a href="#where">Venue and hotel ↓</a></p>
+    <p class="sub">The E2E EUCDEX.Ai conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every day. The agenda shows up a week before each event; afterwards it moves to Past, where you can rate the sessions you saw.</p>
+    <p class="stamp"><span>Last changed <b id="updated">…</b></span><span>Times are local event time</span><a href="#where" id="whereLink">Venue and hotel ↓</a></p>
   </div>
 </header>
 <nav class="days" aria-label="Conference days">
@@ -410,6 +438,7 @@ footer a { color: var(--band-text); }
       <input id="q" type="search" placeholder="Search sessions or speakers" autocomplete="off">
     </div>
     <button class="toggle" id="mineBtn" type="button" aria-pressed="false">☆ My agenda</button>
+    <button class="toggle" id="syncBtn" type="button" aria-expanded="false" title="Take your stars to another device">⇅ Sync</button>
   </div>
   <div id="top"></div>
   <div id="list" aria-live="polite"><p class="empty">Loading the agenda…</p></div>
@@ -440,7 +469,8 @@ footer a { color: var(--band-text); }
 <footer>
   <div class="wrap">
     <span>Unofficial copy. The organiser's page at <a href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> is leading; check it when in doubt.</span>
-    <span>Built by <a href="https://meppie.eu/" rel="noopener">Jeroen Meppelink</a>. No cookies, no tracking. Your stars are saved in this browser only.</span>
+    <span>Built by <a href="https://meppie.eu/" rel="noopener">Jeroen Meppelink</a>. No cookies, no tracking. Your stars stay in this browser unless you save them to GitHub with Sync.</span>
+    <span>Ratings and synced stars go through public issues on <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a>, under your GitHub name. One vote per account per session; your latest vote counts.</span>
   </div>
 </footer>
 <aside class="sponsor-strip bottom" id="featuredStrip" aria-label="Featured sponsors" hidden></aside>
@@ -452,15 +482,23 @@ footer a { color: var(--band-text); }
   const DATA_URL = "agenda.json";
   const REFRESH_MS = 5 * 60 * 1000;
   const RECENT_H = 48;
-  const TABS = { "2026-10-15": "thu", "2026-10-16": "fri", "2026-10-17": "sat", "2026-10-18": "sun" };
-  const SHORT = { "2026-10-15": "Master class", "2026-10-16": "Day 1", "2026-10-17": "Day 2", "2026-10-18": "Panel" };
+  const REPO_URL = "https://github.com/Meppies/e2e-update-website";
+  const PREVIEW_DAYS = 7; // the agenda shows up this many days before the first day
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
   };
 
-  let agenda = null;
+  let agenda = null;              // the live copy of e2emvc.com
+  let pastIndex = [];             // events/index.json
+  const archives = {};            // event id -> frozen agenda
+  let ratings = { events: {} };   // ratings.json
+  let pastId = null;              // set while browsing a past event
+  let renderEv = null;            // event of the sessions being drawn (for votes)
+  let myVotes = store.get("e2e-votes", {});
+  let syncOpen = false;
+  let ghName = store.get("e2e-gh", "");
   let starred = new Set(store.get("e2e-stars", []));
   let mineOnly = store.get("e2e-mine", false);
   let query = "";
@@ -489,33 +527,111 @@ footer a { color: var(--band-text); }
     return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: style, day: "numeric" }).format(new Date(date + "T12:00:00Z"));
   }
   function isRecent(iso) { return iso && (Date.now() - new Date(iso).getTime()) < RECENT_H * 3600e3; }
-
-  function readHash() {
-    const h = (location.hash || "").slice(1);
-    if (h === "demo") { demoNow = { date: "2026-10-17", min: 12 * 60 + 20 }; return "2026-10-17"; }
-    if (h === "info") return "info";
-    return Object.keys(TABS).find(d => TABS[d] === h) || null;
+  const wk = (date) => new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "short" }).format(new Date(date + "T12:00:00Z")).toLowerCase();
+  const addDays = (date, n) => { const t = new Date(date + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+  function fmtDate(date, opts = { day: "numeric", month: "long", year: "numeric" }) {
+    return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", ...opts }).format(new Date(date + "T12:00:00Z"));
+  }
+  function fmtRange(a, b) {
+    if (!a) return "";
+    if (!b || a === b) return fmtDate(a, { day: "numeric", month: "short", year: "numeric" });
+    const [ya, ma] = a.split("-"), [yb, mb] = b.split("-");
+    if (ya === yb && ma === mb) return `${Number(a.slice(8))}–${fmtDate(b, { day: "numeric", month: "short", year: "numeric" })}`;
+    if (ya === yb) return `${fmtDate(a, { day: "numeric", month: "short" })} – ${fmtDate(b, { day: "numeric", month: "short", year: "numeric" })}`;
+    return `${fmtDate(a, { day: "numeric", month: "short", year: "numeric" })} – ${fmtDate(b, { day: "numeric", month: "short", year: "numeric" })}`;
+  }
+  function shortTitle(d) {
+    if (/master class/i.test(d.title)) return "Master class";
+    const m = d.title.match(/\bday\s*(\d+)/i);
+    return m ? "Day " + m[1] : d.title;
   }
 
-  function pickDefaultDay() {
-    const fromHash = readHash();
-    if (fromHash) return fromHash;
+  /* Which event a data set belongs to. Older files have no "event" block. */
+  function evOf(a) {
+    if (!a) return null;
+    if (a.event) return a.event;
+    const dates = (a.days || []).filter(d => d.sessions.length).map(d => d.date).sort();
+    if (!dates.length) return null;
+    const place = /malta/i.test(JSON.stringify((a.info || {}).event || "")) ? "Malta" : "Event";
+    return { id: dates[0].slice(0, 7) + "-" + place.toLowerCase(), name: `E2E EUCDEX.Ai ${place} ${dates[0].slice(0, 4)}`, place, start: dates[0], end: dates[dates.length - 1] };
+  }
+  /* before: only general info; during: the agenda (from a week before); after: the event is in Past. */
+  function phase() {
+    const ev = evOf(agenda);
+    if (!ev) return "none";
+    const today = maltaNow().date;
+    if (today > ev.end) return "after";
+    if (today < addDays(ev.start, -PREVIEW_DAYS)) return "before";
+    return "during";
+  }
+  const liveDays = () => phase() === "during" ? agenda.days : [];
+  const cur = () => pastId ? archives[pastId] : agenda;
+  const viewDays = () => pastId ? (archives[pastId]?.days || []) : liveDays();
+  // What the search box looks through: the open past event, the live agenda, or else the latest past event.
+  function searchData() {
+    if (pastId) return archives[pastId];
+    if (phase() === "during") return agenda;
+    return pastIndex[0] && archives[pastIndex[0].id] || null;
+  }
+
+  async function ensureArchive(id) {
+    if (archives[id]) return archives[id];
+    try {
+      const res = await fetch(`events/${encodeURIComponent(id)}/agenda.json`, { cache: "no-cache" });
+      if (!res.ok) return null;
+      archives[id] = await res.json();
+      return archives[id];
+    } catch { return null; }
+  }
+
+  /* Routes: #info, #past, #fri (a live day), #past/<event>/<day>. */
+  function readHash() {
+    const h = decodeURIComponent((location.hash || "").slice(1));
+    if (h === "demo") { demoNow = { date: "2026-10-17", min: 12 * 60 + 20 }; return { day: "2026-10-17" }; }
+    if (h === "info" || h === "past") return { day: h };
+    const m = h.match(/^past\/([a-z0-9-]+)(?:\/(\w+))?$/);
+    if (m) return { past: m[1], wk: m[2] };
+    const d = agenda && liveDays().find(x => wk(x.date) === h);
+    return d ? { day: d.date } : null;
+  }
+  function writeHash() {
+    let h = day === "info" || day === "past" ? day : wk(day || "");
+    if (pastId) h = `past/${pastId}` + (day && day !== "past" ? "/" + wk(day) : "");
+    try { history.replaceState(null, "", "#" + h); } catch {}
+  }
+  async function route(r) {
+    if (r && r.past) {
+      const a = await ensureArchive(r.past);
+      if (a) {
+        pastId = r.past;
+        const d = a.days.find(x => wk(x.date) === r.wk) || a.days[0];
+        day = d ? d.date : "past";
+        return;
+      }
+      r = { day: "past" };
+    }
+    pastId = null;
+    if (r && r.day) { day = r.day; return; }
     const now = maltaNow();
-    // On an event day open that day; before, between or after the event open Info.
-    if (agenda.days.some(d => d.date === now.date)) return now.date;
-    return agenda.info ? "info" : agenda.days[0].date;
+    // On an event day open that day; otherwise open Info.
+    day = liveDays().some(d => d.date === now.date) ? now.date : "info";
   }
 
   function renderTabs() {
     const now = maltaNow();
-    const infoTab = agenda.info ? `
-      <button role="tab" type="button" data-day="info" aria-selected="${day === "info" && !query}" class="infotab">
-        <span class="d">Info</span><span class="t">Sponsors</span>
-      </button>` : "";
-    $("#tabs").innerHTML = infoTab + agenda.days.map(d => `
-      <button role="tab" type="button" data-day="${d.date}" aria-selected="${d.date === day && !query}" class="${d.date === now.date ? "today" : ""}">
-        <span class="d">${esc(dayName(d.date))}</span><span class="t">${esc(SHORT[d.date] || d.title)}</span>
-      </button>`).join("");
+    const tab = (key, d, t, cls, extra = "") => `
+      <button role="tab" type="button" data-day="${key}"${extra} aria-selected="${key === day && !query}" class="${cls}">
+        <span class="d">${esc(d)}</span><span class="t">${esc(t)}</span>
+      </button>`;
+    if (pastId) {
+      const ev = evOf(archives[pastId]);
+      $("#tabs").innerHTML = tab("past", "‹ Past", ev ? ev.place + " " + ev.start.slice(0, 4) : "Events", "backtab", ` data-leave="1"`) +
+        viewDays().map(d => tab(d.date, dayName(d.date), shortTitle(d), "")).join("");
+      return;
+    }
+    $("#tabs").innerHTML = (agenda.info ? tab("info", "Info", "Sponsors", "infotab") : "") +
+      liveDays().map(d => tab(d.date, dayName(d.date), shortTitle(d), d.date === now.date ? "today" : "")).join("") +
+      (pastIndex.length ? tab("past", "Past", "Rate sessions", "infotab") : "");
   }
 
   // Any mention of the organiser's site in scraped text becomes a link to it.
@@ -526,8 +642,16 @@ footer a { color: var(--band-text); }
   function renderInfo() {
     const i = agenda.info || {};
     const out = [];
-    if (i.event) {
-      out.push(`<section><h2>E2E EUCDEX.Ai Malta 2026</h2>${officialLine}
+    const ev = evOf(agenda), ph = phase();
+    const archived = ev && pastIndex.some(p => p.id === ev.id);
+    if (ev && ph === "after") {
+      out.push(`<section class="ended"><h2>${esc(ev.name)} has ended</h2>
+        <p class="lead">Thanks for being there. The agenda is kept under Past, where you can also rate the sessions you saw.</p>
+        <button class="toggle" type="button" ${archived ? `data-open-past="${esc(ev.id)}"` : `data-day="past"`}>Open the ${esc(ev.place)} agenda →</button>
+      </section>`);
+    } else if (i.event) {
+      out.push(`<section><h2>${esc(ev ? ev.name : i.event.title)}</h2>${officialLine}
+        ${ev && ph === "before" ? `<p class="lead">${esc(fmtRange(ev.start, ev.end))}. The agenda appears here on ${esc(fmtDate(addDays(ev.start, -PREVIEW_DAYS)))}, a week before the start.</p>` : ""}
         <div class="prose">${paras(i.event.details)}</div>
         ${i.event.terms && i.event.terms.length ? `<details class="terms"><summary>Terms and conditions</summary><div class="prose">${paras(i.event.terms)}</div></details>` : ""}
       </section>`);
@@ -552,9 +676,9 @@ footer a { color: var(--band-text); }
             </div>
           </article>`).join("")}</div></section>`);
     }
-    if ((i.panel || []).length) {
+    if ((i.panel || []).length && ph !== "after") {
       out.push(`<section><h2>Master class panel of experts</h2>
-        <p class="lead">The experts at the "Ai in EUC II" master class on Thursday 15 October.</p>
+        <p class="lead">The experts at the master class on the day before the conference.</p>
         <div class="people">${i.panel.map(p => `
           <article class="person">
             <div class="top">${p.photo ? img(p.photo) : ""}<div><b>${esc(displayName(p.name))}</b>${p.role ? `<span class="role">${esc(p.role)}</span>` : ""}</div></div>
@@ -566,12 +690,17 @@ footer a { color: var(--band-text); }
     }
     if ((i.upcoming || []).length) {
       out.push(`<section><h2>Coming up</h2>
-        <div class="events">${i.upcoming.map(e => `
-          <article class="event${/malta/i.test(e.title) ? " current" : ""}">
+        <div class="events">${i.upcoming.map(e => {
+          const text = e.title + " " + (e.lines || []).join(" ");
+          const past = pastIndex.find(p => new RegExp("\\b" + p.place + "\\b", "i").test(e.title) && text.includes(p.start.slice(0, 4)));
+          const current = !past && ev && ph !== "after" && new RegExp("\\b" + ev.place + "\\b", "i").test(e.title);
+          return `
+          <article class="event${current ? " current" : ""}">
             ${flagFor(e)}
-            <h3>${esc(e.title)}${/malta/i.test(e.title) ? ` <span class="state-now">✓ This event</span>` : ""}</h3>
+            <h3>${esc(e.title)}${current ? ` <span class="state-now">✓ This event</span>` : ""}</h3>
             ${(e.lines || []).filter(l => !/registration below/i.test(l)).map(l => `<p>${esc(l)}</p>`).join("")}
-          </article>`).join("")}</div>
+            ${past ? `<button class="toggle" type="button" data-open-past="${esc(past.id)}">Past event: agenda and ratings →</button>` : ""}
+          </article>`; }).join("")}</div>
         ${i.offer ? `<div class="offer"><h3>${esc(i.offer.title || "Registration")}</h3>${paras(i.offer.lines)}<a href="https://e2emvc.com/" rel="noopener">Register on e2emvc.com</a></div>` : ""}
       </section>`);
     }
@@ -707,7 +836,31 @@ footer a { color: var(--band-text); }
         <button class="star" type="button" data-star="${esc(s.id)}" aria-pressed="${mine}" aria-label="${mine ? "Remove from" : "Add to"} my agenda: ${esc(s.title)}">${mine ? "★" : "☆"}</button>
       </div>
       ${bodyHtml(s)}
+      ${rateHtml(s, date)}
     </article>`;
+  }
+
+  /* Ratings: open from the start of a session. A star opens a pre-filled GitHub
+     issue; a bot counts it (one vote per GitHub account, the latest counts). */
+  function voteUrl(ev, s, n) {
+    return `${REPO_URL}/issues/new?` + new URLSearchParams({
+      template: "rating.yml", title: `Rating: ${s.title}`.slice(0, 180) + ` (${n}★)`,
+      event: ev.id, session: s.id, stars: String(n)
+    });
+  }
+  function rateHtml(s, date) {
+    if (s.kind === "break" || !renderEv) return "";
+    const st = ((ratings.events || {})[renderEv.id] || {})[s.id];
+    const now = maltaNow();
+    const open = date < now.date || (date === now.date && (!s.start || now.min >= mins(s.start)));
+    if (!st && !open) return "";
+    const key = renderEv.id + "/" + s.id, mine = myVotes[key] || 0;
+    const avg = st
+      ? `<span class="avg" title="${st.n} vote${st.n > 1 ? "s" : ""}">★ ${st.avg.toFixed(1)} <small>(${st.n} vote${st.n > 1 ? "s" : ""})</small></span>`
+      : `<span class="avg none">No ratings yet</span>`;
+    const btns = open ? `<span class="rate-btns" role="group" aria-label="Rate this session (opens GitHub)">${[1, 2, 3, 4, 5].map(n =>
+      `<a class="${n <= mine ? "on" : ""}" href="${esc(voteUrl(renderEv, s, n))}" target="_blank" rel="noopener" data-vote="${n}" data-key="${esc(key)}" aria-label="Give ${n} star${n > 1 ? "s" : ""}">★</a>`).join("")}</span>` : "";
+    return `<div class="rating">${avg}${btns}${open ? `<span class="rate-hint">${mine ? `your vote: ${mine}★` : "rate via GitHub"}</span>` : ""}</div>`;
   }
 
   function matches(s) {
@@ -767,7 +920,12 @@ footer a { color: var(--band-text); }
     const rooms = d.rooms && d.rooms.length > 1 ? d.rooms : null;
     const now = maltaNow();
     let html = `<div class="dayhead"><h2>${esc(new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long" }).format(new Date(d.date + "T12:00:00Z")))}</h2><span class="label">${esc(d.title)}${rooms ? ` · ${rooms.length} rooms` : ""}</span></div>`;
-    html += `<p class="note">Official agenda: <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com ↗</a></p>`;
+    if (pastId) {
+      const ev = evOf(archives[pastId]);
+      html += `<p class="note archive-note"><b>Past event</b><span>${esc(ev ? ev.name + " · " + fmtRange(ev.start, ev.end) : "")}</span><span>Saw a session? Rate it with the stars.</span></p>`;
+    } else {
+      html += `<p class="note">Official agenda: <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com ↗</a></p>`;
+    }
     if (d.updating) html += `<p class="note"><span class="flag">▲</span> The organiser marks this day as still being updated.</p>`;
     if (!list.length) return html + `<p class="empty">${mineOnly ? "No starred sessions on this day yet. Tap ☆ on a session to add it." : "No sessions match your search on this day."}</p>`;
     let prevEnd = null;
@@ -799,16 +957,71 @@ footer a { color: var(--band-text); }
     return html + `</div>`;
   }
 
-  function renderSearch() {
+  function renderSearch(data) {
     let html = "", hits = 0;
-    agenda.days.forEach(d => {
+    if (!data) return `<p class="empty">There is no agenda to search right now. Past events are under Past.</p>`;
+    renderEv = evOf(data);
+    const where = !pastId && data !== agenda && renderEv ? `<p class="note archive-note"><b>Past event</b><span>Searching ${esc(renderEv.name)}</span></p>` : "";
+    data.days.forEach(d => {
       const list = d.sessions.filter(s => s.kind !== "break" && matches(s));
       if (!list.length) return;
       hits += list.length;
       html += `<h2 class="results-day">${esc(dayName(d.date, "long"))} <span class="label">${esc(d.title)}</span></h2><div style="display:grid;gap:10px">${list.map(s => cardHtml(s, d.date, { showTime: true })).join("")}</div>`;
     });
-    return hits ? `<p class="label" style="margin-top:16px">${hits} result${hits > 1 ? "s" : ""} for “${esc(query)}”</p>` + html
-                : `<p class="empty">Nothing matches “${esc(query)}”. Try a surname or one word from the title.</p>`;
+    return where + (hits ? `<p class="label" style="margin-top:16px">${hits} result${hits > 1 ? "s" : ""} for “${esc(query)}”</p>` + html
+                : `<p class="empty">Nothing matches “${esc(query)}”. Try a surname or one word from the title.</p>`);
+  }
+
+  function renderPast() {
+    if (!pastIndex.length) return `<p class="empty">No past events yet.</p>`;
+    const items = pastIndex.map(e => {
+      const a = archives[e.id];
+      const titles = {};
+      if (a) a.days.forEach(d => d.sessions.forEach(x => { titles[x.id] = x.title; }));
+      const r = Object.entries((ratings.events || {})[e.id] || {}).filter(([id]) => titles[id])
+        .sort((x, y) => y[1].avg - x[1].avg || y[1].n - x[1].n).slice(0, 3);
+      const votes = Object.values((ratings.events || {})[e.id] || {}).reduce((t, x) => t + x.n, 0);
+      return `<article class="event past-ev">
+        ${flagFor({ title: e.name, lines: [e.place] })}
+        <h3>${esc(e.name)}</h3>
+        <p>${esc(fmtRange(e.start, e.end))} · ${e.sessions} sessions${votes ? ` · ${votes} vote${votes > 1 ? "s" : ""}` : ""}</p>
+        ${r.length ? `<span class="label">Top rated so far</span><ol class="top-rated">${r.map(([id, st]) => `<li><b>★ ${st.avg.toFixed(1)}</b> ${esc(titles[id])} <small>(${st.n})</small></li>`).join("")}</ol>` : ""}
+        <button class="toggle" type="button" data-open-past="${esc(e.id)}">Open agenda and rate →</button>
+      </article>`;
+    }).join("");
+    return `<div class="info"><section><h2>Past events</h2>
+      <p class="lead">Each agenda is frozen the day after the event, just as it was on the last day. Open one to read it again and rate the sessions you saw.</p>
+      <div class="events">${items}</div></section></div>`;
+  }
+
+  function favUrl() {
+    return `${REPO_URL}/issues/new?` + new URLSearchParams({ template: "favourites.yml", title: "Favourites", favourites: [...starred].sort().join("\n") });
+  }
+  function renderSync() {
+    if (!syncOpen) return "";
+    return `<section class="panel sync" aria-label="Sync your stars">
+      <h2>Take your stars to another device</h2>
+      <p class="note">Stars live in this browser. Save them to GitHub (free account needed), then load them anywhere with your GitHub name. The saved list is public.</p>
+      <div class="sync-row"><a class="toggle" href="${esc(favUrl())}" target="_blank" rel="noopener" data-savefavs="1">⇧ Save ${starred.size} star${starred.size === 1 ? "" : "s"} to GitHub</a><span class="rate-hint">then press Submit on GitHub</span></div>
+      <form class="sync-row" id="syncForm"><label class="sr" for="ghUser">Your GitHub name</label>
+        <input id="ghUser" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Your GitHub name" value="${esc(ghName)}">
+        <button class="toggle" type="submit">⇩ Load</button></form>
+    </section>`;
+  }
+  async function loadFavs(name, quiet) {
+    name = String(name || "").trim().replace(/^@/, "").toLowerCase();
+    if (!/^[a-z0-9-]{1,39}$/.test(name)) { if (!quiet) toast("That is not a GitHub name."); return; }
+    try {
+      const res = await fetch(`favs/${name}.json?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) { if (!quiet) toast(`No saved stars for ${name} yet. Save them first; it takes a minute or two.`); return; }
+      const f = await res.json();
+      const before = starred.size;
+      (f.stars || []).forEach(id => starred.add(id));
+      store.set("e2e-stars", [...starred]);
+      ghName = name; store.set("e2e-gh", name);
+      if (!quiet) toast(`Loaded ${(f.stars || []).length} stars from GitHub (${starred.size - before} new).`);
+      render();
+    } catch { if (!quiet) toast("Could not reach the saved stars. Try again later."); }
   }
 
   /* Flags for the event locations, drawn in their real 3:2 proportions. */
@@ -883,7 +1096,8 @@ footer a { color: var(--band-text); }
 
   function tty(cmd) {
     const T = _t(), F = T.f, now = maltaNow();
-    const d = agenda.days.find(x => x.date === (day === "info" ? now.date : day)) || agenda.days.find(x => x.date === now.date) || agenda.days[1] || agenda.days[0];
+    const days = (searchData() || agenda || {}).days || [];
+    const d = days.find(x => x.date === day) || days.find(x => x.date === now.date) || days[1] || days[0] || { date: now.date, sessions: [] };
     const pad = (k, ro) => `${k} ( ${ro ? "RO" : "RW"})`;
     const rec = (rows) => {
       const w = Math.max(...rows.map(([k, ro]) => pad(k, ro).length));
@@ -924,27 +1138,59 @@ footer a { color: var(--band-text); }
   }
   window.addEventListener("resize", measureNav);
 
+  function renderHeader() {
+    const ev = evOf(agenda), ph = phase();
+    let line = "E2E EUCDEX.Ai";
+    if (pastId && archives[pastId]) {
+      const p = evOf(archives[pastId]);
+      line = `Past event · ${p.place} · ${fmtRange(p.start, p.end)}`;
+    } else if (ev && ph !== "after") {
+      line = `${ev.place} · ${fmtRange(ev.start, ev.end)}`;
+    } else {
+      const next = ((agenda.info || {}).upcoming || []).find(e => !(ev && new RegExp("\\b" + ev.place + "\\b", "i").test(e.title)));
+      const nice = (t) => t.replace(/^(\(?e2e\)?\s*)?eucdex\.ai\s*/i, "").replace(/\b[A-Z]{2,}\b/g, w => w[0] + w.slice(1).toLowerCase());
+      if (next) line = `Next: ${nice(next.title)} · ${((next.lines || [])[0] || "").replace(/\s*-\s*/, "–")}`;
+    }
+    $("#eyebrow").textContent = line;
+    // The venue block is written for Malta; show it only around that event.
+    const venue = !pastId && ev && /malta/i.test(ev.place) && ph !== "after";
+    $("#where").hidden = !venue; $("#whereLink").hidden = !venue;
+  }
+
   function render() {
     if (!agenda) return;
     renderStrips();
+    renderHeader();
     requestAnimationFrame(measureNav);
     const open = new Set([...document.querySelectorAll("details.more[open]")].map(x => x.closest(".card")?.id));
     $("#updated").textContent = fmtStamp(agenda.updatedAt);
+    if (!pastId && day !== "info" && day !== "past" && !liveDays().some(d => d.date === day)) day = "info";
     renderTabs();
+    const sync = renderSync();
     if (_on(query)) {
       $("#top").innerHTML = "";
       $("#list").innerHTML = tty(query);
-    } else if (day === "info" && !query) {
-      $("#top").innerHTML = "";
+    } else if (query) {
+      $("#top").innerHTML = sync;
+      $("#list").innerHTML = renderSearch(searchData());
+    } else if (day === "info") {
+      $("#top").innerHTML = sync;
       $("#list").innerHTML = renderInfo();
+    } else if (day === "past") {
+      $("#top").innerHTML = sync;
+      $("#list").innerHTML = renderPast();
+      pastIndex.forEach(e => { if (!archives[e.id]) ensureArchive(e.id).then(a => a && day === "past" && render()); });
     } else {
-      const d = agenda.days.find(x => x.date === day) || agenda.days[0];
-      $("#top").innerHTML = renderChanges() + (query ? "" : renderNow(d));
-      $("#list").innerHTML = query ? renderSearch() : renderDay(d);
+      const data = cur();
+      renderEv = evOf(data);
+      const d = data.days.find(x => x.date === day) || data.days[0];
+      $("#top").innerHTML = sync + (pastId ? "" : renderChanges() + renderNow(d));
+      $("#list").innerHTML = renderDay(d);
     }
     open.forEach(id => { const el = id && document.getElementById(id); if (el) el.querySelector("details.more")?.setAttribute("open", ""); });
     $("#mineBtn").setAttribute("aria-pressed", mineOnly);
     $("#mineBtn").textContent = (mineOnly ? "★" : "☆") + " My agenda" + (starred.size ? ` (${starred.size})` : "");
+    $("#syncBtn").setAttribute("aria-expanded", syncOpen);
   }
 
   function jumpTo(id, date) {
@@ -961,27 +1207,53 @@ footer a { color: var(--band-text); }
     clearTimeout(toast.h); toast.h = setTimeout(() => { t.hidden = true; }, 6000);
   }
 
+  const getJSON = (url) => fetch(`${url}?t=${Date.now()}`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null);
+
   async function load(initial) {
     try {
-      const res = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+      const [res, idx, rt] = await Promise.all([
+        fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" }), getJSON("events/index.json"), getJSON("ratings.json")
+      ]);
       if (!res.ok) throw new Error("HTTP " + res.status);
       const next = await res.json();
       const changed = agenda && next.updatedAt !== agenda.updatedAt;
       agenda = next;
-      if (initial || !day) day = pickDefaultDay();
+      if (Array.isArray(idx)) pastIndex = idx;
+      if (rt && rt.events) ratings = rt;
+      // The latest past event is what the search box looks through between events.
+      if (pastIndex[0] && phase() !== "during") await ensureArchive(pastIndex[0].id);
+      if (initial || !day) await route(readHash());
       render();
-      if (changed) toast("▲ Agenda updated " + fmtClock(next.updatedAt));
+      if (initial && ghName) loadFavs(ghName, true);
+      if (changed && phase() === "during" && !pastId) toast("▲ Agenda updated " + fmtClock(next.updatedAt));
     } catch (e) {
       if (initial) $("#list").innerHTML = `<p class="empty">The agenda could not be loaded (${esc(e.message)}). Check your connection and reload, or open <a href="https://e2emvc.com/">e2emvc.com</a>.</p>`;
     }
   }
 
   document.addEventListener("click", (e) => {
-    const tab = e.target.closest("[role=tab]");
+    const tab = e.target.closest("[role=tab], button[data-day]:not([data-jump])");
     if (tab) {
+      if (tab.dataset.leave || !tab.matches("[role=tab]")) pastId = null;
       day = tab.dataset.day; query = ""; $("#q").value = "";
-      try { history.replaceState(null, "", "#" + (day === "info" ? "info" : TABS[day])); } catch {}
+      writeHash();
       render(); window.scrollTo({ top: Math.min(window.scrollY, $("main").offsetTop - 60) });
+      return;
+    }
+    const op = e.target.closest("[data-open-past]");
+    if (op) {
+      query = ""; $("#q").value = "";
+      route({ past: op.dataset.openPast }).then(() => { writeHash(); render(); window.scrollTo({ top: Math.min(window.scrollY, $("main").offsetTop - 60) }); });
+      return;
+    }
+    const v = e.target.closest("[data-vote]");
+    if (v) {
+      // The link opens GitHub; remember the choice here so the stars show it.
+      const first = !Object.keys(myVotes).length;
+      myVotes[v.dataset.key] = Number(v.dataset.vote);
+      store.set("e2e-votes", myVotes);
+      toast(first ? "GitHub opens with your vote filled in. Press Submit; it is counted within a minute or two." : `Press Submit on GitHub to count your ${v.dataset.vote}★.`);
+      setTimeout(render, 400);
       return;
     }
     const star = e.target.closest("[data-star]");
@@ -1061,12 +1333,15 @@ footer a { color: var(--band-text); }
   });
 
   $("#mineBtn").addEventListener("click", () => { mineOnly = !mineOnly; store.set("e2e-mine", mineOnly); render(); });
+  $("#syncBtn").addEventListener("click", () => { syncOpen = !syncOpen; render(); if (syncOpen) $("#top").scrollIntoView({ block: "nearest" }); });
+  document.addEventListener("input", (e) => { if (e.target.id === "ghUser") ghName = e.target.value; });
+  document.addEventListener("submit", (e) => { if (e.target.id === "syncForm") { e.preventDefault(); loadFavs($("#ghUser").value, false); } });
   let qt;
   $("#q").addEventListener("input", (e) => { clearTimeout(qt); qt = setTimeout(() => { query = e.target.value.trim(); render(); }, 150); });
-  window.addEventListener("hashchange", () => { const d = readHash(); if (d) { day = d; render(); } });
+  window.addEventListener("hashchange", () => { const r = readHash(); if (r) route(r).then(render); });
   document.addEventListener("visibilitychange", () => { if (!document.hidden) load(false); });
-  setInterval(() => load(false), REFRESH_MS);
-  setInterval(render, 60 * 1000);
+  setInterval(() => { if (document.activeElement?.id !== "ghUser") load(false); }, REFRESH_MS);
+  setInterval(() => { if (document.activeElement?.id !== "ghUser") render(); }, 60 * 1000);
   load(true);
 })();
 </script>

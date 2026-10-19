@@ -1,0 +1,28 @@
+name: Rate a session
+description: Used by the stars on e2emvc.meppie.eu. One vote per GitHub account per session; your latest vote counts.
+title: "Rating"
+labels: ["rating"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Everything is filled in already: just press **Create** / **Submit new issue**.
+        A bot counts your vote within a minute or two and closes this issue. Votes are public under your GitHub name.
+  - type: input
+    id: event
+    attributes:
+      label: Event
+    validations:
+      required: true
+  - type: input
+    id: session
+    attributes:
+      label: Session
+    validations:
+      required: true
+  - type: input
+    id: stars
+    attributes:
+      label: Stars (1-5)
+    validations:
+      required: true

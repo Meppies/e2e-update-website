@@ -96,6 +96,8 @@ var (
 	trailingSiteRe = regexp.MustCompile(`(?i)\s*website\s*:\s*\S+\s*$`)
 )
 
+func isRange(s string) bool { _, _, ok := eventRange(s); return ok }
+
 func cardTexts(c Card) []string {
 	var out []string
 	for _, p := range c.Paras() {
@@ -217,7 +219,7 @@ func buildInfo(secs []Section) *Info {
 				info.Panel = append(info.Panel, sp)
 			}
 
-		case dayOf(sec.Heading) == 0 && regexp.MustCompile(`(?i)october\s+\d+\s*-\s*\d+`).MatchString(sec.Heading):
+		case info.Event == nil && !strings.Contains(h, "schedule") && isRange(sec.Heading):
 			ev := &Event{Title: sec.Heading}
 			var all []string
 			for _, b := range sec.Loose {

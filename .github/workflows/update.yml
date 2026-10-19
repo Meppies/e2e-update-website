@@ -1,15 +1,18 @@
-name: Update agenda
+name: Update site
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "41 4 * * *" # once a day, 04:41 UTC
   workflow_dispatch:
   push:
     branches: [main]
-    paths-ignore: ["site/agenda.json"]
+    paths-ignore: ["site/agenda.json", "site/ratings.json", "site/favs/**", "site/events/**", "data/**", ".github/keepalive"]
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
+  issues: write
   pages: write
   id-token: write
 
@@ -18,54 +21,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  scrape:
+  update:
+    # Issues only matter when they are a rating or a favourites list.
+    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'rating') || contains(github.event.issue.labels.*.name, 'favourites')
     runs-on: ubuntu-latest
     outputs:
-      changed: ${{ steps.scrape.outputs.changed }}
-      active: ${{ steps.window.outputs.active }}
+      changed: ${{ steps.commit.outputs.changed }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
     steps:
-      # Scheduled runs stop after 19 October 2026 (UTC). Manual runs and pushes still work.
-      - name: Check event window
-        id: window
-        run: |
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%Y%m%d)" -gt 20261019 ]; then
-            echo "active=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "active=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: actions/checkout@v4
-        if: steps.window.outputs.active == 'true'
 
       - uses: actions/setup-go@v5
-        if: steps.window.outputs.active == 'true'
         with:
           go-version-file: go.mod
 
+      # Also freezes an event in site/events/ the day after it ended.
+      # A failed scrape keeps the last good copy and does not stop the votes below.
       - name: Scrape e2emvc.com
-        id: scrape
-        if: steps.window.outputs.active == 'true'
-        run: go run ./cmd/scrape -prev site/agenda.json -out site/agenda.json
+        if: github.event_name != 'issues'
+        continue-on-error: true
+        run: go run ./cmd/scrape -prev site/agenda.json -out site/agenda.json -events site/events
 
-      - name: Commit the new agenda
-        if: steps.scrape.outputs.changed == 'true'
+      - name: Count ratings and save favourites
         run: |
+          gh issue list -R "$REPO" --state open --label rating --limit 500 --json number,author,body,title > "$RUNNER_TEMP/rating.json"
+          gh issue list -R "$REPO" --state open --label favourites --limit 500 --json number,author,body,title > "$RUNNER_TEMP/favourites.json"
+          go run ./cmd/votes -ratings "$RUNNER_TEMP/rating.json" -favourites "$RUNNER_TEMP/favourites.json" -actions "$RUNNER_TEMP/actions.json"
+
+      # GitHub switches off schedules after 60 days without a commit.
+      - name: Keep the daily schedule alive
+        run: |
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 50 * 86400 )) ]; then date -u +%FT%TZ > .github/keepalive; fi
+
+      - name: Commit
+        id: commit
+        run: |
+          git add -A site data .github/keepalive 2>/dev/null || git add -A site data
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/agenda.json
-          git commit -m "Agenda changed on e2emvc.com ($(date -u +%H:%M) UTC)"
-          # Two runs can overlap (a push and the 5-minute trigger). Take the other
-          # run's commit first, keep this run's fresher agenda, and try again.
+          git commit -q -m "Site data updated ($(date -u +%F' '%H:%M) UTC)"
           for attempt in 1 2 3; do
-            if git push; then exit 0; fi
-            git pull --rebase -X theirs || { git checkout --theirs site/agenda.json && git add site/agenda.json && GIT_EDITOR=true git rebase --continue; }
+            if git push -q; then echo "changed=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+            git pull -q --rebase -X theirs
             sleep $((attempt * 3))
           done
           exit 1
 
+      # Only after the votes are safely committed: answer and close each issue.
+      - name: Answer the issues
+        run: |
+          jq -c '.[]' "$RUNNER_TEMP/actions.json" | while read -r a; do
+            n=$(jq -r .number <<<"$a")
+            gh issue comment "$n" -R "$REPO" --body "$(jq -r .comment <<<"$a")" || true
+            gh issue close "$n" -R "$REPO" --reason "$(jq -r .reason <<<"$a")" || true
+            gh issue lock "$n" -R "$REPO" --reason resolved 2>/dev/null || true
+          done
+
   deploy:
-    needs: scrape
-    if: needs.scrape.outputs.active == 'true' && (needs.scrape.outputs.changed == 'true' || github.event_name != 'schedule')
+    needs: update
+    if: needs.update.outputs.changed == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

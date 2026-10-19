@@ -26,14 +26,15 @@ type Removed struct {
 }
 
 type Agenda struct {
-	Source    string    `json:"source"`
-	UpdatedAt string    `json:"updatedAt"`
-	Days      []Day     `json:"days"`
-	Removed   []Removed `json:"removed,omitempty"`
-	Info      *Info     `json:"info,omitempty"`
+	Source    string     `json:"source"`
+	UpdatedAt string     `json:"updatedAt"`
+	Days      []Day      `json:"days"`
+	Removed   []Removed  `json:"removed,omitempty"`
+	Info      *Info      `json:"info,omitempty"`
+	Event     *EventMeta `json:"event,omitempty"`
+	// Set on a frozen copy of an event that has ended.
+	ArchivedAt string `json:"archivedAt,omitempty"`
 }
-
-const year, month = 2026, 10
 
 func main() {
 	url := flag.String("url", "https://e2emvc.com/", "page to scrape")
@@ -41,8 +42,17 @@ func main() {
 	prevPath := flag.String("prev", "site/agenda.json", "previous agenda (for change markers)")
 	out := flag.String("out", "site/agenda.json", "where to write the agenda")
 	force := flag.Bool("force", false, "write even if the sanity check fails")
+	events := flag.String("events", "", "folder for frozen copies of past events (empty: no archiving)")
 	flag.Parse()
 
+	// Archive first: an ended event is frozen from the last good copy, even
+	// when e2emvc.com cannot be read today.
+	if done, err := archive(*prevPath, *events, amsterdamToday()); err != nil {
+		fmt.Fprintln(os.Stderr, "archive:", err)
+		os.Exit(1)
+	} else if done {
+		setOutput("archived", "true")
+	}
 	if err := run(*url, *in, *prevPath, *out, *force); err != nil {
 		fmt.Fprintln(os.Stderr, "scrape:", err)
 		os.Exit(1)
@@ -59,17 +69,27 @@ func run(url, in, prevPath, out string, force bool) error {
 		return err
 	}
 	now := time.Now().UTC().Format(time.RFC3339)
-	next := Agenda{Source: url, UpdatedAt: now}
+	next := Agenda{Source: url, UpdatedAt: now, Days: []Day{}}
 
 	next.Info = buildInfo(secs)
 	bios := collectBios(secs)
 	byDate := map[string]int{}
+	_, evStart, evEnd, haveEvent := eventHeading(secs)
+	year := time.Now().Year()
+	if haveEvent {
+		year = evStart.Year()
+	}
 	for _, sec := range secs {
-		d := dayOf(sec.Heading)
-		if d == 0 {
+		t, ok := dateOf(sec.Heading, year)
+		if !ok {
 			continue
 		}
-		date := fmt.Sprintf("%d-%02d-%02d", year, month, d)
+		// Days belong to the announced event (plus a master class or social
+		// day around it). Old days left on the page for another event are skipped.
+		if haveEvent && (t.Before(evStart.AddDate(0, 0, -3)) || t.After(evEnd.AddDate(0, 0, 3))) {
+			continue
+		}
+		date := t.Format("2006-01-02")
 		sessions := parseDay(sec)
 		fillBios(sessions, bios)
 		if i, ok := byDate[date]; ok {
@@ -99,19 +119,36 @@ func run(url, in, prevPath, out string, force bool) error {
 		assignIDs(&next.Days[i])
 	}
 
+	next.Event = eventMeta(next.Info, next.Days)
+
 	var prev *Agenda
+	missingEvent := false
 	if b, err := os.ReadFile(prevPath); err == nil {
 		var p Agenda
-		if json.Unmarshal(b, &p) == nil && len(p.Days) > 0 {
+		if json.Unmarshal(b, &p) == nil && (len(p.Days) > 0 || p.Event != nil) {
 			prev = &p
+			if prev.Event == nil {
+				prev.Event = eventMeta(prev.Info, prev.Days)
+				missingEvent = true // write once so the file says which event it is
+			}
 		}
 	}
-	if err := sane(prev, &next); err != nil && !force {
-		return fmt.Errorf("not publishing: %w", err)
+	if prev != nil && next.Event != nil && prev.Event != nil && prev.Event.ID != next.Event.ID {
+		// The organiser moved on to the next event. Nothing to compare with:
+		// no change markers, and an agenda that is not out yet is fine.
+		if err := saneInfo(&next); err != nil && !force {
+			return fmt.Errorf("not publishing the new event: %w", err)
+		}
+		fmt.Printf("new event: %s -> %s\n", prev.Event.ID, next.Event.ID)
+		prev = nil
+	} else {
+		if err := sane(prev, &next); err != nil && !force {
+			return fmt.Errorf("not publishing: %w", err)
+		}
+		markChanges(prev, &next, now)
 	}
-	markChanges(prev, &next, now)
 
-	if prev != nil && sameContent(prev, &next) {
+	if prev != nil && !missingEvent && sameContent(prev, &next) {
 		fmt.Println("unchanged")
 		setOutput("changed", "false")
 		return nil
@@ -215,14 +252,17 @@ func assignIDs(d *Day) {
 // sane refuses results that are clearly the product of a layout change
 // rather than an agenda change: a day that vanished or a big drop in sessions.
 func sane(prev, next *Agenda) error {
+	if err := saneInfo(next); err != nil {
+		return err
+	}
 	total := 0
 	for _, d := range next.Days {
 		total += len(d.Sessions)
 	}
-	if len(next.Days) < 3 || total < 20 {
-		return fmt.Errorf("only %d days and %d sessions parsed", len(next.Days), total)
-	}
 	if prev == nil {
+		if len(next.Days) < 3 || total < 20 {
+			return fmt.Errorf("only %d days and %d sessions parsed", len(next.Days), total)
+		}
 		return nil
 	}
 	prevTotal := 0
@@ -231,7 +271,7 @@ func sane(prev, next *Agenda) error {
 		prevTotal += len(d.Sessions)
 		prevDays[d.Date] = len(d.Sessions)
 	}
-	if total*10 < prevTotal*7 {
+	if prevTotal >= 10 && total*10 < prevTotal*7 {
 		return fmt.Errorf("sessions dropped from %d to %d", prevTotal, total)
 	}
 	for _, d := range next.Days {
@@ -241,6 +281,19 @@ func sane(prev, next *Agenda) error {
 		if n > 0 {
 			return errors.New("day " + date + " disappeared")
 		}
+	}
+	return nil
+}
+
+// saneInfo checks that the general part of the page was read: without the
+// about text, the event heading and the sponsors the layout has changed.
+func saneInfo(a *Agenda) error {
+	i := a.Info
+	if i == nil || a.Event == nil {
+		return errors.New("no event heading or dates found")
+	}
+	if len(i.About) == 0 && len(i.Diamond)+len(i.Featured) == 0 {
+		return errors.New("no about text and no sponsors found")
 	}
 	return nil
 }
