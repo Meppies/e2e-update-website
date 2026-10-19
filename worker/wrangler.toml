@@ -7,6 +7,8 @@ workers_dev = true
 SITE_ORIGIN = "https://e2emvc.meppie.eu"
 REPO = "Meppies/e2e-update-website"
 MIN_ACCOUNT_DAYS = "7"
+# Session ratings: "0" = switched off (since 19 Oct 2026, under discussion). Also VOTING in site/index.html.
+VOTING_ENABLED = "0"
 GH_CLIENT_ID = "Iv23liJFS4lJaVhnNqrL"
 # Slides after voting: switched off until the next event (see README, "Slides").
 SLIDES_ENABLED = "0"

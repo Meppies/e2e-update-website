@@ -447,7 +447,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
       <p class="eyebrow"><span id="eyebrow">E2E EUCDEX.Ai</span></p>
       <h1><span id="brand">E2E EUCDEX.Ai</span> <span class="u">unofficial</span><span class="dot">.</span></h1>
     </div>
-    <p class="sub">The <span class="brand-name">E2E EUCDEX.Ai</span> conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every day. The agenda shows up a week before each event; afterwards it moves to Past, where you can rate the sessions you saw.</p>
+    <p class="sub">The <span class="brand-name">E2E EUCDEX.Ai</span> conference agenda, readable on your phone. Copied from <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> every day. The agenda shows up a week before each event; afterwards it moves to Past.</p>
     <p class="stamp"><span>Last changed <b id="updated">…</b></span><span>Times are local event time</span><a href="#where" id="whereLink">Venue and hotel ↓</a></p>
   </div>
 </header>
@@ -494,7 +494,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   <div class="wrap">
     <span>Unofficial copy. The organiser's page at <a href="https://e2emvc.com/" rel="noopener">e2emvc.com</a> is leading; check it when in doubt.</span>
     <span>Built by <a href="https://meppie.eu/" rel="noopener">Jeroen Meppelink</a>. No cookies, no tracking. Your stars stay in this browser unless you save them to GitHub with Sync.</span>
-    <span>To vote you sign in with GitHub once; a quick human check keeps bots out. Votes are encrypted: nobody can see what you voted. The site shows only averages, once a session has 3 votes, updated once a day. One vote per GitHub account per session; your latest vote counts. Synced stars are saved publicly under your GitHub name. Code on <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a>.</span>
+    <span id="voteNote" hidden>To vote you sign in with GitHub once; a quick human check keeps bots out. Votes are encrypted: nobody can see what you voted. The site shows only averages, once a session has 3 votes, updated once a day. One vote per GitHub account per session; your latest vote counts. Synced stars are saved publicly under your GitHub name. Code on <a href="https://github.com/Meppies/e2e-update-website" rel="noopener">GitHub</a>.</span>
   </div>
 </footer>
 <aside class="sponsor-strip bottom" id="featuredStrip" aria-label="Featured sponsors" hidden></aside>
@@ -511,6 +511,9 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   // Vote helper (Cloudflare Worker): GitHub sign-in, human check, and opening the vote issue for you.
   const WORKER = "https://e2e-votes.meppie.workers.dev";
   const TS_KEY = "0x4AAAAAAFbWFY-fwAJwJkmg"; // Cloudflare Turnstile site key (public)
+  // Session ratings on or off. Off since 19 Oct 2026 while it is being discussed;
+  // votes cast so far stay in the encrypted register. Also set VOTING_ENABLED in worker/wrangler.toml.
+  const VOTING = false;
   const PREVIEW_DAYS = 7; // the agenda shows up this many days before the first day
   /* A short look back per event, shown once it has ended. Written by hand: no numbers or claims beyond the agenda. */
   const RECAPS = {
@@ -679,7 +682,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     }
     $("#tabs").innerHTML = (agenda.info ? tab("info", "Info", "Sponsors", "infotab") : "") +
       liveDays().map(d => tab(d.date, dayName(d.date), shortTitle(d), d.date === now.date ? "today" : "")).join("") +
-      (pastIndex.length ? tab("past", "Past", "Rate sessions", "infotab") : "");
+      (pastIndex.length ? tab("past", "Past", VOTING ? "Rate sessions" : "Earlier events", "infotab") : "");
   }
 
   // Any mention of the organiser's site in scraped text becomes a link to it.
@@ -700,10 +703,10 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
         ${rc ? `<p class="kicker">${esc(ev.name)} · ${esc(fmtRange(ev.start, ev.end))}</p><h2>${esc(rc.title)}</h2>` : `<h2>${esc(ev.name)} has ended</h2>`}
         ${rc ? `<ul class="stats">${rc.stats.map(([n, l]) => `<li><b>${esc(n)}</b><span>${esc(l)}</span></li>`).join("")}</ul>
           <div class="prose">${rc.paras.map(p => `<p>${p}</p>`).join("")}</div>`
-             : `<p class="lead">Thanks for being there. The agenda is kept under Past, where you can also rate the sessions you saw.</p>`}
+             : `<p class="lead">Thanks for being there. The agenda is kept under Past${VOTING ? ", where you can also rate the sessions you saw" : ""}.</p>`}
         ${rc && next ? `<p class="cta-line"><b>Missed it?</b> Don't miss the next one: ${esc(nextName)}, ${esc(((next.lines || [])[0] || "").replace(/\s*-\s*/, "–"))}.</p>` : ""}
         <div class="linkrow">
-          <button class="toggle" type="button" ${archived ? `data-open-past="${esc(ev.id)}"` : `data-day="past"`}>Relive the ${esc(ev.place)} agenda and rate the sessions →</button>
+          <button class="toggle" type="button" ${archived ? `data-open-past="${esc(ev.id)}"` : `data-day="past"`}>Relive the ${esc(ev.place)} agenda${VOTING ? " and rate the sessions" : ""} →</button>
           ${rc && next ? `<a class="toggle" href="https://e2emvc.com/" rel="noopener">Register for ${esc(nextName)} ↗</a>` : ""}
         </div>
       </section>`);
@@ -1035,7 +1038,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     } catch { sheet(null); toast("The vote could not be sent. Please try again."); }
   }
   function rateHtml(s, date) {
-    if (s.kind === "break" || !renderEv) return "";
+    if (!VOTING || s.kind === "break" || !renderEv) return "";
     const st = ((ratings.events || {})[renderEv.id] || {})[s.id];
     const now = maltaNow();
     const open = date < now.date || (date === now.date && (!s.start || now.min >= mins(s.start)));
@@ -1113,7 +1116,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     let html = `<div class="dayhead"><h2>${esc(new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long" }).format(new Date(d.date + "T12:00:00Z")))}</h2><span class="label">${esc(d.title)}${rooms ? ` · ${rooms.length} rooms` : ""}</span></div>`;
     if (pastId) {
       const ev = evOf(archives[pastId]);
-      html += `<p class="note archive-note"><b>Past event</b><span>${esc(ev ? ev.name + " · " + fmtRange(ev.start, ev.end) : "")}</span><span>Saw a session? Rate it with the stars.</span></p>`;
+      html += `<p class="note archive-note"><b>Past event</b><span>${esc(ev ? ev.name + " · " + fmtRange(ev.start, ev.end) : "")}</span><span${VOTING ? "" : " hidden"}>Saw a session? Rate it with the stars.</span></p>`;
     } else {
       html += `<p class="note">Official agenda: <a class="official" href="https://e2emvc.com/" rel="noopener">e2emvc.com ↗</a></p>`;
     }
@@ -1177,12 +1180,12 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
         <h3>${esc(e.name)}</h3>
         ${RECAPS[e.id] ? `<p>${esc(RECAPS[e.id].teaser)}</p>` : ""}
         <p>${esc(fmtRange(e.start, e.end))} · ${e.sessions} sessions${votes ? ` · ${votes} vote${votes > 1 ? "s" : ""}` : ""}</p>
-        ${r.length ? `<span class="label">Top rated so far</span><ol class="top-rated">${r.map(([id, st]) => `<li><b>★ ${st.avg.toFixed(1)}</b> ${esc(titles[id])}</li>`).join("")}</ol>` : ""}
-        <button class="toggle" type="button" data-open-past="${esc(e.id)}">Open agenda and rate →</button>
+        ${VOTING && r.length ? `<span class="label">Top rated so far</span><ol class="top-rated">${r.map(([id, st]) => `<li><b>★ ${st.avg.toFixed(1)}</b> ${esc(titles[id])}</li>`).join("")}</ol>` : ""}
+        <button class="toggle" type="button" data-open-past="${esc(e.id)}">Open agenda${VOTING ? " and rate" : ""} →</button>
       </article>`;
     }).join("");
     return `<div class="info"><section><h2>Past events</h2>
-      <p class="lead">Each agenda is frozen the day after the event, just as it was on the last day. Open one to read it again and rate the sessions you saw.</p>
+      <p class="lead">Each agenda is frozen the day after the event, just as it was on the last day. Open one to read it again${VOTING ? " and rate the sessions you saw" : ""}.</p>
       <div class="events">${items}</div></section></div>`;
   }
 
@@ -1404,6 +1407,7 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     $("#mineBtn").setAttribute("aria-pressed", mineOnly);
     $("#mineBtn").textContent = (mineOnly ? "★" : "☆") + " My agenda" + (starred.size ? ` (${starred.size})` : "");
     $("#syncBtn").setAttribute("aria-expanded", syncOpen);
+    $("#voteNote").hidden = !VOTING;
   }
 
   function jumpTo(id, date) {

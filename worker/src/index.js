@@ -155,6 +155,7 @@ async function openIssue(t, title, body, env) {
 }
 
 async function vote(req, body, env, cors) {
+  if (env.VOTING_ENABLED !== "1") return json({ error: "Voting is switched off for now." }, 403, cors);
   const p = await person(req, env);
   if (p.error) return json({ error: p.error }, p.status, cors);
   const ballot = String(body.ballot || "");

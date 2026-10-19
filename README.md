@@ -21,6 +21,8 @@ Unofficial. The organiser's page at [e2emvc.com](https://e2emvc.com/) is leading
 
 ## Ratings and favourites
 
+> **Switched off since 19 October 2026** while it is discussed. Votes cast so far stay in the encrypted register. To switch on again: set `VOTING = true` in `site/index.html` and `VOTING_ENABLED = "1"` in `worker/wrangler.toml`, then push and `cd worker && npx wrangler deploy`. Slides after voting depend on this too.
+
 Visitors vote on the site itself. The flow, and how it keeps bots out:
 
 1. **Sign in with GitHub, once per device.** The GitHub App *E2E Unofficial Votes* (owned by Meppies, installed only on this repository, permission: issues) signs people in. The Cloudflare Worker in `worker/` (`https://e2e-votes.meppie.workers.dev`) holds the app's client secret and swaps the login code for a user token, which the site keeps in the browser.
