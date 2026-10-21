@@ -4,10 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>E2E EUCDEX.Ai unofficial</title>
-<meta name="description" content="Unofficial, phone-friendly agenda for the E2E EUCDEX.Ai conferences: the current agenda, past events and session ratings, copied from e2emvc.com.">
+<meta name="description" content="Unofficial, phone-friendly agenda for the E2E EUCDEX.Ai end-user computing conferences: the current programme, past events, sessions and speakers, copied from e2emvc.com.">
 <link rel="canonical" href="https://e2emvc.meppie.eu/">
 <meta property="og:title" content="E2E EUCDEX.Ai unofficial">
-<meta property="og:description" content="Phone-friendly agenda for the E2E EUCDEX.Ai conferences, with past events and session ratings.">
+<meta property="og:description" content="Phone-friendly agenda for the E2E EUCDEX.Ai conferences, with past events, sessions and speakers.">
+<meta property="og:site_name" content="E2E EUCDEX.Ai unofficial">
+<meta property="og:image" content="https://e2emvc.meppie.eu/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="E2E EUCDEX.Ai unofficial: the conference agenda on your phone">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"E2E EUCDEX.Ai unofficial","url":"https://e2emvc.meppie.eu/","description":"Unofficial, phone-friendly agenda for the E2E EUCDEX.Ai conferences."}</script>
 <meta property="og:url" content="https://e2emvc.meppie.eu/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#161616">
@@ -465,7 +472,13 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
     <button class="toggle" id="syncBtn" type="button" aria-expanded="false" title="Take your stars to another device">⇅ Sync</button>
   </div>
   <div id="top"></div>
-  <div id="list" aria-live="polite"><p class="empty">Loading the agenda…</p></div>
+  <div id="list" aria-live="polite"><!-- static:begin -->
+<div class="info">
+<section><h2>About E2E EUCDEX.Ai</h2><div class="prose"><p>The Experts 2 Experts EUCDEX.Ai conference (formerly known as E2EVC/ E2EMVC / PubForum) is a global series of non-commercial events within the end user computing community. Our primary objective is to convene top server based computing, virtualization, cloud, onprem and end user computing experts for knowledge exchange and networking. EUCDEX.Ai offers a packed weekend featuring presentations, Master Classes, and discussions led by virtualization vendors&#39; product teams and independent industry experts.</p><p>After hosting over 60 successful events, commencing in August 2003 with just 4 participants, E2EMVC has evolved into a renowned event with approximately 200 attendees from over 25 countries. Over the past two decades, our conferences have been held in various cities worldwide, including Athens, London, Copenhagen, Amsterdam, Barcelona, Berlin, Brussels, Cape Town, Frankfurt, Dublin, Orlando, Paris, Prague, Las Vegas, Los Angeles, Madrid, Montreal, Munich, New York, Nice, Lisbon, Rome, Hamburg, Hong Kong, Singapore, Sydney, Tokyo, Tel Aviv, and Vienna. Each event typically features 40 - 50 sessions covering server, application, desktop, and storage virtualization, showcasing products from industry leaders such as Microsoft, Parallels, VMware, Citrix, and others.</p></div></section>
+<section><h2>Next event</h2><p>Nice, 9 - 11 April 2027. The agenda appears here a week before the start.</p></section>
+<section><h2>Events</h2><ul><li><a href="/events/2026-10-malta/">E2E EUCDEX.Ai Malta 2026</a>: 15–18 October 2026, 48 sessions, 33 speakers</li></ul><p><a href="/events/">All events</a></p></section>
+</div>
+<!-- static:end --></div>
   <section class="where" id="where" aria-labelledby="where-h">
     <h2 id="where-h">Venue and hotel</h2>
     <div class="where-grid">
@@ -516,19 +529,9 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
   const VOTING = false;
   const PREVIEW_DAYS = 7; // the agenda shows up this many days before the first day
   /* A short look back per event, shown once it has ended. Written by hand: no numbers or claims beyond the agenda. */
-  const RECAPS = {
-    "2026-10-malta": {
-      title: "Four days in Valletta. What a weekend.",
-      teaser: "One master class day, three conference days, 48 sessions and a lot of good conversations.",
-      stats: [["1", "master class day"], ["3", "conference days"], ["48", "sessions"], ["33", "speakers"], ["3", "rooms in parallel"]],
-      paras: [
-        "The 62nd E2E brought the end-user computing community to the University of Malta in Valletta, and it delivered from the very first minute. Thursday was all about the <b>“Ai in EUC II” master class</b>: a full day going from AI basics to building AI-powered EUC products and client-side auto-remediation, closed with an open show-and-tell.",
-        "Friday opened with Alex “Xenfather” Cooper, straight into ControlUp's King of the Hill, what's new in Amazon WorkSpaces and the Parallels keynote, followed by a rapid-fire run of intro sessions: from growing a second brain to IaC for on-premises CVAD and stopping AI agents from taking over your desktop.",
-        "On Saturday three rooms ran side by side with the deep dives everyone came for: Entra Private Access for 1000+ users, sovereign DaaS, pure Citrix SSO without FAS, post-quantum cryptography, AI agents driving desktop apps, Infrastructure as Code at enterprise scale and a look inside how remoting protocols move the world across the wire. Sunday closed it with the Ferroque Speak Freely community panel.",
-        "And just as important: the time in between. Long breaks, lunches and evenings with the people who build and run EUC every day, swapping war stories, ideas and the occasional Xen joke. Knowledge sharing the way E2E does it best. Another great one."
-      ]
-    }
-  };
+  /* A short look back per event, shown once it has ended (site/recaps.json, also used
+     by the static event pages). Written by hand: no numbers or claims beyond the agenda. */
+  let RECAPS = {};
   // Votes are encrypted with this public key before they go to GitHub; only the counting bot has the private key.
   const VOTE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtKMLekohk2vdTWdWOmklZ21Xokd1nce6W5poRhB5RkZcAhwWpJs1KT9T5e5Bdd0gqAuKAfjUZIA8a4xZlxa7eHcletZIo9rnXlHKVeCvGSxQWWSAjFXmAtVW2aA9Tq7rdJCoNn7PVj1yaW/eHoWluuucLuTyGfloZBjpWF6BZKwfu/Xv+LdIKURoXaRnscEMKiy7rLxR83gVJ8kJ68FvTE7Y+M5u49XsbPhKSSopWJT2mJAQK6mBHYPbmeRfHfdbPTxwTS9oyup303yaGXjQ8EWmFCsAzmsEfzT+Ju4CI7ehfN1tLedYTY0MbcEP+pN/eCINGIWsKEBlavPbqa2OFwIDAQAB";
 
@@ -1428,9 +1431,10 @@ a.toggle:hover { color: var(--text); border-color: var(--change); }
 
   async function load(initial) {
     try {
-      const [res, idx, rt] = await Promise.all([
-        fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" }), getJSON("events/index.json"), getJSON("ratings.json")
+      const [res, idx, rt, rc] = await Promise.all([
+        fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" }), getJSON("events/index.json"), getJSON("ratings.json"), getJSON("recaps.json")
       ]);
+      if (rc && typeof rc === "object") RECAPS = rc;
       if (!res.ok) throw new Error("HTTP " + res.status);
       const next = await res.json();
       const changed = agenda && next.updatedAt !== agenda.updatedAt;

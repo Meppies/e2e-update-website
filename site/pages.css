@@ -1,0 +1,44 @@
+/* Plain pages for search engines and readers without JavaScript. Same palette as the app. */
+:root { --red: #AD0007; --maroon: #800000; --ink: #161616; --ground: #F4F4F4; --card: #FFFFFF; --line: #DBDBDB; --text: #161616; --text-2: #4A4A4A; --head: #800000; color-scheme: light; }
+@media (prefers-color-scheme: dark) {
+  :root { --ground: #121212; --card: #1E1E1E; --line: #343434; --text: #F2F2F2; --text-2: #C4C4C4; --head: #F29A9A; --red: #FF6B6B; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--text); font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif; font-size: 1.0625rem; line-height: 1.5; }
+.wrap { max-width: 60rem; margin: 0 auto; padding-inline: 16px; }
+a { color: var(--red); font-weight: 700; text-decoration: none; }
+a:hover { text-decoration: underline; }
+header.top { background: var(--card); border-bottom: 4px solid #AD0007; }
+header.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding-block: 10px; }
+.home { display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 400; }
+.home img { width: 84px; height: auto; background: #FDFDFD; border-radius: 6px; }
+.home b { font-weight: 800; }
+header nav { display: flex; flex-wrap: wrap; gap: 14px; font-size: .95rem; }
+h1 { font-size: clamp(1.7rem, 5vw, 2.5rem); line-height: 1.15; margin: 22px 0 6px; }
+h2 { color: var(--head); font-size: 1.35rem; margin: 28px 0 8px; }
+h3 { margin: 18px 0 6px; font-size: 1.1rem; }
+.sub { display: inline-block; font-weight: 400; color: var(--text-2); font-size: .9em; }
+h1 .sub { display: block; font-size: .5em; margin-top: 4px; }
+.lead { color: var(--text-2); }
+.crumbs { font-size: .9rem; margin: 16px 0 0; color: var(--text-2); }
+.btn { display: inline-block; background: var(--ink); color: #FFFFFF; padding: 9px 16px; border-radius: 999px; }
+@media (prefers-color-scheme: dark) { .btn { background: #FFFFFF; color: #161616; } }
+.btn:hover { text-decoration: none; background: #AD0007; color: #FFFFFF; }
+.recap { background: var(--card); border: 1px solid var(--line); border-top: 4px solid #AD0007; border-radius: 14px; padding: 4px 18px 10px; margin-top: 18px; }
+.stats { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.stats b { color: var(--red); font-size: 1.3rem; }
+.prog, .speakers, .events { padding-left: 1.1rem; display: grid; gap: 6px; }
+.prog .t, .meta .t { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: .9rem; color: var(--head); }
+.days { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 14px 0; font-size: .95rem; }
+.days a[aria-current] { color: var(--text); text-decoration: underline; }
+.session { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; margin: 12px 0; scroll-margin-top: 12px; }
+.session h2 { color: var(--text); font-size: 1.15rem; margin: 2px 0 6px; }
+.session .meta { margin: 0; }
+.session p { margin: 6px 0; overflow-wrap: anywhere; }
+.who { color: var(--text-2); }
+.bio { white-space: pre-line; color: var(--text-2); }
+details summary { cursor: pointer; color: var(--head); font-size: .92rem; }
+.break { color: var(--text-2); font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: .9rem; margin: 14px 0; }
+footer { margin-top: 40px; background: var(--ink); color: #DBDBDB; }
+footer .wrap { padding-block: 18px 24px; font-size: .95rem; }
+footer a { color: #FFFFFF; }

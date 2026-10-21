@@ -54,6 +54,10 @@ jobs:
           publish=true; [ "${{ github.event_name }}" = "issues" ] && publish=false
           go run ./cmd/votes -publish=$publish -issues "$RUNNER_TEMP/issues.json" -actions "$RUNNER_TEMP/actions.json"
 
+      # Plain HTML pages per event and day, schema.org data and the sitemap, for search engines.
+      - name: Write the static pages
+        run: go run ./cmd/pages -site site
+
       # GitHub switches off schedules after 60 days without a commit.
       - name: Keep the daily schedule alive
         run: |

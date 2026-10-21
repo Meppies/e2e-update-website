@@ -18,6 +18,7 @@ Unofficial. The organiser's page at [e2emvc.com](https://e2emvc.com/) is leading
 - `cmd/votes` (Go) handles ratings and favourites sent in as GitHub issues (see below) and writes the encrypted register `data/votes.enc` and `site/ratings.json`.
 - `.github/workflows/update.yml` runs once a day, on every push, on manual runs, and when someone opens a rating or favourites issue. It commits what changed and deploys `site/` to GitHub Pages. If the repository has had no commit for 50 days it writes `.github/keepalive`, because GitHub switches off schedules in quiet repositories after 60 days.
 - `site/index.html` is a single static page that reads the JSON files.
+- `cmd/pages` (Go, run by the workflow) writes plain HTML pages for search engines and readers without JavaScript: `/events/`, `/events/<id>/` (summary, look back, programme, speakers, schema.org `Event` data with every session as a `subEvent`) and `/events/<id>/<day>/` (every session with abstract and speaker bios). It also fills the crawlable summary in `index.html` (between the `static:begin`/`static:end` markers) and rewrites `sitemap.xml`. An event gets pages once archived, or from a week before its first day. Look-backs per event live in `site/recaps.json`; the share image is `site/share.png`.
 
 ## Ratings and favourites
 

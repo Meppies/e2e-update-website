@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://e2emvc.meppie.eu/</loc><changefreq>daily</changefreq></url>
+  <url><loc>https://e2emvc.meppie.eu/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/2026-10-malta/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/2026-10-malta/thu/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/2026-10-malta/fri/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/2026-10-malta/sat/</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://e2emvc.meppie.eu/events/2026-10-malta/sun/</loc><lastmod>2026-10-19</lastmod></url>
 </urlset>

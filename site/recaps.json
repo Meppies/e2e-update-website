@@ -1,0 +1,34 @@
+{
+  "2026-10-malta": {
+    "title": "Four days in Valletta. What a weekend.",
+    "teaser": "One master class day, three conference days, 48 sessions and a lot of good conversations.",
+    "stats": [
+      [
+        "1",
+        "master class day"
+      ],
+      [
+        "3",
+        "conference days"
+      ],
+      [
+        "48",
+        "sessions"
+      ],
+      [
+        "33",
+        "speakers"
+      ],
+      [
+        "3",
+        "rooms in parallel"
+      ]
+    ],
+    "paras": [
+      "The 62nd E2E brought the end-user computing community to the University of Malta in Valletta, and it delivered from the very first minute. Thursday was all about the <b>“Ai in EUC II” master class</b>: a full day going from AI basics to building AI-powered EUC products and client-side auto-remediation, closed with an open show-and-tell.",
+      "Friday opened with Alex “Xenfather” Cooper, straight into ControlUp's King of the Hill, what's new in Amazon WorkSpaces and the Parallels keynote, followed by a rapid-fire run of intro sessions: from growing a second brain to IaC for on-premises CVAD and stopping AI agents from taking over your desktop.",
+      "On Saturday three rooms ran side by side with the deep dives everyone came for: Entra Private Access for 1000+ users, sovereign DaaS, pure Citrix SSO without FAS, post-quantum cryptography, AI agents driving desktop apps, Infrastructure as Code at enterprise scale and a look inside how remoting protocols move the world across the wire. Sunday closed it with the Ferroque Speak Freely community panel.",
+      "And just as important: the time in between. Long breaks, lunches and evenings with the people who build and run EUC every day, swapping war stories, ideas and the occasional Xen joke. Knowledge sharing the way E2E does it best. Another great one."
+    ]
+  }
+}
